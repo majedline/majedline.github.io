@@ -1,4 +1,23 @@
 .logo-m {
-    margin-left: 20px;;
+    margin-left: 20px;
 }
 
+.p-header{
+    width:50%;
+    margin: auto;
+}
+
+a {
+    text-decoration: underline;
+}
+
+.image-style{
+    text-align: center;
+}
+
+/* h2{
+
+    padding: 0px;
+    margin: 0px;
+
+} */
