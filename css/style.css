@@ -19,3 +19,7 @@ a {
 li{
     font-style: italic;
 }
+
+.main {
+    background-image: linear-gradient(to right top, #f4f6f8, #eaf0f6, #dfeaf3, #d4e4f1, #c8deee);
+}
