@@ -15,9 +15,7 @@ a {
     text-align: center;
 }
 
-/* h2{
 
-    padding: 0px;
-    margin: 0px;
-
-} */
+strong{
+    color: brown;
+}
