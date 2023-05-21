@@ -15,11 +15,6 @@ a {
     text-align: center;
 }
 
-
-li{
-    font-style: italic;
-}
-
 .main {
     background-image: linear-gradient(to right top, #f4f6f8, #f1f4f7, #eef2f6, #ebf1f5, #e8eff4);
 }
