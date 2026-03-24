@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wasel — Messages</title>
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+  body { background:var(--bg); padding-bottom:72px; }
+
+  .search-bar { position:relative; margin-bottom:16px; }
+  .search-bar input { width:100%; background:var(--surface); border:1.5px solid var(--border);
+    border-radius:50px; padding:10px 16px 10px 40px; color:var(--text);
+    font-size:14px; font-family:inherit; outline:none; transition:border-color 0.2s; }
+  .search-bar input:focus { border-color:var(--gold); }
+  .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    font-size:16px; pointer-events:none; }
+
+  .chat-list { display:flex; flex-direction:column; gap:2px; }
+  .chat-item { display:flex; align-items:center; gap:12px; padding:12px;
+    border-radius:var(--radius); cursor:pointer; transition:background 0.2s;
+    text-decoration:none; color:inherit; }
+  .chat-item:hover { background:var(--surface); }
+  .chat-av-wrap { position:relative; flex-shrink:0; }
+  .chat-av { font-size:38px; line-height:1; }
+  .chat-av-wrap .online-dot { position:absolute; bottom:0; right:-2px; width:11px; height:11px; }
+  .chat-info { flex:1; min-width:0; }
+  .chat-info h4 { font-size:14px; font-weight:600; }
+  .chat-info p { font-size:12px; color:var(--text-muted); white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+  .chat-meta { text-align:right; flex-shrink:0; }
+  .chat-time { font-size:11px; color:var(--text-dim); }
+  .unread-badge { background:var(--gold); color:#0d1117; border-radius:50%;
+    width:18px; height:18px; font-size:10px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; margin:4px 0 0 auto; }
+
+  .fab { position:fixed; bottom:84px; right:20px; width:52px; height:52px;
+    border-radius:50%; background:linear-gradient(135deg,var(--gold),#b8870f);
+    border:none; cursor:pointer; font-size:22px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 20px rgba(201,168,76,0.4); transition:all 0.2s; z-index:40; }
+  .fab:hover { transform:scale(1.08); }
+
+  .section-label { font-size:11px; color:var(--text-dim); text-transform:uppercase;
+    letter-spacing:0.8px; font-weight:600; margin:0 0 8px; }
+</style>
+</head>
+<body>
+  <div class="app-header">
+    <div class="logo">Wasel</div>
+    <div class="header-actions">
+      <div class="icon-btn" title="New conversation" onclick="showToast('Discover people to start a chat!')">✏️</div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="section-header"><h3>Messages</h3></div>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search" placeholder="Search conversations…" oninput="filterList(this.value)" />
+    </div>
+    <div class="section-label">Recent Conversations</div>
+    <div class="chat-list" id="chat-list">
+      <!-- Loading skeleton -->
+      <div style="padding:12px;display:flex;gap:12px;align-items:center">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--surface2);animation:pulse 1.4s infinite;flex-shrink:0"></div>
+        <div style="flex:1"><div style="height:12px;background:var(--surface2);border-radius:4px;width:60%;animation:pulse 1.4s infinite"></div>
+          <div style="height:10px;background:var(--surface2);border-radius:4px;width:80%;margin-top:6px;animation:pulse 1.4s infinite"></div></div>
+      </div>
+    </div>
+    <div id="empty-conv" class="empty-state" style="display:none">
+      <div class="icon">💬</div>
+      <h4>No conversations yet</h4>
+      <p>Discover people and start chatting!</p>
+      <a href="discover.html" style="color:var(--gold);font-size:13px;margin-top:12px;display:inline-block">Go to Discover →</a>
+    </div>
+  </div>
+
+  <button class="fab" onclick="window.location.href='discover.html'">✏️</button>
+  <div class="toast" id="toast"></div>
+  <script src="../js/state.js"></script>
+  <script src="../js/nav.js"></script>
+  <script>
+    let convIds = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initData();
+      buildNav('messages');
+      // Derive which people have conversations (from CHAT_HISTORY that has messages)
+      convIds = Object.entries(CHAT_HISTORY)
+        .filter(([, msgs]) => msgs.length > 0)
+        .map(([id]) => parseInt(id));
+      // Mark all incoming as read now that user opened messages
+      convIds.forEach(id => {
+        (CHAT_HISTORY[id] || []).forEach(m => { if (m.from === 'them') m.read = true; });
+      });
+      saveState();
+      renderList(convIds);
+    });
+
+    function renderList(ids) {
+      const list = document.getElementById('chat-list');
+      const empty = document.getElementById('empty-conv');
+      if (!ids.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      list.innerHTML = ids.map(id => {
+        const p = PEOPLE.find(x => x.id === id);
+        if (!p) return '';
+        const hist = CHAT_HISTORY[id] || [];
+        const last = hist[hist.length - 1];
+        const unread = hist.filter(m => m.from === 'them' && !m.read).length;
+        return `
+          <a class="chat-item" href="chat.html?id=${id}">
+            <div class="chat-av-wrap">
+              <div class="chat-av">${p.avatar}</div>
+              ${p.online ? '<div class="online-dot"></div>' : ''}
+            </div>
+            <div class="chat-info">
+              <h4>${p.name}</h4>
+              <p>${last ? last.text : 'Start a conversation!'}</p>
+            </div>
+            <div class="chat-meta">
+              <div class="chat-time">${last ? last.time : ''}</div>
+              ${unread ? `<div class="unread-badge">${unread}</div>` : ''}
+            </div>
+          </a>`;
+      }).join('');
+    }
+
+    function filterList(q) {
+      const q2 = q.toLowerCase();
+      const filtered = convIds.filter(id => {
+        const p = PEOPLE.find(x => x.id === id);
+        return p && p.name.toLowerCase().includes(q2);
+      });
+      renderList(filtered);
+    }
+  </script>
+</body>
+</html>

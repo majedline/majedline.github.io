@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wasel — Games</title>
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+  body { background:var(--bg); padding-bottom:72px; }
+
+  .games-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .game-card { background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:22px 16px; cursor:pointer;
+    transition:all 0.25s; text-align:center; }
+  .game-card:hover { border-color:var(--teal); transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.3); }
+  .game-card .gi { font-size:40px; margin-bottom:10px; display:block; }
+  .game-card h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
+  .game-card p  { font-size:11px; color:var(--text-muted); }
+
+  /* Game overlay */
+  .game-overlay { display:none; position:fixed; inset:0; background:rgba(8,12,18,0.97);
+    z-index:150; flex-direction:column; align-items:center; padding:16px; overflow-y:auto; }
+  .game-overlay.open { display:flex; }
+  .go-header { width:100%; max-width:480px; display:flex; align-items:center;
+    justify-content:space-between; margin-bottom:16px; }
+  .go-header h3 { font-size:18px; font-weight:700; }
+  .go-body { width:100%; max-width:480px; }
+
+  /* TTT */
+  .ttt-board { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:20px auto; width:240px; }
+  .ttt-cell { aspect-ratio:1; background:var(--surface2); border:1.5px solid var(--border);
+    border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:32px; cursor:pointer; transition:all 0.15s; user-select:none; }
+  .ttt-cell:hover:not(.filled) { border-color:var(--gold); background:rgba(201,168,76,0.05); }
+  .ttt-cell.filled { cursor:default; }
+  .ttt-status { text-align:center; font-size:15px; font-weight:600; color:var(--text-muted); margin-bottom:8px; }
+
+  /* Chess */
+  .chess-board { display:grid; grid-template-columns:repeat(8,1fr); margin:16px auto; width:min(320px,90vw); }
+  .chess-cell { aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    font-size:clamp(13px,4vw,22px); cursor:pointer; user-select:none; }
+  .chess-cell.light { background:#f0d9b5; } .chess-cell.dark { background:#b58863; }
+  .chess-cell.selected { background:#7fc97f !important; }
+
+  /* Memory */
+  .mem-board { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:16px auto; max-width:320px; }
+  .mem-card { aspect-ratio:1; border-radius:8px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; background:var(--surface2); border:1.5px solid var(--border);
+    transition:all 0.3s; user-select:none; }
+  .mem-card.rev { background:var(--surface); border-color:var(--gold); }
+  .mem-card.mat { background:rgba(63,185,80,0.15); border-color:var(--green); cursor:default; }
+
+  /* Hangman */
+  .word-disp { font-size:28px; letter-spacing:12px; text-align:center; font-weight:700; color:var(--gold); margin:16px 0; }
+  .letter-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; max-width:320px; margin:0 auto; }
+  .lbtn { background:var(--surface2); border:1.5px solid var(--border); border-radius:8px;
+    padding:8px 4px; font-size:13px; font-weight:600; cursor:pointer;
+    transition:all 0.15s; color:var(--text); font-family:inherit; }
+  .lbtn:hover:not(:disabled) { border-color:var(--gold); color:var(--gold); }
+  .lbtn:disabled { opacity:0.3; cursor:default; }
+  .hang-face { text-align:center; font-size:56px; margin:8px 0; }
+
+  /* Trivia */
+  .triv-opts { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
+  .triv-opt { background:var(--surface2); border:1.5px solid var(--border); border-radius:10px;
+    padding:12px 16px; cursor:pointer; font-size:14px; transition:all 0.2s;
+    text-align:left; font-family:inherit; color:var(--text); width:100%; }
+  .triv-opt:hover:not(:disabled) { border-color:var(--teal); }
+  .triv-opt.correct { border-color:var(--green); background:rgba(63,185,80,0.1); }
+  .triv-opt.wrong   { border-color:var(--rose);  background:rgba(248,113,113,0.1); }
+
+  /* RPS */
+  .rps-row { display:flex; gap:20px; justify-content:center; margin:20px 0; }
+  .rps-c { font-size:52px; cursor:pointer; transition:transform 0.15s; }
+  .rps-c:hover { transform:scale(1.2); }
+</style>
+</head>
+<body>
+  <div class="app-header">
+    <div class="logo">Wasel</div>
+    <div class="header-actions">
+      <div class="icon-btn" onclick="showToast('Leaderboard coming soon! 🏆')">🏆</div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="section-header"><h3>Play Games</h3></div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">
+      Challenge friends to a game — the best way to break the ice! 🎯
+    </p>
+    <div class="games-grid">
+      <div class="game-card" onclick="openGame('ttt')">  <span class="gi">⭕</span><h4>Tic-Tac-Toe</h4><p>Classic 3×3 grid</p></div>
+      <div class="game-card" onclick="openGame('chess')"><span class="gi">♟️</span><h4>Chess</h4><p>Full board battle</p></div>
+      <div class="game-card" onclick="openGame('mem')">  <span class="gi">🃏</span><h4>Memory Match</h4><p>Flip & match cards</p></div>
+      <div class="game-card" onclick="openGame('hang')"> <span class="gi">🔤</span><h4>Word Guess</h4><p>Hangman-style</p></div>
+      <div class="game-card" onclick="openGame('triv')"> <span class="gi">🧠</span><h4>Trivia</h4><p>Culture & knowledge</p></div>
+      <div class="game-card" onclick="openGame('rps')">  <span class="gi">✊</span><h4>Rock Paper Scissors</h4><p>Quick & fun</p></div>
+    </div>
+    <p id="data-note" style="font-size:11px;color:var(--text-dim);text-align:center;margin-top:20px"></p>
+  </div>
+
+  <!-- Game Overlay -->
+  <div class="game-overlay" id="game-overlay">
+    <div class="go-header">
+      <button class="back-btn" onclick="closeGame()">← Back</button>
+      <h3 id="game-title">Game</h3>
+      <div style="width:40px"></div>
+    </div>
+    <div class="go-body" id="game-body"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="../js/state.js"></script>
+  <script src="../js/nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initData();
+      buildNav('games');
+      document.getElementById('data-note').textContent =
+        `${TRIVIA_QUESTIONS.length} trivia questions · ${WORD_GUESS_WORDS.length} words loaded from sample data`;
+    });
+
+    function openGame(type) {
+      WaselState.gamesPlayed++;
+      saveState();
+      const titles = { ttt:'Tic-Tac-Toe ⭕', chess:'Chess ♟️', mem:'Memory Match 🃏',
+                       hang:'Word Guess 🔤', triv:'Trivia 🧠', rps:'Rock Paper Scissors ✊' };
+      document.getElementById('game-title').textContent = titles[type] || 'Game';
+      document.getElementById('game-overlay').classList.add('open');
+      const body = document.getElementById('game-body');
+      ({ ttt: renderTTT, chess: renderChess, mem: renderMem,
+         hang: renderHang, triv: renderTriv, rps: renderRPS })[type]?.(body);
+    }
+    function closeGame() { document.getElementById('game-overlay').classList.remove('open'); }
+
+    // ── TTT ──
+    function renderTTT(body) {
+      let b=Array(9).fill(''), xt=true, ov=false;
+      const W=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      const chk=b=>{for(const[a,c,d]of W)if(b[a]&&b[a]===b[c]&&b[a]===b[d])return b[a];return b.every(Boolean)?'draw':null;};
+      const cpu=b=>{const e=b.map((v,i)=>v?null:i).filter(v=>v!==null);
+        for(const i of e){const t=[...b];t[i]='O';if(chk(t)==='O')return i;}
+        for(const i of e){const t=[...b];t[i]='X';if(chk(t)==='X')return i;}
+        if(!b[4])return 4; return e[Math.floor(Math.random()*e.length)];};
+      const draw=()=>{
+        const w=chk(b);
+        body.innerHTML=`<div class="score-row"><div class="score-box"><div class="s-name">You</div><div class="s-val">✖</div></div>
+          <div class="score-box"><div class="s-name">AI</div><div class="s-val">○</div></div></div>
+          <div class="ttt-status">${w?(w==='draw'?'Draw! 🤝':w==='X'?'You win! 🎉':'AI wins! 🤖'):(xt?'Your turn (✖)':'AI thinking…')}</div>
+          <div class="ttt-board">${b.map((v,i)=>`<div class="ttt-cell${v?' filled':''}" id="tc${i}">${v==='X'?'✖':v==='O'?'○':''}</div>`).join('')}</div>
+          ${w?`<button class="btn-primary" style="display:block;margin:16px auto 0;width:160px" onclick="renderTTT(document.getElementById('game-body'))">Play Again</button>`:''}`;
+        b.forEach((_,i)=>{document.getElementById('tc'+i).onclick=()=>{
+          if(ov||!xt||b[i])return;b[i]='X';xt=false;draw();if(chk(b)){ov=true;return;}
+          setTimeout(()=>{const ci=cpu(b);if(ci!=null)b[ci]='O';xt=true;if(chk(b))ov=true;draw();},500);};});};
+      draw();
+    }
+
+    // ── CHESS ──
+    function renderChess(body) {
+      const init=()=>{const b=Array(64).fill(null);
+        [{0:'♜'},{1:'♞'},{2:'♝'},{3:'♛'},{4:'♚'},{5:'♝'},{6:'♞'},{7:'♜'},
+         {56:'♖'},{57:'♘'},{58:'♗'},{59:'♕'},{60:'♔'},{61:'♗'},{62:'♘'},{63:'♖'}]
+        .forEach(o=>Object.entries(o).forEach(([i,p])=>b[i]=p));
+        for(let i=8;i<16;i++)b[i]='♟';for(let i=48;i<56;i++)b[i]='♙';return b;};
+      let b=init(),sel=null,turn='white';
+      const W=['♙','♖','♘','♗','♕','♔'],B=['♟','♜','♞','♝','♛','♚'];
+      const isW=p=>W.includes(p),isB=p=>B.includes(p);
+      const draw=()=>{
+        body.innerHTML=`<p style="text-align:center;font-size:13px;color:var(--text-muted);margin-bottom:8px">${turn==='white'?'⬜ Your turn':'⬛ AI thinking…'}</p>
+          <div class="chess-board">${b.map((p,i)=>{const r=Math.floor(i/8),c=i%8,l=(r+c)%2===0;
+            return`<div class="chess-cell ${l?'light':'dark'}${sel===i?' selected':''}" id="cc${i}">${p||''}</div>`;}).join('')}</div>
+          <div style="text-align:center;margin-top:12px"><button class="btn-ghost" onclick="renderChess(document.getElementById('game-body'))">Reset</button></div>`;
+        b.forEach((_,i)=>{document.getElementById('cc'+i).onclick=()=>{
+          if(sel===null){if(turn==='white'&&b[i]&&isW(b[i])){sel=i;draw();}return;}
+          if(i===sel){sel=null;draw();return;}
+          const t=b[i];if(turn==='white'&&t&&isW(t)){sel=i;draw();return;}
+          b[i]=b[sel];b[sel]=null;sel=null;turn='black';draw();
+          setTimeout(()=>{const bp=b.map((p,i)=>p&&isB(p)?i:null).filter(v=>v!==null);
+            if(bp.length){const f=bp[Math.floor(Math.random()*bp.length)];
+              const e=b.map((p,i)=>(!p||isW(p))?i:null).filter(v=>v!==null);
+              const to=e[Math.floor(Math.random()*e.length)];b[to]=b[f];b[f]=null;}
+            turn='white';draw();},700);};});};
+      draw();
+    }
+
+    // ── MEMORY ──
+    function renderMem(body) {
+      const em=['🌙','⭐','🌺','🦋','🎯','🏆','🎭','🌊'];
+      const cards=[...em,...em].sort(()=>Math.random()-0.5);
+      let rev=[],mat=[],locked=false,moves=0;
+      const draw=()=>{
+        body.innerHTML=`<div style="text-align:center;margin-bottom:12px">
+          <span style="color:var(--text-muted);font-size:13px">Moves: <b style="color:var(--text)">${moves}</b> &nbsp; Matches: <b style="color:var(--gold)">${mat.length/2}/8</b></span></div>
+          <div class="mem-board">${cards.map((c,i)=>{const r=rev.includes(i)||mat.includes(i),m=mat.includes(i);
+            return`<div class="mem-card${r?' rev':''}${m?' mat':''}" id="mc${i}">${r?c:'❓'}</div>`;}).join('')}</div>
+          ${mat.length===16?`<div style="text-align:center;margin-top:16px"><div style="font-size:32px">🎉</div>
+            <p style="color:var(--gold);font-weight:700">Won in ${moves} moves!</p>
+            <button class="btn-primary" style="margin-top:12px;width:160px" onclick="renderMem(document.getElementById('game-body'))">Play Again</button></div>`:''}`;
+        cards.forEach((_,i)=>{const el=document.getElementById('mc'+i);if(el)el.onclick=()=>{
+          if(locked||rev.includes(i)||mat.includes(i))return;rev.push(i);
+          if(rev.length===2){moves++;locked=true;draw();
+            setTimeout(()=>{if(cards[rev[0]]===cards[rev[1]])mat.push(...rev);rev=[];locked=false;draw();},700);}
+          else draw();};});};
+      draw();
+    }
+
+    // ── HANGMAN (words from JSON) ──
+    function renderHang(body) {
+      const words = WORD_GUESS_WORDS.length ? WORD_GUESS_WORDS : ['WASEL','SWEDEN','CONNECT'];
+      const word = words[Math.floor(Math.random()*words.length)];
+      let guessed=new Set(),wrong=0;
+      const faces=['😊','😬','😟','😰','😨','😱','💀'];
+      const draw=()=>{
+        const disp=word.split('').map(l=>guessed.has(l)?l:'_').join(' ');
+        const won=word.split('').every(l=>guessed.has(l)),lost=wrong>=6;
+        body.innerHTML=`<div class="hang-face">${faces[wrong]}</div>
+          <div class="word-disp">${disp}</div>
+          <p style="text-align:center;font-size:13px;color:var(--text-muted);margin-bottom:12px">Wrong: ${wrong}/6</p>
+          ${won?`<div style="text-align:center"><p style="color:var(--green);font-size:18px;font-weight:700">🎉 You got it!</p></div>`:''}
+          ${lost?`<div style="text-align:center"><p style="color:var(--rose);font-size:18px;font-weight:700">Word was: ${word}</p></div>`:''}
+          ${(!won&&!lost)?`<div class="letter-grid">${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>
+            `<button class="lbtn" ${guessed.has(l)?'disabled':''} id="lb${l}" onclick="hg('${l}')">${l}</button>`).join('')}</div>`
+          :`<button class="btn-primary" style="display:block;margin:16px auto 0;width:160px" onclick="renderHang(document.getElementById('game-body'))">New Word</button>`}`;
+        window.hg=(l)=>{guessed.add(l);if(!word.includes(l))wrong++;draw();};};
+      draw();
+    }
+
+    // ── TRIVIA (questions from JSON) ──
+    function renderTriv(body) {
+      const qs = TRIVIA_QUESTIONS.length ? TRIVIA_QUESTIONS : [
+        {q:'Capital of Sweden?',opts:['Oslo','Stockholm','Helsinki','Copenhagen'],a:1}];
+      // Shuffle questions for variety
+      const shuffled=[...qs].sort(()=>Math.random()-0.5).slice(0,10);
+      let idx=0,score=0,answered=false;
+      const draw=()=>{
+        if(idx>=shuffled.length){
+          body.innerHTML=`<div style="text-align:center;padding:24px">
+            <div style="font-size:56px">${score>=8?'🏆':score>=6?'🌟':score>=4?'😊':'💪'}</div>
+            <h3 style="font-size:24px;color:var(--gold);margin:12px 0">${score} / ${shuffled.length}</h3>
+            <p style="color:var(--text-muted)">${score>=8?'Outstanding!':score>=6?'Great job!':score>=4?'Good effort!':'Keep practicing!'}</p>
+            <button class="btn-primary" style="margin-top:20px;width:160px" onclick="renderTriv(document.getElementById('game-body'))">Play Again</button></div>`;return;}
+        const q=shuffled[idx];
+        body.innerHTML=`<div style="text-align:right;font-size:12px;color:var(--text-muted);margin-bottom:8px">${idx+1}/${shuffled.length} · Score: ${score}</div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">
+            <p style="font-size:15px;font-weight:600;line-height:1.4">${q.q}</p></div>
+          <div class="triv-opts">${q.opts.map((o,i)=>`<button class="triv-opt" id="to${i}" onclick="ta(${i})">${o}</button>`).join('')}</div>`;
+        window.ta=(i)=>{if(answered)return;answered=true;
+          document.getElementById('to'+q.a).classList.add('correct');
+          if(i!==q.a)document.getElementById('to'+i).classList.add('wrong');else score++;
+          document.querySelectorAll('.triv-opt').forEach(b=>b.disabled=true);
+          setTimeout(()=>{idx++;answered=false;draw();},900);};};
+      draw();
+    }
+
+    // ── RPS ──
+    function renderRPS(body) {
+      const c=['✊','✋','✌️'],n=['Rock','Paper','Scissors'];
+      let ps=0,as=0;
+      const draw=(result='')=>{
+        body.innerHTML=`<div class="score-row">
+          <div class="score-box"><div class="s-name">You</div><div class="s-val">${ps}</div></div>
+          <div class="score-box"><div class="s-name">Best of 5</div><div class="s-val">${Math.max(0,5-(ps+as))}</div></div>
+          <div class="score-box"><div class="s-name">AI</div><div class="s-val">${as}</div></div></div>
+          ${result?`<p style="text-align:center;font-size:15px;font-weight:700;margin:12px 0;color:${result.includes('Win')?'var(--green)':result.includes('Lose')?'var(--rose)':'var(--text-muted)'}">${result}</p>`
+          :'<p style="text-align:center;color:var(--text-muted);font-size:13px;margin:12px 0">Choose your move:</p>'}
+          <div class="rps-row">${c.map((ch,i)=>`<div class="rps-c" title="${n[i]}" onclick="rp(${i})">${ch}</div>`).join('')}</div>
+          ${ps>=3||as>=3?`<div style="text-align:center">
+            <p style="font-size:18px;font-weight:700;color:${ps>=3?'var(--green)':'var(--rose)'}">${ps>=3?'You won! 🎉':'AI won! 🤖'}</p>
+            <button class="btn-primary" style="margin-top:12px;width:160px" onclick="renderRPS(document.getElementById('game-body'))">Play Again</button></div>`:''}`;
+        window.rp=(i)=>{if(ps>=3||as>=3)return;
+          const ai=Math.floor(Math.random()*3);let res;
+          if(i===ai)res='Draw! 🤝';
+          else if((i===0&&ai===2)||(i===1&&ai===0)||(i===2&&ai===1)){ps++;res='You Win! 🎉';}
+          else{as++;res='AI Wins! 🤖';}
+          draw(`${c[i]} vs ${c[ai]} — ${res}`);};};
+      draw();
+    }
+  </script>
+</body>
+</html>

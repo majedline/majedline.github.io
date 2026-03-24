@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wasel — Discover People</title>
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+  body { background:var(--bg); padding-bottom:72px; }
+
+  /* Strip all padding from main-content — we handle spacing per element */
+  .main-content { padding: 0 !important; padding-bottom: 80px !important; }
+
+  /* Padded zones (everything except the grid) */
+  .padded { padding: 0 12px; }
+  @media (min-width: 600px)  { .padded { padding: 0 16px; } }
+  @media (min-width: 1024px) { .padded { padding: 0 24px; } }
+
+  .section-header { padding: 14px 12px 10px; }
+  @media (min-width: 600px)  { .section-header { padding: 14px 16px 10px; } }
+  @media (min-width: 1024px) { .section-header { padding: 14px 24px 10px; } }
+
+  /* Filter chips */
+  .discover-filters {
+    display: flex; gap: 8px; overflow-x: auto;
+    padding: 0 12px 12px; scrollbar-width: none;
+  }
+  .discover-filters::-webkit-scrollbar { display: none; }
+  @media (min-width: 600px)  { .discover-filters { padding: 0 16px 12px; } }
+  @media (min-width: 1024px) { .discover-filters { padding: 0 24px 12px; } }
+
+  .filter-chip {
+    padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 500;
+    border: 1.5px solid var(--border); color: var(--text-muted);
+    cursor: pointer; white-space: nowrap; transition: all 0.2s; flex-shrink: 0;
+    background: none; font-family: inherit;
+  }
+  .filter-chip.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); }
+
+  /* Online strip */
+  .online-strip {
+    display: flex; gap: 14px; overflow-x: auto;
+    padding: 0 12px 4px; scrollbar-width: none; margin-bottom: 12px;
+  }
+  .online-strip::-webkit-scrollbar { display: none; }
+  @media (min-width: 600px)  { .online-strip { padding: 0 16px 4px; } }
+  @media (min-width: 1024px) { .online-strip { padding: 0 24px 4px; } }
+
+  .online-user { text-align: center; flex-shrink: 0; cursor: pointer; }
+  .online-user .av { font-size: 36px; position: relative; display: inline-block; line-height: 1; }
+  .online-user .av::after {
+    content: ''; position: absolute; bottom: 0; right: 0;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--green); border: 2px solid var(--bg);
+  }
+  .online-user p {
+    font-size: 10px; color: var(--text-muted); margin-top: 4px;
+    max-width: 48px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* ── People grid — full width, 4 cols, responsive ──────────────
+     < 400px  : 2 cols
+     400-599px: 3 cols
+     600px+   : 4 cols (always, full screen width)
+  ──────────────────────────────────────────────────────────────── */
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    width: 100%;
+  }
+  @media (min-width: 400px) {
+    .people-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 600px) {
+    .people-grid { grid-template-columns: repeat(4, 1fr); gap: 3px; }
+  }
+  @media (min-width: 1200px) {
+    .people-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  }
+
+  .person-card {
+    background: var(--surface);
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.22s;
+    position: relative;
+  }
+  .person-card:hover { filter: brightness(1.12); }
+  .person-card:hover .person-avatar::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(201,168,76,0.08);
+  }
+
+  .person-avatar {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(32px, 10vw, 72px);
+    background: linear-gradient(135deg, var(--surface2), var(--bg));
+    position: relative;
+  }
+  @media (min-width: 400px) { .person-avatar { font-size: clamp(30px, 8vw, 64px); } }
+  @media (min-width: 600px) { .person-avatar { font-size: clamp(32px, 5vw, 68px); } }
+  @media (min-width: 900px) { .person-avatar { font-size: clamp(36px, 4vw, 80px); } }
+
+  .person-info { padding: clamp(6px, 2vw, 12px); border-top: 1px solid var(--border); }
+  .person-info h4 {
+    font-size: clamp(10px, 2.4vw, 13px); font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .person-info .meta {
+    font-size: clamp(9px, 1.8vw, 11px); color: var(--text-muted); margin-top: 1px;
+  }
+  .person-tags-sm { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+
+  /* Count / skeleton */
+  #people-count { font-size: 12px; color: var(--text-dim); padding: 0 12px 8px; }
+  @media (min-width: 600px)  { #people-count { padding: 0 16px 8px; } }
+  @media (min-width: 1024px) { #people-count { padding: 0 24px 8px; } }
+
+  .skeleton { background: var(--surface2); border-radius: 0; animation: pulse 1.4s infinite; }
+  .skeleton-card { background: var(--surface); overflow: hidden; }
+  .skeleton-av { width: 100%; aspect-ratio: 1; }
+  .skeleton-line { height: 12px; margin: 8px 10px; border-radius: 4px; }
+  .skeleton-line.w60 { width: 60%; }
+  .skeleton-line.w40 { width: 40%; }
+
+  /* Online label */
+  .online-label { font-size: 13px; color: var(--text-muted); padding: 0 12px 8px; }
+  @media (min-width: 600px)  { .online-label { padding: 0 16px 8px; } }
+  @media (min-width: 1024px) { .online-label { padding: 0 24px 8px; } }
+</style>
+</head>
+<body>
+  <div class="app-header">
+    <div class="logo">Wasel</div>
+    <div class="header-actions">
+      <div class="icon-btn" onclick="openModal('modal-filter')" title="Filter">⚡</div>
+      <div class="icon-btn" onclick="openModal('modal-settings')" title="Settings">⚙️</div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="section-header">
+      <h3>Discover People</h3>
+      <a onclick="openModal('modal-filter')">Filter</a>
+    </div>
+
+    <div class="discover-filters" id="filters">
+      <button class="filter-chip active" onclick="setFilter('All',this)">All</button>
+      <button class="filter-chip" onclick="setFilter('Arabic',this)">🌙 Arabic</button>
+      <button class="filter-chip" onclick="setFilter('Muslim',this)">☪️ Muslim</button>
+      <button class="filter-chip" onclick="setFilter('Christian',this)">✝️ Christian</button>
+      <button class="filter-chip" onclick="setFilter('Swedish',this)">🇸🇪 Swedish</button>
+      <button class="filter-chip" onclick="setFilter('Kurdish',this)">Kurdish</button>
+      <button class="filter-chip" onclick="setFilter('Persian',this)">Persian</button>
+      <button class="filter-chip" onclick="setFilter('Somali',this)">Somali</button>
+      <button class="filter-chip" onclick="setFilter('Turkish',this)">Turkish</button>
+    </div>
+
+    <div class="online-label">🟢 Online now</div>
+    <div class="online-strip" id="online-strip">
+      <div style="text-align:center;flex-shrink:0">
+        <div class="skeleton" style="width:40px;height:40px;border-radius:50%;margin:0 auto"></div>
+        <div class="skeleton" style="width:40px;height:8px;margin-top:4px;border-radius:4px"></div>
+      </div>
+    </div>
+
+    <p id="people-count"></p>
+    <div class="people-grid" id="people-grid">
+      <div class="skeleton-card"><div class="skeleton skeleton-av"></div><div class="skeleton skeleton-line w60"></div><div class="skeleton skeleton-line w40"></div></div>
+      <div class="skeleton-card"><div class="skeleton skeleton-av"></div><div class="skeleton skeleton-line w60"></div><div class="skeleton skeleton-line w40"></div></div>
+      <div class="skeleton-card"><div class="skeleton skeleton-av"></div><div class="skeleton skeleton-line w60"></div><div class="skeleton skeleton-line w40"></div></div>
+      <div class="skeleton-card"><div class="skeleton skeleton-av"></div><div class="skeleton skeleton-line w60"></div><div class="skeleton skeleton-line w40"></div></div>
+    </div>
+  </div>
+
+  <!-- Filter Modal -->
+  <div class="modal-overlay" id="modal-filter" onclick="closeModalIfOutside(event,'modal-filter')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-filter')">✕</button>
+      <h3>Filter People</h3><p class="sub">Narrow who you discover</p>
+      <div class="form-group"><label>Age Range</label>
+        <div class="form-row">
+          <input type="number" id="f-age-min" placeholder="Min (18)" min="18" max="99" />
+          <input type="number" id="f-age-max" placeholder="Max (99)" min="18" max="99" />
+        </div></div>
+      <div class="form-group"><label>Gender</label>
+        <select id="f-gender"><option value="">Any</option><option>Man</option><option>Woman</option></select></div>
+      <div class="form-group"><label>City</label>
+        <select id="f-city"><option value="">Any city</option>
+          <option>Stockholm</option><option>Gothenburg</option><option>Malmö</option>
+          <option>Uppsala</option><option>Örebro</option><option>Linköping</option></select></div>
+      <button class="btn-primary" style="width:100%" onclick="applyFilters()">Apply Filters</button>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="modal-settings" onclick="closeModalIfOutside(event,'modal-settings')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-settings')">✕</button>
+      <h3>Settings</h3><p class="sub">App preferences</p>
+      <div class="form-group"><label>Language</label>
+        <select><option>English</option><option>Svenska</option><option>العربية</option><option>Kurdî</option></select></div>
+      <div class="form-group"><label>Show profile to</label>
+        <select><option>Everyone</option><option>Same community only</option><option>No one</option></select></div>
+      <div class="form-group"><label>Notifications</label>
+        <select><option>All</option><option>Messages only</option><option>None</option></select></div>
+      <button class="btn-primary" style="width:100%"
+        onclick="closeModal('modal-settings');showToast('Settings saved ✓')">Save</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="../js/state.js"></script>
+  <script src="../js/nav.js"></script>
+  <script>
+    let activeFilter = 'All';
+    let extraFilters = {};
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initData();
+      buildNav('discover');
+      renderOnline();
+      renderGrid();
+    });
+
+    function renderOnline() {
+      const strip = document.getElementById('online-strip');
+      const online = PEOPLE.filter(p => p.online);
+      strip.innerHTML = online.length
+        ? online.map(p => `
+            <div class="online-user" onclick="openProfile(${p.id})">
+              <div class="av">${p.avatar}</div>
+              <p>${p.name.split(' ')[0]}</p>
+            </div>`).join('')
+        : '<p style="font-size:12px;color:var(--text-dim);padding:8px 0">No one online right now</p>';
+    }
+
+    function renderGrid() {
+      let list = PEOPLE;
+      if (activeFilter !== 'All') list = list.filter(p => p.community.includes(activeFilter));
+      if (extraFilters.gender) list = list.filter(p => p.gender === extraFilters.gender);
+      if (extraFilters.city)   list = list.filter(p => p.city   === extraFilters.city);
+      if (extraFilters.ageMin) list = list.filter(p => p.age >= extraFilters.ageMin);
+      if (extraFilters.ageMax) list = list.filter(p => p.age <= extraFilters.ageMax);
+
+      document.getElementById('people-count').textContent =
+        list.length ? `${list.length} people found` : '';
+
+      document.getElementById('people-grid').innerHTML = list.length
+        ? list.map(p => `
+          <div class="person-card" onclick="openProfile(${p.id})">
+            <div class="person-avatar">
+              ${p.avatar}
+              ${p.online ? '<div class="online-dot"></div>' : ''}
+            </div>
+            <div class="person-info">
+              <h4>${p.name}</h4>
+              <div class="meta">${p.age} · ${p.city}</div>
+              <div class="person-tags-sm">
+                ${p.community.slice(0,2).map(c=>`<span class="tag-sm">${c}</span>`).join('')}
+                ${p.interests.slice(0,1).map(i=>`<span class="tag-sm tag-teal">${i}</span>`).join('')}
+              </div>
+            </div>
+          </div>`).join('')
+        : `<div class="empty-state" style="grid-column:1/-1;padding:40px 20px">
+            <div class="icon">🔍</div><h4>No matches</h4><p>Try adjusting your filters</p>
+           </div>`;
+    }
+
+    function setFilter(tag, el) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      activeFilter = tag;
+      renderGrid();
+    }
+
+    function applyFilters() {
+      extraFilters = {
+        gender: document.getElementById('f-gender').value,
+        city:   document.getElementById('f-city').value,
+        ageMin: parseInt(document.getElementById('f-age-min').value) || null,
+        ageMax: parseInt(document.getElementById('f-age-max').value) || null,
+      };
+      closeModal('modal-filter');
+      renderGrid();
+      showToast('Filters applied ✓');
+    }
+  </script>
+</body>
+</html>

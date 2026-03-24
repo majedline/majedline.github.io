@@ -1,0 +1,260 @@
+/* ============================================================
+   WASEL — وصل | State + Inlined Sample Data (state.js)
+   Data is embedded directly — works with file://, no server needed.
+   sample.json is still the canonical source; this mirrors it exactly.
+   ============================================================ */
+
+// ── Runtime state ────────────────────────────────────────────
+const WaselState = {
+  currentUser:    null,
+  selectedAvatar: '👤',
+  gamesPlayed:    0,
+  connections:    0,
+  loaded:         false,
+};
+
+// ── Populated on init ─────────────────────────────────────────
+let PEOPLE           = [];
+let AVATARS          = [];
+let CHAT_HISTORY     = {};
+let AUTO_REPLIES     = [];
+let TRIVIA_QUESTIONS = [];
+let WORD_GUESS_WORDS = [];
+
+// ── Inlined sample data (mirrors data/sample.json exactly) ────
+const SAMPLE_DATA = {
+  currentUser: {
+    id: 0,
+    name: "Demo User",
+    age: 28,
+    gender: "Man",
+    city: "Stockholm",
+    email: "demo@wasel.app",
+    avatar: "😊",
+    bio: "Just trying out Wasel! Love meeting new people and a good game of chess.",
+    community: ["Arabic", "Muslim"],
+    interests: ["Football", "Coffee", "Gaming"],
+    memberSince: "2024-11",
+    connections: 7,
+    gamesPlayed: 14
+  },
+
+  avatars: [
+    "😊","🧑","👨","👩","🧔","👴","👵","🧕","🧑‍💼","👨‍💼",
+    "👩‍💼","🧑‍🎓","👨‍🎓","👩‍🎓","🧑‍🍳","👨‍🍳","👩‍🍳","🦸","🧙","🎭",
+    "🐺","🦁","🐯","🐻","🦊","🐼","🦋","🌟","🌙","🎯"
+  ],
+
+  people: [
+    { id:1,  name:"Layla Hassan",     age:26, gender:"Woman", city:"Stockholm",  avatar:"👩",    community:["Arabic","Muslim"],     interests:["Books","Coffee","Music"],   bio:"Librarian & coffee lover. Looking for real conversations and maybe a book club!", online:true,  lastSeen:"now",    memberSince:"2024-09" },
+    { id:2,  name:"Omar Al-Rashid",   age:31, gender:"Man",   city:"Gothenburg", avatar:"👨",    community:["Arabic","Muslim"],     interests:["Football","Travel","Food"], bio:"Civil engineer by day, footballer by evening. Love exploring Swedish nature on weekends.", online:true,  lastSeen:"now",    memberSince:"2024-08" },
+    { id:3,  name:"Sara Lindqvist",   age:24, gender:"Woman", city:"Stockholm",  avatar:"🧕",    community:["Swedish","Muslim"],    interests:["Music","Nature","Art"],     bio:"Swedish-Moroccan mix. Love hiking in the archipelago and discovering new music. Ask me about Moroccan food!", online:false, lastSeen:"2h ago", memberSince:"2024-10" },
+    { id:4,  name:"Karim Tehrani",    age:28, gender:"Man",   city:"Malmö",      avatar:"🧔",    community:["Persian"],             interests:["Gaming","Food","Books"],    bio:"Foodie & gamer. Ask me about Persian cuisine — I can make a killer ghormeh sabzi. Always up for chess.", online:true,  lastSeen:"now",    memberSince:"2024-07" },
+    { id:5,  name:"Amina Yusuf",      age:22, gender:"Woman", city:"Uppsala",    avatar:"😊",    community:["Somali","Muslim"],     interests:["Travel","Books","Fitness"], bio:"Studying medicine at Uppsala University. Dream of travelling to 50 countries. Currently at 12!", online:true,  lastSeen:"now",    memberSince:"2024-11" },
+    { id:6,  name:"Erik Bergström",   age:35, gender:"Man",   city:"Stockholm",  avatar:"👴",    community:["Swedish","Christian"], interests:["Football","Coffee","Nature"],bio:"Grew up in Södermalm. Big football fan (AIK!). Love connecting with people from different backgrounds.", online:false, lastSeen:"5h ago", memberSince:"2024-06" },
+    { id:7,  name:"Fatima Al-Zahra",  age:29, gender:"Woman", city:"Stockholm",  avatar:"🌟",    community:["Arabic","Muslim"],     interests:["Food","Music","Art"],       bio:"Professional chef & amateur oud player. Cooking is my love language — food bridges every culture.", online:true,  lastSeen:"now",    memberSince:"2024-09" },
+    { id:8,  name:"Dilan Özdemir",    age:27, gender:"Man",   city:"Örebro",     avatar:"🎭",    community:["Kurdish","Muslim"],    interests:["Gaming","Travel","Music"],  bio:"Full-stack developer and chess enthusiast. Raised in Örebro, roots in Duhok. Always up for a match!", online:false, lastSeen:"1d ago", memberSince:"2024-08" },
+    { id:9,  name:"Nora Khalil",      age:33, gender:"Woman", city:"Gothenburg", avatar:"🦋",    community:["Arabic","Christian"],  interests:["Music","Travel","Art"],     bio:"Lebanese-Swedish architect. Coffee fuels my designs. Love exploring the connection between cultures through design.", online:true,  lastSeen:"now",    memberSince:"2024-07" },
+    { id:10, name:"Hassan Rashidi",   age:30, gender:"Man",   city:"Stockholm",  avatar:"🧙",    community:["Persian","Muslim"],    interests:["Books","Gaming","Coffee"],  bio:"Software dev at Spotify. Chess nerd. Reading Dostoevsky, writing bad poetry. Let's play!", online:true,  lastSeen:"now",    memberSince:"2024-10" },
+    { id:11, name:"Zainab Karimi",    age:25, gender:"Woman", city:"Malmö",      avatar:"🧑‍🎓", community:["Persian","Muslim"],    interests:["Art","Books","Travel"],     bio:"Fine arts student. Painting is how I see the world. Fluent in Persian, Swedish, and English.", online:true,  lastSeen:"now",    memberSince:"2024-11" },
+    { id:12, name:"Björn Lindberg",   age:38, gender:"Man",   city:"Uppsala",    avatar:"🦁",    community:["Swedish","Christian"], interests:["Nature","Football","Food"],  bio:"Teacher and football coach. Love the outdoors and meeting new people. Open to all conversations!", online:false, lastSeen:"3h ago", memberSince:"2024-05" },
+    { id:13, name:"Mariam Osman",     age:21, gender:"Woman", city:"Stockholm",  avatar:"👩‍🎓", community:["Somali","Muslim"],     interests:["Music","Fitness","Coffee"], bio:"Media student. Podcast creator. Running is my therapy — currently training for the Stockholm Marathon.", online:true,  lastSeen:"now",    memberSince:"2024-11" },
+    { id:14, name:"Tariq Al-Saadi",   age:34, gender:"Man",   city:"Stockholm",  avatar:"🧑‍💼", community:["Arabic","Muslim"],     interests:["Travel","Food","Books"],    bio:"Iraqi-Swedish entrepreneur. Started a halal restaurant on Södermalm. Traveller at heart — 35 countries and counting.", online:false, lastSeen:"30m ago",memberSince:"2024-08" },
+    { id:15, name:"Elif Yilmaz",      age:27, gender:"Woman", city:"Gothenburg", avatar:"🧕",    community:["Turkish","Muslim"],    interests:["Art","Music","Coffee"],     bio:"Interior designer from Gothenburg with Turkish roots. Addicted to good coffee and vintage furniture hunting.", online:true,  lastSeen:"now",    memberSince:"2024-09" },
+    { id:16, name:"Ahmed Nur",        age:29, gender:"Man",   city:"Malmö",      avatar:"👨‍💼", community:["Somali","Muslim"],     interests:["Football","Gaming","Travel"],bio:"IT consultant. Football is life (and chess on rainy days). Grew up in Malmö, proud of this city.", online:false, lastSeen:"2d ago", memberSince:"2024-06" },
+    { id:17, name:"Rania Mansour",    age:32, gender:"Woman", city:"Linköping",  avatar:"🌙",    community:["Arabic","Muslim"],     interests:["Books","Nature","Fitness"], bio:"PhD student in environmental science. Syrian-Swedish. Believe strongly in community and education.", online:true,  lastSeen:"now",    memberSince:"2024-10" },
+    { id:18, name:"Samuel Tesfaye",   age:26, gender:"Man",   city:"Stockholm",  avatar:"🦸",    community:["Christian","Secular"], interests:["Music","Football","Art"],   bio:"Ethiopian-Swedish musician. Play guitar in a local band. Sport is my second passion after music.", online:true,  lastSeen:"now",    memberSince:"2024-09" }
+  ],
+
+  conversations: [
+    {
+      personId: 1,
+      messages: [
+        { from:"them", text:"Hej! I saw you just joined Wasel 👋", time:"10:32", read:false },
+        { from:"them", text:"Want to play a quick game to break the ice?", time:"10:33", read:false }
+      ]
+    },
+    {
+      personId: 7,
+      messages: [
+        { from:"them", text:"Salam! Your profile looks really interesting 😊", time:"Yesterday", read:false },
+        { from:"me",   text:"Wa alaykum salam! Thanks, yours too!", time:"Yesterday", read:true },
+        { from:"them", text:"Are you into cooking? I see you listed Food as an interest 🍽️", time:"Yesterday", read:false }
+      ]
+    },
+    {
+      personId: 2,
+      messages: [
+        { from:"me",   text:"Hej Omar! Fellow football fan here ⚽", time:"Mon", read:true },
+        { from:"them", text:"Ha! Who do you support? I'm AIK all the way 😄", time:"Mon", read:true },
+        { from:"me",   text:"Hammarby! So we're rivals 😂", time:"Mon", read:true },
+        { from:"them", text:"Haha classic! We can still be friends I guess 🤝", time:"Mon", read:false }
+      ]
+    },
+    {
+      personId: 10,
+      messages: [
+        { from:"them", text:"I heard you're up for chess?", time:"Tue", read:true },
+        { from:"me",   text:"Always! Let's play 🎮", time:"Tue", read:true },
+        { from:"them", text:"Challenge sent. Good luck — you'll need it 😏", time:"Tue", read:false }
+      ]
+    }
+  ],
+
+  autoReplies: [
+    "That sounds great! 😊",
+    "Interesting! Tell me more.",
+    "Haha yes! 😄",
+    "Totally agree with you.",
+    "Have you been to Stockholm before?",
+    "Nice! I love that too.",
+    "What do you think about playing a game? 🎮",
+    "So cool, tell me more about that!",
+    "I was just thinking the same thing 😂",
+    "Oh really? I had no idea!",
+    "That's exactly how I feel too.",
+    "We should meet up for fika sometime ☕",
+    "Do you know any good spots in Stockholm?",
+    "That made me laugh 😄",
+    "Seriously? Tell me everything!"
+  ],
+
+  triviaQuestions: [
+    { q:"What is the capital of Sweden?",               opts:["Oslo","Helsinki","Stockholm","Copenhagen"], a:2 },
+    { q:"How do you say \"Hello\" in Arabic?",          opts:["Marhaba","Shukran","Yalla","Habibi"],       a:0 },
+    { q:"Which language is spoken in Sweden?",          opts:["Danish","Norwegian","Swedish","Finnish"],   a:2 },
+    { q:"What is the Stockholm subway called?",         opts:["T-bana","U-Bahn","Metro","Tunneln"],        a:0 },
+    { q:"Which country borders Sweden to the west?",    opts:["Denmark","Finland","Norway","Germany"],     a:2 },
+    { q:"What does \"Fika\" mean in Swedish culture?",  opts:["Nap time","Coffee break","Dance","Market"], a:1 },
+    { q:"\"Ramadan\" is a holy month in which religion?",opts:["Christianity","Judaism","Islam","Buddhism"],a:2 },
+    { q:"How do you say \"Thank you\" in Swedish?",     opts:["Tack","Ja","Hej","Adjö"],                   a:0 },
+    { q:"What does \"Habibi\" mean in Arabic?",         opts:["Hello","Thank you","My dear","Goodbye"],    a:2 },
+    { q:"Which city is Sweden's second largest?",       opts:["Malmö","Uppsala","Gothenburg","Örebro"],    a:2 },
+    { q:"What does \"Inshallah\" mean?",                opts:["Thank God","God willing","Praise God","In God's name"], a:1 },
+    { q:"How do you say \"Goodbye\" in Arabic?",        opts:["Marhaba","Shukran","Ma'a salama","Yalla"],  a:2 },
+    { q:"What is the Swedish currency?",                opts:["Euro","Krone","Krona","Mark"],               a:2 },
+    { q:"\"Eid\" is a celebration in which religion?",  opts:["Christianity","Hinduism","Islam","Buddhism"],a:2 },
+    { q:"Which Scandinavian country is Stockholm in?",  opts:["Norway","Denmark","Finland","Sweden"],      a:3 }
+  ],
+
+  wordGuessWords: [
+    "STOCKHOLM","ARABIC","CONNECT","SWEDEN","CULTURE","LANGUAGE",
+    "COMMUNITY","FRIEND","WASEL","MOSQUE","FIKA","HALAL",
+    "GOTHENBURG","MALMOE","NORDIC","BRIDGE","WELCOME","TOGETHER"
+  ]
+};
+
+// ── initData() — synchronous, always uses inlined data ────────
+// Also tries fetch() for sample.json if served via HTTP (bonus).
+async function initData() {
+  if (WaselState.loaded) return;
+
+  let raw = SAMPLE_DATA; // default: use inlined data
+
+  // If served via HTTP, try to load sample.json for live editing support
+  if (location.protocol !== 'file:') {
+    try {
+      const res = await fetch('../data/sample.json');
+      if (res.ok) raw = await res.json();
+    } catch (_) {
+      // silently fall back to inlined data
+    }
+  }
+
+  // Populate globals
+  AVATARS          = raw.avatars          || SAMPLE_DATA.avatars;
+  AUTO_REPLIES     = raw.autoReplies      || SAMPLE_DATA.autoReplies;
+  TRIVIA_QUESTIONS = raw.triviaQuestions  || SAMPLE_DATA.triviaQuestions;
+  WORD_GUESS_WORDS = raw.wordGuessWords   || SAMPLE_DATA.wordGuessWords;
+
+  // Build PEOPLE list
+  PEOPLE = (raw.people || SAMPLE_DATA.people).map(p => ({ ...p }));
+
+  // Build CHAT_HISTORY from conversations array
+  PEOPLE.forEach(p => { CHAT_HISTORY[p.id] = []; });
+  (raw.conversations || SAMPLE_DATA.conversations).forEach(c => {
+    CHAT_HISTORY[c.personId] = c.messages.map(m => ({ ...m }));
+  });
+
+  // ── Restore / initialise session state ──────────────────────
+  try {
+    const savedUser  = sessionStorage.getItem('wasel_user');
+    const savedAv    = sessionStorage.getItem('wasel_avatar');
+    const savedGames = sessionStorage.getItem('wasel_games');
+    const savedConns = sessionStorage.getItem('wasel_connections');
+    const savedChat  = sessionStorage.getItem('wasel_chat');
+
+    // currentUser: session wins; otherwise auto-login with sample user
+    if (savedUser) {
+      WaselState.currentUser = JSON.parse(savedUser);
+    } else {
+      const base = raw.currentUser || SAMPLE_DATA.currentUser;
+      WaselState.currentUser = { ...base };
+    }
+
+    WaselState.selectedAvatar = savedAv    || WaselState.currentUser.avatar || '👤';
+    WaselState.gamesPlayed    = parseInt(savedGames) || WaselState.currentUser.gamesPlayed || 0;
+    WaselState.connections    = parseInt(savedConns) || WaselState.currentUser.connections || 0;
+
+    // Merge saved chat history (session wins for non-empty threads)
+    if (savedChat) {
+      const parsed = JSON.parse(savedChat);
+      Object.keys(parsed).forEach(k => {
+        if (Array.isArray(parsed[k]) && parsed[k].length > 0) {
+          CHAT_HISTORY[k] = parsed[k];
+        }
+      });
+    }
+  } catch (e) {
+    // Session corrupt — just use sample defaults, already set above
+    console.warn('[Wasel] Session restore failed, using sample defaults.', e);
+  }
+
+  WaselState.loaded = true;
+}
+
+// ── saveState() ───────────────────────────────────────────────
+function saveState() {
+  try {
+    sessionStorage.setItem('wasel_user',        JSON.stringify(WaselState.currentUser));
+    sessionStorage.setItem('wasel_avatar',      WaselState.selectedAvatar);
+    sessionStorage.setItem('wasel_games',       String(WaselState.gamesPlayed));
+    sessionStorage.setItem('wasel_connections', String(WaselState.connections));
+    sessionStorage.setItem('wasel_chat',        JSON.stringify(CHAT_HISTORY));
+  } catch (e) {
+    console.warn('[Wasel] saveState error:', e);
+  }
+}
+
+// ── Utility helpers ───────────────────────────────────────────
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast'; t.className = 'toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function getTagValues(containerId) {
+  return [...document.querySelectorAll('#' + containerId + ' .tag.selected')]
+    .map(t => t.dataset.val);
+}
+
+function toggleTag(el) { el.classList.toggle('selected'); }
+
+function openModal(id)  { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+function closeModalIfOutside(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+function timeNow() {
+  const n = new Date();
+  return n.getHours().toString().padStart(2, '0') + ':' +
+         n.getMinutes().toString().padStart(2, '0');
+}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wasel — Chat</title>
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+  body { background:var(--bg); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+  .chat-hdr { background:var(--surface); border-bottom:1px solid var(--border);
+    padding:10px 14px; display:flex; align-items:center; gap:10px; flex-shrink:0; z-index:10; }
+  .ch-av   { font-size:30px; flex-shrink:0; }
+  .ch-info { flex:1; min-width:0; }
+  .ch-info h4 { font-size:15px; font-weight:600; }
+  .ch-status { font-size:12px; }
+  .ch-status.online  { color:var(--green); }
+  .ch-status.offline { color:var(--text-dim); }
+
+  .msgs { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; }
+
+  .msg { max-width:75%; }
+  .msg.mine   { align-self:flex-end; }
+  .msg.theirs { align-self:flex-start; }
+  .bubble { padding:10px 14px; border-radius:18px; font-size:14px; line-height:1.5; word-break:break-word; }
+  .msg.mine   .bubble { background:linear-gradient(135deg,var(--gold),#b8870f); color:#0d1117;
+    border-radius:18px 18px 4px 18px; }
+  .msg.theirs .bubble { background:var(--surface); border:1px solid var(--border);
+    border-radius:18px 18px 18px 4px; }
+  .msg-t { font-size:10px; color:var(--text-dim); margin-top:3px; padding:0 4px; }
+  .msg.mine .msg-t { text-align:right; }
+
+  .msg-game { background:rgba(45,212,191,0.08); border:1px solid rgba(45,212,191,0.25);
+    border-radius:12px; padding:10px 14px; font-size:13px; color:var(--teal);
+    cursor:pointer; display:flex; align-items:center; gap:8px; }
+  .msg-game:hover { background:rgba(45,212,191,0.14); }
+
+  .day-sep { text-align:center; font-size:11px; color:var(--text-dim); margin:4px 0; }
+
+  .typing { display:none; align-self:flex-start;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:18px 18px 18px 4px; padding:10px 16px; }
+  .typing.show { display:flex; gap:4px; align-items:center; }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--text-muted);
+    animation:pulse 1.2s infinite; }
+  .dot:nth-child(2) { animation-delay:0.2s; }
+  .dot:nth-child(3) { animation-delay:0.4s; }
+
+  .input-area { background:var(--surface); border-top:1px solid var(--border);
+    padding:10px 14px; display:flex; gap:8px; align-items:flex-end; flex-shrink:0; }
+  .chat-inp { flex:1; background:var(--bg); border:1.5px solid var(--border); border-radius:24px;
+    padding:10px 16px; color:var(--text); font-size:14px; font-family:inherit;
+    resize:none; outline:none; transition:border-color 0.2s; max-height:120px; line-height:1.4; }
+  .chat-inp:focus { border-color:var(--gold); }
+  .send-btn { width:42px; height:42px; border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),#b8870f);
+    border:none; cursor:pointer; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s; flex-shrink:0; }
+  .send-btn:hover { transform:scale(1.05); }
+  .act-btn { width:42px; height:42px; border-radius:50%; background:var(--surface2);
+    border:1.5px solid var(--border); cursor:pointer; font-size:18px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .act-btn:hover { border-color:var(--teal); }
+</style>
+</head>
+<body>
+  <div class="chat-hdr">
+    <button class="back-btn" onclick="window.location.href='messages.html'">←</button>
+    <div class="ch-av" id="ch-av">👤</div>
+    <div class="ch-info">
+      <h4 id="ch-name">—</h4>
+      <span class="ch-status" id="ch-status">—</span>
+    </div>
+    <button class="icon-btn" onclick="challengeGame()" title="Challenge to game">🎮</button>
+    <button class="icon-btn" onclick="shareChat()" title="Share">📤</button>
+    <button class="icon-btn" onclick="viewPersonProfile()" title="View profile">👤</button>
+  </div>
+
+  <div class="msgs" id="msgs"></div>
+
+  <div class="input-area">
+    <button class="act-btn" onclick="challengeGame()" title="Send game invite">🎮</button>
+    <textarea class="chat-inp" id="chat-inp" placeholder="Say something nice…" rows="1"
+      oninput="autoResize(this)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
+    <button class="send-btn" onclick="sendMsg()">➤</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="../js/state.js"></script>
+  <script src="../js/nav.js"></script>
+  <script>
+    let pid = null;
+    let person = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initData();
+      pid = parseInt(new URLSearchParams(location.search).get('id'));
+      person = PEOPLE.find(p => p.id === pid);
+      if (!person) { window.location.href = 'messages.html'; return; }
+
+      // If no history yet, init empty
+      if (!CHAT_HISTORY[pid]) CHAT_HISTORY[pid] = [];
+
+      document.getElementById('ch-av').textContent   = person.avatar;
+      document.getElementById('ch-name').textContent = person.name;
+      const s = document.getElementById('ch-status');
+      if (person.online) { s.textContent = '🟢 Online'; s.className = 'ch-status online'; }
+      else { s.textContent = (person.lastSeen ? 'Last seen ' + person.lastSeen : 'Offline'); s.className = 'ch-status offline'; }
+
+      // Mark incoming as read
+      CHAT_HISTORY[pid].forEach(m => { if (m.from === 'them') m.read = true; });
+      saveState();
+      buildNav('messages');
+      renderMsgs();
+    });
+
+    function renderMsgs() {
+      const area = document.getElementById('msgs');
+      const hist = CHAT_HISTORY[pid] || [];
+      if (!hist.length) {
+        area.innerHTML = `<div class="empty-state" style="padding:60px 20px">
+          <div class="icon">👋</div><p>Say hello to ${person?.name?.split(' ')[0] || 'them'}!</p></div>`;
+        return;
+      }
+      area.innerHTML = '<div class="day-sep">Today</div>';
+      hist.forEach(m => {
+        const d = document.createElement('div');
+        d.className = 'msg ' + (m.from === 'me' ? 'mine' : 'theirs');
+        if (m.type === 'game') {
+          d.innerHTML = `<div class="msg-game" onclick="window.location.href='games.html'">🎮 Game challenge: ${esc(m.text)}</div><div class="msg-t">${m.time}</div>`;
+        } else {
+          d.innerHTML = `<div class="bubble">${esc(m.text)}</div><div class="msg-t">${m.time}</div>`;
+        }
+        area.appendChild(d);
+      });
+
+      // Typing indicator
+      let typing = document.getElementById('typing-ind');
+      if (!typing) {
+        typing = document.createElement('div');
+        typing.id = 'typing-ind'; typing.className = 'typing';
+        typing.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+        area.appendChild(typing);
+      }
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function sendMsg() {
+      const inp = document.getElementById('chat-inp');
+      const text = inp.value.trim();
+      if (!text) return;
+      CHAT_HISTORY[pid].push({ from:'me', text, time:timeNow(), read:true });
+      inp.value = ''; inp.style.height = '';
+      saveState(); renderMsgs();
+
+      // Auto-reply simulation
+      const typing = document.getElementById('typing-ind');
+      if (typing) { typing.classList.add('show'); document.getElementById('msgs').scrollTop = 9999; }
+      const delay = 1000 + Math.random() * 1000;
+      setTimeout(() => {
+        if (typing) typing.classList.remove('show');
+        const reply = AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+        CHAT_HISTORY[pid].push({ from:'them', text:reply, time:timeNow(), read:true });
+        saveState(); renderMsgs();
+      }, delay);
+    }
+
+    function challengeGame() {
+      CHAT_HISTORY[pid].push({ from:'me', type:'game', text:'Tic-Tac-Toe', time:timeNow(), read:true });
+      saveState(); renderMsgs();
+      showToast('Game challenge sent! 🎮');
+      setTimeout(() => window.location.href = 'games.html', 800);
+    }
+
+    function viewPersonProfile() { if (person) openProfile(person.id); }
+
+    function shareChat() {
+      if (navigator.share) {
+        navigator.share({ title:'Wasel Chat', text:'Chat with me on Wasel!', url:window.location.href });
+      } else {
+        navigator.clipboard?.writeText(window.location.href).catch(()=>{});
+        showToast('Chat link copied! 🔗');
+      }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+  </script>
+</body>
+</html>

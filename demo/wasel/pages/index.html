@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wasel — وصل | Connect with Your Community</title>
+<link rel="stylesheet" href="../css/variables.css">
+<style>
+  body {
+    background: radial-gradient(ellipse at 60% 30%, #1a2535 0%, #0d1117 70%);
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .ring { position: absolute; border-radius: 50%; border: 1px solid rgba(201,168,76,0.07); }
+  .ring-1 { width: 480px; height: 480px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .ring-2 { width: 720px; height: 720px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .ring-3 { width: 980px; height: 980px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+  .splash-content { position: relative; z-index: 1; animation: fadeUp 0.8s ease both; padding: 24px; }
+  .logo h1 {
+    font-family: 'Playfair Display', serif; font-size: 76px; font-weight: 700;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -2px; line-height: 1;
+  }
+  .logo .arabic {
+    font-family: 'Noto Naskh Arabic', serif; font-size: 32px;
+    color: var(--gold-light); opacity: 0.75; display: block; margin-top: -4px;
+  }
+  .tagline { margin: 18px auto 0; font-size: 16px; color: var(--text-muted); max-width: 300px; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 22px auto; max-width: 360px; }
+  .pill {
+    background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 50px; padding: 6px 14px; font-size: 12px; color: var(--gold-light);
+  }
+
+  .btns { display: flex; flex-direction: column; gap: 12px; width: 280px; margin: 0 auto; }
+  .demo-link { margin-top: 18px; font-size: 12px; color: var(--text-dim); cursor: pointer; text-decoration: none; }
+  .demo-link:hover { color: var(--text-muted); }
+
+  .lang-row { margin-top: 36px; display: flex; gap: 12px; justify-content: center; }
+  .lang-btn {
+    background: none; border: 1px solid var(--border); border-radius: 50px;
+    padding: 5px 14px; font-size: 11px; color: var(--text-dim);
+    cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .loader { color: var(--text-dim); font-size: 13px; margin-top: 8px; min-height: 20px; }
+</style>
+</head>
+<body>
+  <div class="ring ring-1"></div>
+  <div class="ring ring-2"></div>
+  <div class="ring ring-3"></div>
+
+  <div class="splash-content">
+    <div class="logo">
+      <h1>Wasel</h1>
+      <span class="arabic">وصل</span>
+    </div>
+    <p class="tagline">Meet real people in your community — genuine connections, no drama.</p>
+
+    <div class="pills">
+      <span class="pill">🌙 Arabic</span>
+      <span class="pill">🇸🇪 Swedish</span>
+      <span class="pill">☪️ Muslim</span>
+      <span class="pill">✝️ Christian</span>
+      <span class="pill">🎮 Ice-breaker games</span>
+      <span class="pill">💬 Real chat</span>
+    </div>
+
+    <div class="btns">
+      <button class="btn-primary" onclick="window.location.href='signup.html'">Create Account</button>
+      <button class="btn-outline" onclick="window.location.href='login.html'">Sign In</button>
+    </div>
+
+    <a class="demo-link" href="discover.html">👤 Browse with sample data (no login needed) →</a>
+    <p class="loader" id="loader">Loading sample data…</p>
+
+    <div class="lang-row">
+      <button class="lang-btn">English</button>
+      <button class="lang-btn">Svenska</button>
+      <button class="lang-btn">العربية</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="../js/state.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initData();
+      document.getElementById('loader').textContent =
+        PEOPLE.length ? `✓ ${PEOPLE.length} sample profiles loaded` : '';
+    });
+  </script>
+</body>
+</html>

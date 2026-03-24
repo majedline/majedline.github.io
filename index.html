@@ -1,718 +1,719 @@
 <!DOCTYPE html>
-<html>
-<title>Majed Atwi</title>
-
+<html lang="en">
 <head>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
-
-    <link rel="stylesheet" href="css/style.css">
-
-    <!--Let browser know website is optimized for mobile-->
+    <title>Majed Atwi — Product & Engineering Leader</title>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Majed Atwi — Senior Product Manager with 15+ years in legal tech, SaaS, and software engineering." />
 
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <!-- Materialize -->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7f9fc;
+            color: #2d3748;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(26,35,126,.18);
+        }
+        nav .brand-logo .logo-m {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+            margin-left: 24px;
+        }
+        nav ul li a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.92rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%);
+            padding: 80px 0 70px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -80px;
+            width: 420px; height: 420px;
+            background: rgba(255,255,255,.05);
+            border-radius: 50%;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: -60px;
+            width: 300px; height: 300px;
+            background: rgba(255,255,255,.04);
+            border-radius: 50%;
+        }
+        .hero-avatar {
+            width: 96px; height: 96px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.15);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+            border: 3px solid rgba(255,255,255,.3);
+        }
+        .hero-avatar i { font-size: 48px; color: rgba(255,255,255,.9); }
+        .hero h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 8px;
+            line-height: 1.2;
+        }
+        .hero .hero-tagline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: rgba(255,255,255,.85);
+            margin-bottom: 20px;
+            letter-spacing: 0.2px;
+        }
+        .hero p {
+            font-size: 0.97rem;
+            line-height: 1.75;
+            color: rgba(255,255,255,.8);
+            max-width: 660px;
+            margin: 0 auto 32px;
+        }
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 36px;
+        }
+        .hero-badge {
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.25);
+            color: #fff;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            color: #1a237e !important;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none !important;
+            margin: 0 8px 12px;
+            transition: transform .15s, box-shadow .15s;
+            box-shadow: 0 4px 14px rgba(0,0,0,.2);
+        }
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,.28);
+        }
+        .hero-cta.outline {
+            background: transparent;
+            color: #fff !important;
+            border: 2px solid rgba(255,255,255,.6);
+            box-shadow: none;
+        }
+        .hero-cta.outline:hover {
+            background: rgba(255,255,255,.1);
+            box-shadow: 0 4px 14px rgba(0,0,0,.15);
+        }
+
+        /* ── SECTION TITLES ── */
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a237e;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .section-divider {
+            width: 48px; height: 4px;
+            background: linear-gradient(90deg, #1a237e, #1565c0);
+            border-radius: 2px;
+            margin: 0 auto 36px;
+        }
+
+        /* ── SKILLS ── */
+        .skills-section {
+            background: #fff;
+            padding: 56px 0 48px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .skill-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f4ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 8px;
+            padding: 8px 16px;
+            transition: transform .15s, box-shadow .15s;
+        }
+        .skill-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26,35,126,.12);
+        }
+        .skill-chip img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* ── PROJECTS ── */
+        .projects-section {
+            padding: 56px 0 48px;
+        }
+        .project-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.07);
+            padding: 28px 28px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            transition: transform .15s, box-shadow .15s;
+            border: 1px solid #e2e8f0;
+        }
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(0,0,0,.11);
+        }
+        .project-logo {
+            flex-shrink: 0;
+            width: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .project-logo img { max-width: 64px; max-height: 64px; object-fit: contain; }
+        .project-logo i { font-size: 42px; color: #3949ab; }
+        .project-body { flex: 1; min-width: 0; }
+        .project-body h5 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 4px;
+            color: #1a237e;
+        }
+        .project-body h5 a { color: #1a237e; text-decoration: none; }
+        .project-body h5 a:hover { text-decoration: underline; }
+        .project-sub { font-size: 0.82rem; color: #718096; margin-bottom: 10px; }
+        .project-sub a { color: #3949ab; text-decoration: none; }
+        .project-body p, .project-body ol, .project-body li {
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: #4a5568;
+        }
+        .project-body ol { padding-left: 18px; margin: 0 0 12px; }
+        .tech-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .tech-chip img {
+            height: 20px;
+            width: auto;
+            object-fit: contain;
+            filter: grayscale(20%);
+            opacity: .85;
+            transition: opacity .15s;
+        }
+        .tech-chip img:hover { opacity: 1; filter: none; }
+        .play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #f0f4ff;
+            color: #1a237e;
+            border: 1px solid #c7d2fe;
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: background .15s;
+        }
+        .play-btn:hover { background: #e0e7ff; }
+        .play-btn i { font-size: 18px; }
+
+        /* ── DEMO SECTION ── */
+        .demo-section {
+            background: #fff;
+            padding: 56px 0 56px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .demo-card {
+            border-radius: 14px;
+            border: 1.5px solid #c7d2fe;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%);
+            padding: 32px 24px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform .15s, box-shadow .15s;
+        }
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(26,35,126,.15);
+        }
+        .demo-card i { font-size: 48px; color: #1a237e; margin-bottom: 14px; display: block; }
+        .demo-card h6 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #1a237e;
+            margin: 0 0 6px;
+        }
+        .demo-card p { font-size: 0.87rem; color: #4a5568; margin-bottom: 16px; }
+        .demo-open-btn {
+            display: inline-block;
+            background: #1a237e;
+            color: #fff !important;
+            border-radius: 8px;
+            padding: 8px 22px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none !important;
+            transition: background .15s;
+        }
+        .demo-open-btn:hover { background: #283593; }
+
+        /* ── FOOTER ── */
+        footer.page-footer { margin-top: 0; }
+        footer h5 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
+        footer ol { padding-left: 18px; }
+        footer ol li { font-size: 0.9rem; }
+
+        /* ── MISC ── */
+        .more-card {
+            background: #f0f4ff;
+            border: 1.5px dashed #c7d2fe;
+            border-radius: 14px;
+            padding: 28px;
+            text-align: center;
+        }
+        .more-card a {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        /* ── MODALS ── */
+        .modal { border-radius: 12px; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.7rem; }
+            .project-card { flex-direction: column; gap: 16px; }
+            .project-logo { width: auto; }
+        }
+    </style>
 </head>
 
-<body class="main">
-    <!-- *********************************** -->
+<body>
+    <!-- NAV -->
     <nav>
-        <div class="nav-wrapper  indigo darken-4 ">
+        <div class="nav-wrapper indigo darken-4">
             <div class="brand-logo">
-
                 <div class="logo-m">Majed Atwi</div>
             </div>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="https://www.linkedin.com/in/majedatwi/" target="_blank">Linkedin</a></li>
-                <li><a href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!"
-                        target="_top">Contact</a></li>
+                <li><a href="https://www.linkedin.com/in/majedatwi/" target="_blank">LinkedIn</a></li>
+                <li><a href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!" target="_top">Contact</a></li>
             </ul>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger" style="text-decoration:none !important;"><i
-                    class="material-icons">menu</i></a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger" style="text-decoration:none !important;">
+                <i class="material-icons">menu</i>
+            </a>
         </div>
     </nav>
 
     <ul class="sidenav" id="mobile-demo">
-        <li><a href="https://www.linkedin.com/in/majedatwi/" target="_blank">Linkedin</a></li>
+        <li><a href="https://www.linkedin.com/in/majedatwi/" target="_blank">LinkedIn</a></li>
         <li><a href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!" target="_top">Contact</a></li>
     </ul>
 
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container center">
+            <div class="hero-avatar">
+                <i class="material-icons">person</i>
+            </div>
+            <h1>Majed Atwi</h1>
+            <p class="hero-tagline">Product &amp; Engineering Leader</p>
+            <div class="hero-badges">
+                <span class="hero-badge">Legal Tech</span>
+                <span class="hero-badge">FinTech</span>
+                <span class="hero-badge">SaaS</span>
+                <span class="hero-badge">20+ Enterprise Solutions</span>
+                <span class="hero-badge">15+ Years Experience</span>
+            </div>
+            <p>
+                Senior Product Manager with 15+ years of combined experience in legal tech, SaaS, and software engineering.
+                Proven track record leading end-to-end development of 20+ enterprise systems across conveyancing,
+                compliance, and legal operations. Skilled in API-first development, cloud platforms (GCP, Azure),
+                and Agile leadership — with a strong focus on delivering solutions that meet real-world legal and business needs.
+            </p>
+            <div>
+                <a href="https://github.com/majedline" target="_blank" class="hero-cta">
+                    <i class="material-icons" style="font-size:18px;">code</i> GitHub Projects
+                </a>
+                <a href="https://www.linkedin.com/in/majedatwi/" target="_blank" class="hero-cta outline">
+                    <i class="material-icons" style="font-size:18px;">link</i> LinkedIn
+                </a>
+            </div>
+        </div>
+    </section>
 
-    <!-- *********************************** -->
     <main>
-        <div class="container">
 
-            <div class="section no-pad-bot" id="index-banner">
-                <div class="container">
-                    <br>
-                    <div class="row center">
-                        <h5 class="header col s12 light">
-                            Welcome to Majed's Personal Portfolio
-                        </h5>
-                        <strong>Product & Engineering Leader | Legal Tech, FinTech & SaaS | 20+ Enterprise Solutions Delivered</strong>
-                        
-                        <p align="justify">
-                            <!-- With a proven record as a software product manager for 9+ years and an engineer for 8+
-                            years, I bring seamless collaboration with leaders, customers, and diverse teams of experts.
-                            My extensive portfolio showcases the successful development and deployment of 20+ enterprise
-                            systems, web services, and applications, from ideation to production.
-
-                            Senior Product Manager with 15+ years in legal tech and SaaS, delivering 20+ enterprise products across conveyancing, compliance, and legal operations. 
-                            Skilled in API-first development, cloud platforms (GCP, Azure), and Agile leadership of cross-functional teams. 
-                            Experienced in building solutions from the ground up that address real-world legal and business needs. -->
-
-
-                            Senior Product Manager with 15+ years of combined experience in legal tech, SaaS, and software engineering. 
-                            Proven track record leading the end-to-end development of 20+ enterprise systems across conveyancing, compliance, and legal operations.
-                            Skilled in API-first development, cloud platforms (GCP, Azure), and Agile leadership, with a strong focus on cross-functional collaboration 
-                            and delivering solutions that meet real-world legal and business needs.
-
-                        </p>
-                    </div>
-                    <div class="row center">
-                        <a href="https://github.com/majedline" id="download-button-portfolio"
-                            class="btn-large waves-effect waves-light indigo darken-1" target="_blank">Github
-                            projects</a>
-                        <a href="https://www.linkedin.com/in/majedatwi/" id="download-button-linkedin"
-                            class="btn-large waves-effect waves-light indigo darken-1" target="_blank">Linkedin
-                        </a>
-                    </div>
+        <!-- SKILLS -->
+        <section class="skills-section">
+            <div class="container">
+                <h2 class="section-title">Skills &amp; Technologies</h2>
+                <div class="section-divider"></div>
+                <div class="skills-grid">
+                    <div class="skill-chip"><img src="img/tech/Azure.png" alt="Azure" /><span>Azure</span></div>
+                    <div class="skill-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5/JS" /><span>HTML5 / JS</span></div>
+                    <div class="skill-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /><span>Microsoft</span></div>
+                    <div class="skill-chip"><img src="img/tech/MongoDB_Logo.svg.png" alt="MongoDB" /><span>MongoDB</span></div>
+                    <div class="skill-chip"><img src="img/tech/net.jfif" alt=".NET" /><span>.NET</span></div>
+                    <div class="skill-chip"><img src="img/tech/mssql.jfif" alt="MSSQL" /><span>MSSQL</span></div>
+                    <div class="skill-chip"><img src="img/tech/mysql-ar21.png" alt="MySQL" /><span>MySQL</span></div>
+                    <div class="skill-chip"><img src="img/tech/nodejs.png" alt="Node.js" /><span>Node.js</span></div>
+                    <div class="skill-chip"><img src="img/tech/Heroku_logo.svg.png" alt="Heroku" /><span>Heroku</span></div>
+                    <div class="skill-chip"><img src="img/tech/python.png" alt="Python" /><span>Python</span></div>
+                    <div class="skill-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /><span>React</span></div>
+                    <div class="skill-chip"><img src="img/tech/Google_Cloud_logo.svg.png" alt="GCP" /><span>GCP</span></div>
+                    <div class="skill-chip"><img src="img/tech/Java-Logo.png" alt="Java" /><span>Java</span></div>
+                    <div class="skill-chip"><img src="img/tech/firebase.png" alt="Firebase" /><span>Firebase</span></div>
+                    <div class="skill-chip"><img src="img/tech/mui.png" alt="MUI" /><span>MUI</span></div>
+                    <div class="skill-chip"><img src="img/tech/GitHub-logo.png" alt="GitHub" /><span>GitHub</span></div>
                 </div>
             </div>
-        </div>
-        <!-- *********************************** -->
-        <div class="container">
+        </section>
 
-            <div class="row">
-                <div class="col s12">
-                    <h5 class="center">Skills</h5>
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/Azure.png" alt="" /></div>
+        <!-- PROJECTS -->
+        <section class="projects-section">
+            <div class="container">
+                <h2 class="section-title">Experience &amp; Projects</h2>
+                <div class="section-divider"></div>
 
-                <div class="col s2"><img style="height: 35px;"
-                        src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="" />
-                </div>
-                <div class="col s2"><img style="padding:1px; height: 35px;" src="img/tech/microsoft.png" alt="" />
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/MongoDB_Logo.svg.png" alt="" /></div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/net.jfif" alt="" /></div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/mssql.jfif" alt="" />
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/mysql-ar21.png" alt="" />
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/nodejs.png" alt="" />
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/Heroku_logo.svg.png" alt="" /></div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/python.png" alt="" />
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/React_logo_wordmark.png" alt="" /></div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/Google_Cloud_logo.svg.png" alt="" />
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/Java-Logo.png" alt="" />
-                </div>
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/firebase.png" alt="" />
-                </div>
-
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/mui.png" alt="" />
-                </div>
-
-                <div class="col s6 m3 l2" style="padding:1px;"><img style="padding: 2px; height: 35px;"
-                        src="img/tech/GitHub-logo.png" alt="" />
-                </div>
-            </div>
-
-
-            <div class="section">
-
-                <div class="row card hoverable valign-wrapper">
-                    <div class="col l2 center-align">
-                        <div className="valign" style="background-color: #2e3741;">
-                            <img className="logo-img" style="height: 70px;"
-                                src="https://dyedurham.ca/wp-content/uploads/2023/06/Asset-1@300x-300x288.png"
-                                alt="Dye and Durham" />
-                        </div>
+                <!-- Dye & Durham -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <img src="https://dyedurham.ca/wp-content/uploads/2023/06/Asset-1@300x-300x288.png" alt="Dye and Durham" />
                     </div>
-                    <div class="col  l10">
+                    <div class="project-body">
                         <h5><a href="https://dyedurham.ca/" target="_blank">Dye and Durham</a></h5>
-
                         <ol>
-                            <li><a href="https://dyedurham.ca/solution/unity/"> Unity Practice Management</a> is
-                                Canada’s leading practice management solution.</li>
-                            <li><a href="https://dyedurham.ca/solution/econveyance/">eConveyance – Real-estate
-                                    conveyancing</a> is BC’s #1 conveyancing application</li>
-                            <li><a href="https://dyedurham.ca/solution/unity_accounting/">Unity Accounting</a> is an
-                                all-in-one solution for full legal accounting & billing,</li>
-                            <li><a href="https://dyedurham.ca/solution/prosuite/"> Prosuite </a> is a rich conveyancing
-                                application in BC</li>
+                            <li><a href="https://dyedurham.ca/solution/unity/">Unity Practice Management</a> — Canada's leading practice management solution.</li>
+                            <li><a href="https://dyedurham.ca/solution/econveyance/">eConveyance</a> — BC's #1 real-estate conveyancing application.</li>
+                            <li><a href="https://dyedurham.ca/solution/unity_accounting/">Unity Accounting</a> — All-in-one legal accounting &amp; billing.</li>
+                            <li><a href="https://dyedurham.ca/solution/prosuite/">Prosuite</a> — Rich conveyancing application in BC.</li>
                         </ol>
-
-                        <div class="row">
-
-                            <div class="col s1"><img style="height: 20px;"
-                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
-                                    alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/microsoft.png"
-                                    alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/nodejs.png"
-                                    alt="" />
-                            </div>
-                            <div class="col s1"><img style="height: 20px;"
-                                    src="img/tech/png-clipart-mysql-workbench-database-mysql-cluster-others-text-logo.png"
-                                    alt="" /></div>
-                            <div class="col s1"><img style="height: 20px;" src="img/tech/Java-Logo.png" alt="" /></div>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /></span>
+                            <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
+                            <span class="tech-chip"><img src="img/tech/png-clipart-mysql-workbench-database-mysql-cluster-others-text-logo.png" alt="MySQL" /></span>
+                            <span class="tech-chip"><img src="img/tech/Java-Logo.png" alt="Java" /></span>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-
-            <div class="section">
-
-                <div class="row card hoverable valign-wrapper">
-                    <div class="col l2 center-align">
-                        <div className="valign">
-                            <img className="logo-img" style="height: 60px;"
-                                src="https://img1.wsimg.com/isteam/ip/385a2707-b55d-4ef9-a636-f981539f321e/logo2.png/:/rs=w:100,h:100,cg:true,m/cr=w:100,h:100/qt=q:100/ll"
-                                alt="ADMCAN" />
-                        </div>
+                <!-- ADMCAN -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <img src="https://img1.wsimg.com/isteam/ip/385a2707-b55d-4ef9-a636-f981539f321e/logo2.png/:/rs=w:100,h:100,cg:true,m/cr=w:100,h:100/qt=q:100/ll" alt="ADMCAN" />
                     </div>
-                    <div class="col  l10">
+                    <div class="project-body">
                         <h5><a href="https://admcan.com/" target="_blank">ADMCAN</a></h5>
-                        <p>Innovation in Software & Business Solutions - An innovative company dedicated to driving
-                            business advancement and solving complex problems through proven software development
-                            and management paradigms, ADMCAN excels not only in the main focus areas of government, real
-                            estate, and law but also in various other industries.</p>
+                        <p>Innovation in Software &amp; Business Solutions — an innovative company dedicated to driving business advancement through proven software development paradigms, excelling in government, real estate, and law.</p>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/Heroku_logo.svg.png" alt="Heroku" /></span>
+                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img src="img/tech/MongoDB_Logo.svg.png" alt="MongoDB" /></span>
+                            <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
+                            <span class="tech-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /></span>
+                            <span class="tech-chip"><img src="img/tech/Google_Cloud_logo.svg.png" alt="GCP" /></span>
+                            <span class="tech-chip"><img src="img/tech/firebase.png" alt="Firebase" /></span>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="row">
-                            <div class="col s1"><img style="padding:2px; height: 20px;"
-                                    src="img/tech/Heroku_logo.svg.png" alt="" /></div>
-                            <div class="col s1"><img style="height: 20px;"
-                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
-                                    alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/microsoft.png"
-                                    alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;"
-                                    src="img/tech/MongoDB_Logo.svg.png" alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/nodejs.png"
-                                    alt="" />
+                <!-- FSM -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <i class="material-icons" style="color:#1a237e; font-size:42px;">airplanemode_active</i>
+                    </div>
+                    <div class="project-body">
+                        <h5><a href="#video-modal" class="modal-trigger">FSM — Flight School Management</a></h5>
+                        <p class="project-sub"><a href="https://github.com/majedline/flight-school-management" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>An ADMCAN Project</em></p>
+                        <p>An innovative solution designed for small flight schools, offering streamlined student flight lesson booking. Currently in development, aiming to revolutionize how flight schools manage their operations.</p>
+                        <a class="play-btn modal-trigger" href="#video-modal">
+                            <i class="material-icons">play_circle_outline</i> Watch Demo
+                        </a>
+                        <div id="video-modal" class="modal">
+                            <div class="modal-content">
+                                <video class="responsive-video" controls>
+                                    <source src="./vid/fsm_small.mp4" type="video/mp4">
+                                </video>
                             </div>
-                            <div class="col s1"><img style="height: 20px;"
-                                    src="img/tech/png-clipart-mysql-workbench-database-mysql-cluster-others-text-logo.png"
-                                    alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;"
-                                    src="img/tech/React_logo_wordmark.png" alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;"
-                                    src="img/tech/Google_Cloud_logo.svg.png" alt="" /></div>
-                            <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/firebase.png"
-                                    alt="" /></div>
+                        </div>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /></span>
+                            <span class="tech-chip"><img src="img/tech/mui.png" alt="MUI" /></span>
+                            <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
+                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img src="img/tech/GitHub-logo.png" alt="GitHub" /></span>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-
-
-
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <div class="image-style">
-                            <i class="material-icons blue-text text-darken-4 medium"
-                                style="border: 1px solid lightgray;">airplanemode_active</i>
-
-                            <i class="material-icons blue-text text-darken-4 small">looks_two</i>
-
-                        </div>
+                <!-- Oanda -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <img src="https://developer.oanda.com/images/logo.png" alt="Oanda" />
                     </div>
-                </div>
-                <div class="col  l10">
-                    <h5><a href="#video-modal" class="modal-trigger">
-                            FSM-Flight School Management</a>
-                    </h5>
-                    <h6><a href="https://github.com/majedline/flight-school-management" target="_blank">Code</a></h6>
-
-                    <p>
-                        Flight School Management is an innovative solution designed specifically for small flight
-                        schools, offering streamlined student flight lesson booking capabilities.
-                        This cutting-edge software is currently in the development phase, aiming to revolutionize the
-                        way flight schools manage their operations. <i>(An ADMCAN Project)</i>
-
-                    </p>
-                    <a class="waves-effect waves-light modal-trigger" href="#video-modal">
-                        <i class="material-icons medium">play_circle_outline</i>
-                    </a>
-                    <!-- Video Modal -->
-                    <div id="video-modal" class="modal">
-                        <div class="modal-content">
-                            <video class="responsive-video" controls>
-                                <source src="./vid/fsm_small.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s1"><img style="padding:2px; height: 20px;"
-                                src="img/tech/React_logo_wordmark.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="height: 20px;" src="img/tech/mui.png" alt="" /></div>
-
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/GitHub-logo.png"
-                                alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/nodejs.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;"
-                                src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
-                                alt="" />
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <img className="logo-img" src="https://developer.oanda.com/images/logo.png"
-                            style="height: 40px;" alt="Oanda" />
-                    </div>
-                </div>
-                <div class="col  l10">
-                    <h5><a href="https://developer.oanda.com/rest-live-v20/development-guide/" target="_blank">Oanda</a>
-                    </h5>
-
-                    <ol>
-                        <li>
-                            Oanda Auth0 Integration www.oanda.com/account/login
-                            Oanda API systems to support third party integrators and internal teams Webservice APIS
-                        </li>
-                        <li /><a href="https://developer.oanda.com/rest-live-v20/account-ep/" target="_blank">Accounts
-                            creation
-                            and
-                            management</a>
-                        <br />
-                        <li /><a href="https://developer.oanda.com/rest-live-v20/transaction-ep/"
-                            target="_blank">Transaction
-                            creation and
-                            management</a>
-                        <br />
-                        <li /><a href="https://developer.oanda.com/rest-live-v20/authentication/"
-                            target="_blank">Authentication
-                            of all
-                            applications</a>
-                        <br />
-                    </ol>
-
-                    <div class="row">
-
-
-                        <div class="col s1"><img style="height: 20px;"
-                                src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
-                                alt="" />
-                        </div>
-
-
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/mysql-ar21.png"
-                                alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/nodejs.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="height: 20px;"
-                                src="img/tech/png-clipart-mysql-workbench-database-mysql-cluster-others-text-logo.png"
-                                alt="" /></div>
-
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/python.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;"
-                                src="img/tech/React_logo_wordmark.png" alt="" /></div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;"
-                                src="img/tech/Google_Cloud_logo.svg.png" alt="" /></div>
-                    </div>
-
-
-
-                </div>
-            </div>
-
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <img className="logo-img" style="height: 30px;"
-                            src="https://th.bing.com/th/id/OIP.IKtmUX9vw4j9BX-49etAEQHaBn?w=313&h=76&c=7&r=0&o=5&dpr=2.5&pid=1.7"
-                            alt="Stewart" />
-                    </div>
-                </div>
-                <div class="col  l10">
-                    <h5><a href="https://www.stewart.ca/" target="_blank">Stewart Title</a>
-                    </h5>
-                    <ol>
-                        <li>Website for Stewart Title to support business operations and communications
-                            <a href="https://www.stewart.ca/" target="_blank">www.stewart.ca</a>
-                        </li>
-                        <li>Company operations and ordering platform <a href="http://www.stepsonline.ca/"
-                                target="_blank">www.stepsonline.ca</a>. This includes:</li>
+                    <div class="project-body">
+                        <h5><a href="https://developer.oanda.com/rest-live-v20/development-guide/" target="_blank">Oanda</a></h5>
                         <ol>
-                            <li>Customer Onboarding (protected)</li>
-                            <li>B2B Ordering platform system (protected)</li>
-                            <li>OAuth 2.0 Authentication services</li>
-                            <li>Risk Management & Claims process system (protected)</li>
-                            <li>Employee Management (protected)</li>
-                            <li>Reporting services & Data warehouse (protected)</li>
-                            <li>Doc management services (protected)</li>
-                            <li>Finance management system (protected)</li>
-                            <li>Payment process services (protected)</li>
+                            <li>Oanda Auth0 Integration — <em>www.oanda.com/account/login</em></li>
+                            <li><a href="https://developer.oanda.com/rest-live-v20/account-ep/" target="_blank">Accounts creation and management</a></li>
+                            <li><a href="https://developer.oanda.com/rest-live-v20/transaction-ep/" target="_blank">Transaction creation and management</a></li>
+                            <li><a href="https://developer.oanda.com/rest-live-v20/authentication/" target="_blank">Authentication of all applications</a></li>
                         </ol>
-
-
-                        <li>Public users ordering platform
-                            <a href="https://www.stepsonline.ca/smartorder/home" target="_blank">SmartOrder</a>
-                        </li>
-                        <li>Public user premium calculator
-                            <a href="https://www.stepsonline.ca/quote/calculatorview" target="_blank">Premium
-                                Calculator</a>
-                        </li>
-                        <li>Public user Claims submission
-                            <a href="https://www.stepsonline.ca/claims/externalview" target="_blank">Claims
-                                Submission</a>
-                        </li>
-                        <li>LegalSTEPS (Decommissioned)</li>
-                        <li>LegalSTEPS user signup & mgt (Decommissioned)</li>
-                        <li>stepsonline (Decommissioned)</li>
-                    </ol>
-
-
-
-                    <div class="row center-align">
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/Azure.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/net.jfif" alt="" />
-                        </div>
-                        <div class="col s1"><img style="height: 20px;"
-                                src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
-                                alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/microsoft.png"
-                                alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/mssql.jfif" alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/nodejs.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;"
-                                src="img/tech/Google_Cloud_logo.svg.png" alt="" /></div>
-                    </div>
-
-
-                </div>
-            </div>
-
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <div class="image-style"><i class="material-icons light-blue-text medium">healing</i></div>
-                    </div>
-                </div>
-                <div class="col  l10">
-                    <h5><a href="https://med-2-0p3.herokuapp.com/" target="_blank">MED2</a></h5>
-                    <h6><a href="https://github.com/Garciat427/Med-2.0" target="_blank">Code</a></h6>
-                    <p>(Decommissioned) Med 2.0 is a medical-based application that provides end-users the ability to
-                        identify
-                        potential diagnosis based on drilled down symptoms and collect crowd-sourced empirical
-                        data of the symptoms and diagnosis to track potential trends and potential trajectory of
-                        transmitted illnesses.
-                    </p>
-
-                    <div class="row">
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/Heroku_logo.svg.png"
-                                alt="" /></div>
-                        <div class="col s1"><img style="height: 20px;"
-                                src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
-                                alt="" />
-                        </div>
-
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/MongoDB_Logo.svg.png"
-                                alt="" /></div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/nodejs.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="height: 20px;"
-                                src="img/tech/png-clipart-mysql-workbench-database-mysql-cluster-others-text-logo.png"
-                                alt="" /></div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;"
-                                src="img/tech/React_logo_wordmark.png" alt="" /></div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <div class="image-style"><i class="material-icons light-blue-text medium">local_library</i>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img src="img/tech/mysql-ar21.png" alt="MySQL" /></span>
+                            <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
+                            <span class="tech-chip"><img src="img/tech/python.png" alt="Python" /></span>
+                            <span class="tech-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /></span>
+                            <span class="tech-chip"><img src="img/tech/Google_Cloud_logo.svg.png" alt="GCP" /></span>
                         </div>
                     </div>
                 </div>
-                <div class="col  l10">
-                    <h5><a href="http://majedline.blogspot.com/p/scrumqueue.html"
-                            target="_blank">Net-Scrum-Scrumqueue</a>
-                    </h5>
-                    <h6><a href="https://github.com/majedline/net-scrum-scrumqueue" target="_blank">Code</a>
-                        <p> (Inactive) A windows desktop application that allows for users to manage projects, tasks,
-                            items, and
-                            bugs; all with the ability to customise the different statuses. The application allows for
-                            admin roles and general user roles as well as provide simple stats on the work
-                            documentation.
-                        </p>
-                    </h6>
 
-                    <a class="waves-effect waves-light modal-trigger" href="#image-modal">
-                        <i class="material-icons medium">slideshow</i>
-                    </a>
+                <!-- Stewart Title -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <img src="https://th.bing.com/th/id/OIP.IKtmUX9vw4j9BX-49etAEQHaBn?w=313&h=76&c=7&r=0&o=5&dpr=2.5&pid=1.7" alt="Stewart Title" />
+                    </div>
+                    <div class="project-body">
+                        <h5><a href="https://www.stewart.ca/" target="_blank">Stewart Title</a></h5>
+                        <ol>
+                            <li>Business operations website — <a href="https://www.stewart.ca/" target="_blank">www.stewart.ca</a></li>
+                            <li>B2B Operations &amp; ordering platform — <a href="http://www.stepsonline.ca/" target="_blank">www.stepsonline.ca</a></li>
+                            <li>Public ordering — <a href="https://www.stepsonline.ca/smartorder/home" target="_blank">SmartOrder</a></li>
+                            <li>Premium Calculator, Claims Submission, OAuth 2.0 Authentication</li>
+                            <li>Risk Management, Employee Management, Finance &amp; Reporting services</li>
+                        </ol>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/Azure.png" alt="Azure" /></span>
+                            <span class="tech-chip"><img src="img/tech/net.jfif" alt=".NET" /></span>
+                            <span class="tech-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /></span>
+                            <span class="tech-chip"><img src="img/tech/mssql.jfif" alt="MSSQL" /></span>
+                            <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
+                            <span class="tech-chip"><img src="img/tech/Google_Cloud_logo.svg.png" alt="GCP" /></span>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- MED2 -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <i class="material-icons" style="color:#0288d1; font-size:42px;">healing</i>
+                    </div>
+                    <div class="project-body">
+                        <h5><a href="https://med-2-0p3.herokuapp.com/" target="_blank">MED2</a></h5>
+                        <p class="project-sub"><a href="https://github.com/Garciat427/Med-2.0" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Decommissioned</em></p>
+                        <p>A medical application that provides end-users the ability to identify potential diagnoses based on symptoms and collect crowd-sourced empirical data to track trends of transmitted illnesses.</p>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/Heroku_logo.svg.png" alt="Heroku" /></span>
+                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img src="img/tech/MongoDB_Logo.svg.png" alt="MongoDB" /></span>
+                            <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
+                            <span class="tech-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /></span>
+                        </div>
+                    </div>
+                </div>
 
-                    <div id="image-modal" class="modal">
-                        <div class="modal-content">
-
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="rectangle valign-wrapper">
-                                        <span><img class="work-icon"
-                                                src="http://4.bp.blogspot.com/-qhQk4ieIiHk/TziUh_3XALI/AAAAAAAAAGI/z91v76Rd5Wc/s1600/Login+and+List+Selector.png"></span>
-                                    </div>
-                                </div>
-                                <div class="col s12">
-                                    <div class="rectangle valign-wrapper">
-                                        <span><img class="work-icon"
-                                                src="http://2.bp.blogspot.com/-7nwVNaPA2Vo/TziUo2fnozI/AAAAAAAAAGQ/5HgbgVcKJlA/s1600/Add+Edit+lists.png"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col s12">
-                                    <div class="rectangle valign-wrapper">
-                                        <span><img class="work-icon"
-                                                src="http://1.bp.blogspot.com/-li-5QraYyIQ/TziUsSKbIxI/AAAAAAAAAGY/8Tcx-1kpxKs/s1600/Add+Edit+Status.png"></span>
-                                    </div>
-                                </div>
-                                <div class="col s12">
-                                    <div class="rectangle valign-wrapper">
-                                        <span><img class="work-icon"
-                                                src="http://4.bp.blogspot.com/-OOb4_onvav4/TziUti5wIBI/AAAAAAAAAGg/HMnRpTwCk0E/s1600/Add+Edit+Users.png"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col s12">
-                                    <div class="rectangle valign-wrapper">
-                                        <span><img class="work-icon"
-                                                src="http://2.bp.blogspot.com/-jIHHBvm0Ijo/TziUvIIOz_I/AAAAAAAAAGo/xWDHxwkWCgY/s1600/Attachments.png"></span>
-                                    </div>
-                                </div>
-                                <div class="col s12">
-                                    <div class="rectangle valign-wrapper">
-                                        <span><img class="work-icon"
-                                                src="http://3.bp.blogspot.com/-v9n_nTMnbKw/TziUyxx2wsI/AAAAAAAAAGw/7zyVQg22TaE/s1600/View+Stats.png"></span>
-                                    </div>
-                                </div>
-                                <div class="col s12">
-                                    <div class="rectangle valign-wrapper">
-                                        <span><img class="work-icon"
-                                                src="http://3.bp.blogspot.com/-21mgaULtTkc/TziU1UILfMI/AAAAAAAAAG4/vNxY8DMUlA4/s1600/History.png"></span>
-                                    </div>
+                <!-- ScrumQueue -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <i class="material-icons" style="color:#0288d1; font-size:42px;">local_library</i>
+                    </div>
+                    <div class="project-body">
+                        <h5><a href="http://majedline.blogspot.com/p/scrumqueue.html" target="_blank">Net-Scrum-Scrumqueue</a></h5>
+                        <p class="project-sub"><a href="https://github.com/majedline/net-scrum-scrumqueue" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Inactive</em></p>
+                        <p>A Windows desktop application for managing projects, tasks, items, and bugs with customizable statuses. Supports admin and general user roles with simple work-progress statistics.</p>
+                        <a class="play-btn modal-trigger" href="#image-modal">
+                            <i class="material-icons">slideshow</i> View Screenshots
+                        </a>
+                        <div id="image-modal" class="modal">
+                            <div class="modal-content">
+                                <div class="row">
+                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://4.bp.blogspot.com/-qhQk4ieIiHk/TziUh_3XALI/AAAAAAAAAGI/z91v76Rd5Wc/s1600/Login+and+List+Selector.png"></span></div></div>
+                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://2.bp.blogspot.com/-7nwVNaPA2Vo/TziUo2fnozI/AAAAAAAAAGQ/5HgbgVcKJlA/s1600/Add+Edit+lists.png"></span></div></div>
+                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://1.bp.blogspot.com/-li-5QraYyIQ/TziUsSKbIxI/AAAAAAAAAGY/8Tcx-1kpxKs/s1600/Add+Edit+Status.png"></span></div></div>
+                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://4.bp.blogspot.com/-OOb4_onvav4/TziUti5wIBI/AAAAAAAAAGg/HMnRpTwCk0E/s1600/Add+Edit+Users.png"></span></div></div>
+                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://2.bp.blogspot.com/-jIHHBvm0Ijo/TziUvIIOz_I/AAAAAAAAAGo/xWDHxwkWCgY/s1600/Attachments.png"></span></div></div>
+                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://3.bp.blogspot.com/-v9n_nTMnbKw/TziUyxx2wsI/AAAAAAAAAGw/7zyVQg22TaE/s1600/View+Stats.png"></span></div></div>
+                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://3.bp.blogspot.com/-21mgaULtTkc/TziU1UILfMI/AAAAAAAAAG4/vNxY8DMUlA4/s1600/History.png"></span></div></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/Azure.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="height: 20px;" src="img/tech/microsoft.png" alt="" /></div>
-
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/mssql.jfif" alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/net.jfif" alt="" />
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </div>
-
-
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <div class="image-style">
-                            <i class="material-icons light-blue-text medium">airplanemode_active</i>
-                            <i class="material-icons light-blue-text small">looks_one</i>
-
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/Azure.png" alt="Azure" /></span>
+                            <span class="tech-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /></span>
+                            <span class="tech-chip"><img src="img/tech/mssql.jfif" alt="MSSQL" /></span>
+                            <span class="tech-chip"><img src="img/tech/net.jfif" alt=".NET" /></span>
                         </div>
                     </div>
                 </div>
-                <div class="col  l10">
-                    <h5><a href="http://majedline.blogspot.com/p/samba-flight-school.html" target="_blank">SAMBA Flight
-                            School©</a>
-                    </h5>
-                    <p>
 
-                        (Decommissioned) SAMBA Flight School© is the solution for small to medium flight schools
-                        struggling with outdated
-                        management software.
-                        A modern and efficient system that streamlines day-to-day operations seamlessly.
-                        Developed by experienced software engineers who understand the industry's needs,
-                        SAMBA Flight School© is the result of extensive research and expertise.
+                <!-- SAMBA -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <i class="material-icons" style="color:#0288d1; font-size:42px;">airplanemode_active</i>
+                    </div>
+                    <div class="project-body">
+                        <h5><a href="http://majedline.blogspot.com/p/samba-flight-school.html" target="_blank">SAMBA Flight School©</a></h5>
+                        <p class="project-sub"><em>Decommissioned</em></p>
+                        <p>A modern and efficient system that streamlines day-to-day operations for small to medium flight schools struggling with outdated management software. Developed by experienced engineers who understand the industry's needs.</p>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/Azure.png" alt="Azure" /></span>
+                            <span class="tech-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /></span>
+                            <span class="tech-chip"><img src="img/tech/mssql.jfif" alt="MSSQL" /></span>
+                            <span class="tech-chip"><img src="img/tech/net.jfif" alt=".NET" /></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RPS -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <i class="material-icons" style="color:#0288d1; font-size:42px;">gamepad</i>
+                    </div>
+                    <div class="project-body">
+                        <h5><a href="https://majedline.github.io/RPS-Multiplayer/" target="_blank">R-P-S World</a></h5>
+                        <p class="project-sub"><a href="https://github.com/majedline/RPS-Multiplayer" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Decommissioned</em></p>
+                        <p>A chat &amp; game application integrating a Rock Paper Scissors game with real-time public chat capabilities.</p>
+                        <div class="tech-chips">
+                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img src="img/tech/firebase.png" alt="Firebase" /></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More -->
+                <div class="more-card">
+                    <i class="material-icons" style="font-size:32px; color:#3949ab; vertical-align:middle;">more_horiz</i>
+                    <p style="margin:10px 0 0; font-size:0.95rem; color:#4a5568;">
+                        <a href="https://github.com/majedline?tab=repositories" target="_blank">And much more on GitHub &rarr;</a>
                     </p>
-
-                    <div class="row">
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/Azure.png" alt="" />
-                        </div>
-                        <div class="col s1"><img style="height: 20px;" src="img/tech/microsoft.png" alt="" /></div>
-
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/mssql.jfif" alt="" />
-                        </div>
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/net.jfif" alt="" />
-                        </div>
-
-
-                    </div>
                 </div>
 
             </div>
+        </section>
 
-
-
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <div class="image-style"><i class="material-icons light-blue-text medium">gamepad</i></div>
-                    </div>
-                </div>
-                <div class="col  l10">
-                    <h5><a href="https://majedline.github.io/RPS-Multiplayer/" target="_blank">R-P-SWorld</a></h5>
-                    <h6><a href="https://github.com/majedline/RPS-Multiplayer" target="_blank">Code</a></h6>
-                    <p> (Decommissioned) A chat & game software that integrates a Rock Paper Scissors game along with
-                        general
-                        public chat abilities.
-
-                    <div class="row">
-                        <div class="col s1"><img style="height: 20px;"
-                                src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
-                                alt="" />
-                        </div>
-
-                        <div class="col s1"><img style="padding:2px; height: 20px;" src="img/tech/firebase.png"
-                                alt="" />
+        <!-- LIVE DEMOS -->
+        <section class="demo-section">
+            <div class="container">
+                <h2 class="section-title">Live Demos</h2>
+                <div class="section-divider"></div>
+                <div class="row">
+                    <div class="col s12 m4 l3">
+                        <div class="demo-card" onclick="window.open('demo/wasel/pages/index.html', '_blank')">
+                            <i class="material-icons">chat</i>
+                            <h6>wasel-demo</h6>
+                            <p>Social messaging app demo</p>
+                            <a href="demo/wasel/pages/index.html" target="_blank" class="demo-open-btn" onclick="event.stopPropagation()">Open Demo</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-            <div class="row card hoverable valign-wrapper">
-                <div class="col l2 center-align">
-                    <div className="valign">
-                        <div class="image-style"><i class="material-icons light-blue-text medium">more_horiz</i></div>
-                    </div>
-                </div>
-                <div class="col  l10">
-                    <h6><a href="https://github.com/majedline?tab=repositories" target="_blank">and much much more..</a>
-                    </h6>
-                    <p> More here...</p>
-                </div>
-            </div>
-
-
-            <!--   Icon Section   -->
-
-        </div>
-
+        </section>
 
     </main>
 
-
-    <!-- *********************************** -->
-
+    <!-- FOOTER -->
     <footer class="page-footer indigo darken-4">
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
                     <h5 class="white-text">Personal Motto</h5>
-                    <p class="grey-text text-lighten-4">
-                    <ol>
+                    <ol class="grey-text text-lighten-4">
                         <li>For every problem there is a solution!</li>
                         <li>Curiosity drives the mind!</li>
                         <li>It's good enough</li>
                     </ol>
-                    </p>
-
-
                 </div>
                 <div class="col l3 s12">
                     <h5 class="white-text">Blogs</h5>
                     <ol>
-                        <li><a class="white-text" href="http://majedline.blogspot.com/" target="_blank">Blog
-                                Majedline</a></li>
-                        <li><a class="white-text" href="http://majedlinecode.blogspot.com/" target="_blank">Blog
-                                Sample
-                                Codes</a></li>
-                        <li><a class="white-text" href="http://majedlineanalysis.blogspot.com/" target="_blank">Blog
-                                Image Analysis</a>
-                        </li>
+                        <li><a class="white-text" href="http://majedline.blogspot.com/" target="_blank">Blog Majedline</a></li>
+                        <li><a class="white-text" href="http://majedlinecode.blogspot.com/" target="_blank">Blog Sample Codes</a></li>
+                        <li><a class="white-text" href="http://majedlineanalysis.blogspot.com/" target="_blank">Blog Image Analysis</a></li>
                     </ol>
                 </div>
                 <div class="col l3 s12">
                     <h5 class="white-text">Connect</h5>
                     <ol>
-                        <li><a class="white-text" href="https://www.linkedin.com/in/majedatwi/"
-                                target="_blank">Linkedin</a></li>
-                        <li><a class="white-text" href="https://github.com/majedline" target="_blank">Github</a>
-                        </li>
-                        <li><a class="white-text"
-                                href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!">Email</a>
-                        </li>
-
+                        <li><a class="white-text" href="https://www.linkedin.com/in/majedatwi/" target="_blank">LinkedIn</a></li>
+                        <li><a class="white-text" href="https://github.com/majedline" target="_blank">GitHub</a></li>
+                        <li><a class="white-text" href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!">Email</a></li>
                     </ol>
                 </div>
             </div>
         </div>
         <div class="footer-copyright">
-            <div class="container">
-                © Majed Atwi
-            </div>
+            <div class="container">© Majed Atwi</div>
         </div>
     </footer>
-    <!-- *********************************** -->
 
-
-    <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.min.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-
+    <script type="text/javascript" src="js/app.js"></script>
 </body>
-
 </html>
