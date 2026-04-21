@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Majed Atwi — Product & Engineering Leader</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Majed Atwi — Senior Product Manager with 15+ years in legal tech, SaaS, and software engineering." />
+    <meta name="description"
+        content="Majed Atwi — Senior Product Manager with 15+ years in legal tech, SaaS, and software engineering." />
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <!-- Materialize -->
@@ -15,7 +18,9 @@
     <link rel="stylesheet" href="css/style.css" />
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -28,8 +33,9 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 12px rgba(26,35,126,.18);
+            box-shadow: 0 2px 12px rgba(26, 35, 126, .18);
         }
+
         nav .brand-logo .logo-m {
             font-family: 'Inter', sans-serif;
             font-weight: 700;
@@ -37,6 +43,7 @@
             letter-spacing: 0.5px;
             margin-left: 24px;
         }
+
         nav ul li a {
             font-family: 'Inter', sans-serif;
             font-weight: 500;
@@ -52,31 +59,46 @@
             position: relative;
             overflow: hidden;
         }
+
         .hero::before {
             content: '';
             position: absolute;
-            top: -60px; right: -80px;
-            width: 420px; height: 420px;
-            background: rgba(255,255,255,.05);
+            top: -60px;
+            right: -80px;
+            width: 420px;
+            height: 420px;
+            background: rgba(255, 255, 255, .05);
             border-radius: 50%;
         }
+
         .hero::after {
             content: '';
             position: absolute;
-            bottom: -80px; left: -60px;
-            width: 300px; height: 300px;
-            background: rgba(255,255,255,.04);
+            bottom: -80px;
+            left: -60px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, .04);
             border-radius: 50%;
         }
+
         .hero-avatar {
-            width: 96px; height: 96px;
+            width: 96px;
+            height: 96px;
             border-radius: 50%;
-            background: rgba(255,255,255,.15);
-            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, .15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin: 0 auto 24px;
-            border: 3px solid rgba(255,255,255,.3);
+            border: 3px solid rgba(255, 255, 255, .3);
         }
-        .hero-avatar i { font-size: 48px; color: rgba(255,255,255,.9); }
+
+        .hero-avatar i {
+            font-size: 48px;
+            color: rgba(255, 255, 255, .9);
+        }
+
         .hero h1 {
             font-family: 'Inter', sans-serif;
             font-size: 2.4rem;
@@ -85,20 +107,23 @@
             margin: 0 0 8px;
             line-height: 1.2;
         }
+
         .hero .hero-tagline {
             font-size: 1.05rem;
             font-weight: 500;
-            color: rgba(255,255,255,.85);
+            color: rgba(255, 255, 255, .85);
             margin-bottom: 20px;
             letter-spacing: 0.2px;
         }
+
         .hero p {
             font-size: 0.97rem;
             line-height: 1.75;
-            color: rgba(255,255,255,.8);
+            color: rgba(255, 255, 255, .8);
             max-width: 660px;
             margin: 0 auto 32px;
         }
+
         .hero-badges {
             display: flex;
             flex-wrap: wrap;
@@ -106,9 +131,10 @@
             justify-content: center;
             margin-bottom: 36px;
         }
+
         .hero-badge {
-            background: rgba(255,255,255,.15);
-            border: 1px solid rgba(255,255,255,.25);
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .25);
             color: #fff;
             padding: 5px 14px;
             border-radius: 20px;
@@ -116,6 +142,7 @@
             font-weight: 500;
             backdrop-filter: blur(4px);
         }
+
         .hero-cta {
             display: inline-flex;
             align-items: center;
@@ -129,21 +156,24 @@
             text-decoration: none !important;
             margin: 0 8px 12px;
             transition: transform .15s, box-shadow .15s;
-            box-shadow: 0 4px 14px rgba(0,0,0,.2);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .2);
         }
+
         .hero-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,.28);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .28);
         }
+
         .hero-cta.outline {
             background: transparent;
             color: #fff !important;
-            border: 2px solid rgba(255,255,255,.6);
+            border: 2px solid rgba(255, 255, 255, .6);
             box-shadow: none;
         }
+
         .hero-cta.outline:hover {
-            background: rgba(255,255,255,.1);
-            box-shadow: 0 4px 14px rgba(0,0,0,.15);
+            background: rgba(255, 255, 255, .1);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
         }
 
         /* ── SECTION TITLES ── */
@@ -155,8 +185,10 @@
             text-align: center;
             margin-bottom: 8px;
         }
+
         .section-divider {
-            width: 48px; height: 4px;
+            width: 48px;
+            height: 4px;
             background: linear-gradient(90deg, #1a237e, #1565c0);
             border-radius: 2px;
             margin: 0 auto 36px;
@@ -168,6 +200,7 @@
             padding: 56px 0 48px;
             border-bottom: 1px solid #e2e8f0;
         }
+
         .skills-grid {
             display: flex;
             flex-wrap: wrap;
@@ -176,6 +209,7 @@
             max-width: 800px;
             margin: 0 auto;
         }
+
         .skill-chip {
             display: flex;
             align-items: center;
@@ -186,10 +220,12 @@
             padding: 8px 16px;
             transition: transform .15s, box-shadow .15s;
         }
+
         .skill-chip:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(26,35,126,.12);
+            box-shadow: 0 4px 12px rgba(26, 35, 126, .12);
         }
+
         .skill-chip img {
             height: 24px;
             width: auto;
@@ -200,10 +236,11 @@
         .projects-section {
             padding: 56px 0 48px;
         }
+
         .project-card {
             background: #fff;
             border-radius: 14px;
-            box-shadow: 0 2px 12px rgba(0,0,0,.07);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .07);
             padding: 28px 28px 20px;
             margin-bottom: 20px;
             display: flex;
@@ -212,10 +249,12 @@
             transition: transform .15s, box-shadow .15s;
             border: 1px solid #e2e8f0;
         }
+
         .project-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 28px rgba(0,0,0,.11);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .11);
         }
+
         .project-logo {
             flex-shrink: 0;
             width: 72px;
@@ -223,9 +262,23 @@
             align-items: center;
             justify-content: center;
         }
-        .project-logo img { max-width: 64px; max-height: 64px; object-fit: contain; }
-        .project-logo i { font-size: 42px; color: #3949ab; }
-        .project-body { flex: 1; min-width: 0; }
+
+        .project-logo img {
+            max-width: 64px;
+            max-height: 64px;
+            object-fit: contain;
+        }
+
+        .project-logo i {
+            font-size: 42px;
+            color: #3949ab;
+        }
+
+        .project-body {
+            flex: 1;
+            min-width: 0;
+        }
+
         .project-body h5 {
             font-family: 'Inter', sans-serif;
             font-size: 1.1rem;
@@ -233,22 +286,47 @@
             margin: 0 0 4px;
             color: #1a237e;
         }
-        .project-body h5 a { color: #1a237e; text-decoration: none; }
-        .project-body h5 a:hover { text-decoration: underline; }
-        .project-sub { font-size: 0.82rem; color: #718096; margin-bottom: 10px; }
-        .project-sub a { color: #3949ab; text-decoration: none; }
-        .project-body p, .project-body ol, .project-body li {
+
+        .project-body h5 a {
+            color: #1a237e;
+            text-decoration: none;
+        }
+
+        .project-body h5 a:hover {
+            text-decoration: underline;
+        }
+
+        .project-sub {
+            font-size: 0.82rem;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+
+        .project-sub a {
+            color: #3949ab;
+            text-decoration: none;
+        }
+
+        .project-body p,
+        .project-body ol,
+        .project-body li {
             font-size: 0.9rem;
             line-height: 1.65;
             color: #4a5568;
         }
-        .project-body ol { padding-left: 18px; margin: 0 0 12px; }
+
+        .project-body ol {
+            padding-left: 18px;
+            margin: 0 0 12px;
+        }
+
         .tech-chips {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 14px;
         }
+
         .tech-chip img {
             height: 20px;
             width: auto;
@@ -257,7 +335,12 @@
             opacity: .85;
             transition: opacity .15s;
         }
-        .tech-chip img:hover { opacity: 1; filter: none; }
+
+        .tech-chip img:hover {
+            opacity: 1;
+            filter: none;
+        }
+
         .play-btn {
             display: inline-flex;
             align-items: center;
@@ -274,8 +357,14 @@
             margin-top: 10px;
             transition: background .15s;
         }
-        .play-btn:hover { background: #e0e7ff; }
-        .play-btn i { font-size: 18px; }
+
+        .play-btn:hover {
+            background: #e0e7ff;
+        }
+
+        .play-btn i {
+            font-size: 18px;
+        }
 
         /* ── DEMO SECTION ── */
         .demo-section {
@@ -283,6 +372,7 @@
             padding: 56px 0 56px;
             border-top: 1px solid #e2e8f0;
         }
+
         .demo-card {
             border-radius: 14px;
             border: 1.5px solid #c7d2fe;
@@ -292,11 +382,19 @@
             cursor: pointer;
             transition: transform .15s, box-shadow .15s;
         }
+
         .demo-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(26,35,126,.15);
+            box-shadow: 0 10px 30px rgba(26, 35, 126, .15);
         }
-        .demo-card i { font-size: 48px; color: #1a237e; margin-bottom: 14px; display: block; }
+
+        .demo-card i {
+            font-size: 48px;
+            color: #1a237e;
+            margin-bottom: 14px;
+            display: block;
+        }
+
         .demo-card h6 {
             font-family: 'Inter', sans-serif;
             font-weight: 700;
@@ -304,7 +402,13 @@
             color: #1a237e;
             margin: 0 0 6px;
         }
-        .demo-card p { font-size: 0.87rem; color: #4a5568; margin-bottom: 16px; }
+
+        .demo-card p {
+            font-size: 0.87rem;
+            color: #4a5568;
+            margin-bottom: 16px;
+        }
+
         .demo-open-btn {
             display: inline-block;
             background: #1a237e;
@@ -316,13 +420,29 @@
             text-decoration: none !important;
             transition: background .15s;
         }
-        .demo-open-btn:hover { background: #283593; }
+
+        .demo-open-btn:hover {
+            background: #283593;
+        }
 
         /* ── FOOTER ── */
-        footer.page-footer { margin-top: 0; }
-        footer h5 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
-        footer ol { padding-left: 18px; }
-        footer ol li { font-size: 0.9rem; }
+        footer.page-footer {
+            margin-top: 0;
+        }
+
+        footer h5 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        footer ol {
+            padding-left: 18px;
+        }
+
+        footer ol li {
+            font-size: 0.9rem;
+        }
 
         /* ── MISC ── */
         .more-card {
@@ -332,6 +452,7 @@
             padding: 28px;
             text-align: center;
         }
+
         .more-card a {
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
@@ -340,12 +461,23 @@
         }
 
         /* ── MODALS ── */
-        .modal { border-radius: 12px; }
+        .modal {
+            border-radius: 12px;
+        }
 
         @media (max-width: 600px) {
-            .hero h1 { font-size: 1.7rem; }
-            .project-card { flex-direction: column; gap: 16px; }
-            .project-logo { width: auto; }
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .project-card {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .project-logo {
+                width: auto;
+            }
         }
     </style>
 </head>
@@ -359,7 +491,8 @@
             </div>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="https://www.linkedin.com/in/majedatwi/" target="_blank">LinkedIn</a></li>
-                <li><a href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!" target="_top">Contact</a></li>
+                <li><a href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!"
+                        target="_top">Contact</a></li>
             </ul>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger" style="text-decoration:none !important;">
                 <i class="material-icons">menu</i>
@@ -388,10 +521,12 @@
                 <span class="hero-badge">15+ Years Experience</span>
             </div>
             <p>
-                Senior Product Manager with 15+ years of combined experience in legal tech, SaaS, and software engineering.
+                Senior Product Manager with 15+ years of combined experience in legal tech, SaaS, and software
+                engineering.
                 Proven track record leading end-to-end development of 20+ enterprise systems across conveyancing,
                 compliance, and legal operations. Skilled in API-first development, cloud platforms (GCP, Azure),
-                and Agile leadership — with a strong focus on delivering solutions that meet real-world legal and business needs.
+                and Agile leadership — with a strong focus on delivering solutions that meet real-world legal and
+                business needs.
             </p>
             <div>
                 <a href="https://github.com/majedline" target="_blank" class="hero-cta">
@@ -413,19 +548,27 @@
                 <div class="section-divider"></div>
                 <div class="skills-grid">
                     <div class="skill-chip"><img src="img/tech/Azure.png" alt="Azure" /><span>Azure</span></div>
-                    <div class="skill-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5/JS" /><span>HTML5 / JS</span></div>
-                    <div class="skill-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /><span>Microsoft</span></div>
-                    <div class="skill-chip"><img src="img/tech/MongoDB_Logo.svg.png" alt="MongoDB" /><span>MongoDB</span></div>
+                    <div class="skill-chip"><img
+                            src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
+                            alt="HTML5/JS" /><span>HTML5 / JS</span></div>
+                    <div class="skill-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /><span>Microsoft</span>
+                    </div>
+                    <div class="skill-chip"><img src="img/tech/MongoDB_Logo.svg.png"
+                            alt="MongoDB" /><span>MongoDB</span></div>
                     <div class="skill-chip"><img src="img/tech/net.jfif" alt=".NET" /><span>.NET</span></div>
                     <div class="skill-chip"><img src="img/tech/mssql.jfif" alt="MSSQL" /><span>MSSQL</span></div>
                     <div class="skill-chip"><img src="img/tech/mysql-ar21.png" alt="MySQL" /><span>MySQL</span></div>
                     <div class="skill-chip"><img src="img/tech/nodejs.png" alt="Node.js" /><span>Node.js</span></div>
-                    <div class="skill-chip"><img src="img/tech/Heroku_logo.svg.png" alt="Heroku" /><span>Heroku</span></div>
+                    <div class="skill-chip"><img src="img/tech/Heroku_logo.svg.png" alt="Heroku" /><span>Heroku</span>
+                    </div>
                     <div class="skill-chip"><img src="img/tech/python.png" alt="Python" /><span>Python</span></div>
-                    <div class="skill-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /><span>React</span></div>
-                    <div class="skill-chip"><img src="img/tech/Google_Cloud_logo.svg.png" alt="GCP" /><span>GCP</span></div>
+                    <div class="skill-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /><span>React</span>
+                    </div>
+                    <div class="skill-chip"><img src="img/tech/Google_Cloud_logo.svg.png" alt="GCP" /><span>GCP</span>
+                    </div>
                     <div class="skill-chip"><img src="img/tech/Java-Logo.png" alt="Java" /><span>Java</span></div>
-                    <div class="skill-chip"><img src="img/tech/firebase.png" alt="Firebase" /><span>Firebase</span></div>
+                    <div class="skill-chip"><img src="img/tech/firebase.png" alt="Firebase" /><span>Firebase</span>
+                    </div>
                     <div class="skill-chip"><img src="img/tech/mui.png" alt="MUI" /><span>MUI</span></div>
                     <div class="skill-chip"><img src="img/tech/GitHub-logo.png" alt="GitHub" /><span>GitHub</span></div>
                 </div>
@@ -441,21 +584,30 @@
                 <!-- Dye & Durham -->
                 <div class="project-card">
                     <div class="project-logo">
-                        <img src="https://dyedurham.ca/wp-content/uploads/2023/06/Asset-1@300x-300x288.png" alt="Dye and Durham" />
+                        <img src="https://dyedurham.ca/wp-content/uploads/2023/06/Asset-1@300x-300x288.png"
+                            alt="Dye and Durham" />
                     </div>
                     <div class="project-body">
                         <h5><a href="https://dyedurham.ca/" target="_blank">Dye and Durham</a></h5>
                         <ol>
-                            <li><a href="https://dyedurham.ca/solution/unity/">Unity Practice Management</a> — Canada's leading practice management solution.</li>
-                            <li><a href="https://dyedurham.ca/solution/econveyance/">eConveyance</a> — BC's #1 real-estate conveyancing application.</li>
-                            <li><a href="https://dyedurham.ca/solution/unity_accounting/">Unity Accounting</a> — All-in-one legal accounting &amp; billing.</li>
-                            <li><a href="https://dyedurham.ca/solution/prosuite/">Prosuite</a> — Rich conveyancing application in BC.</li>
+                            <li><a href="https://dyedurham.ca/solution/unity/">Unity Practice Management</a> — Canada's
+                                leading practice management solution.</li>
+                            <li><a href="https://dyedurham.ca/solution/econveyance/">eConveyance</a> — BC's #1
+                                real-estate conveyancing application.</li>
+                            <li><a href="https://dyedurham.ca/solution/unity_accounting/">Unity Accounting</a> —
+                                All-in-one legal accounting &amp; billing.</li>
+                            <li><a href="https://dyedurham.ca/solution/prosuite/">Prosuite</a> — Rich conveyancing
+                                application in BC.</li>
                         </ol>
                         <div class="tech-chips">
-                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img
+                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
+                                    alt="HTML5" /></span>
                             <span class="tech-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /></span>
                             <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
-                            <span class="tech-chip"><img src="img/tech/png-clipart-mysql-workbench-database-mysql-cluster-others-text-logo.png" alt="MySQL" /></span>
+                            <span class="tech-chip"><img
+                                    src="img/tech/png-clipart-mysql-workbench-database-mysql-cluster-others-text-logo.png"
+                                    alt="MySQL" /></span>
                             <span class="tech-chip"><img src="img/tech/Java-Logo.png" alt="Java" /></span>
                         </div>
                     </div>
@@ -464,14 +616,19 @@
                 <!-- ADMCAN -->
                 <div class="project-card">
                     <div class="project-logo">
-                        <img src="https://img1.wsimg.com/isteam/ip/385a2707-b55d-4ef9-a636-f981539f321e/logo2.png/:/rs=w:100,h:100,cg:true,m/cr=w:100,h:100/qt=q:100/ll" alt="ADMCAN" />
+                        <img src="https://img1.wsimg.com/isteam/ip/385a2707-b55d-4ef9-a636-f981539f321e/logo2.png/:/rs=w:100,h:100,cg:true,m/cr=w:100,h:100/qt=q:100/ll"
+                            alt="ADMCAN" />
                     </div>
                     <div class="project-body">
                         <h5><a href="https://admcan.com/" target="_blank">ADMCAN</a></h5>
-                        <p>Innovation in Software &amp; Business Solutions — an innovative company dedicated to driving business advancement through proven software development paradigms, excelling in government, real estate, and law.</p>
+                        <p>Innovation in Software &amp; Business Solutions — an innovative company dedicated to driving
+                            business advancement through proven software development paradigms, excelling in government,
+                            real estate, and law.</p>
                         <div class="tech-chips">
                             <span class="tech-chip"><img src="img/tech/Heroku_logo.svg.png" alt="Heroku" /></span>
-                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img
+                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
+                                    alt="HTML5" /></span>
                             <span class="tech-chip"><img src="img/tech/MongoDB_Logo.svg.png" alt="MongoDB" /></span>
                             <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
                             <span class="tech-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /></span>
@@ -488,8 +645,11 @@
                     </div>
                     <div class="project-body">
                         <h5><a href="#video-modal" class="modal-trigger">FSM — Flight School Management</a></h5>
-                        <p class="project-sub"><a href="https://github.com/majedline/flight-school-management" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>An ADMCAN Project</em></p>
-                        <p>An innovative solution designed for small flight schools, offering streamlined student flight lesson booking. Currently in development, aiming to revolutionize how flight schools manage their operations.</p>
+                        <p class="project-sub"><a href="https://github.com/majedline/flight-school-management"
+                                target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>An ADMCAN Project</em></p>
+                        <p>An innovative solution designed for small flight schools, offering streamlined student flight
+                            lesson booking. Currently in development, aiming to revolutionize how flight schools manage
+                            their operations.</p>
                         <a class="play-btn modal-trigger" href="#video-modal">
                             <i class="material-icons">play_circle_outline</i> Watch Demo
                         </a>
@@ -504,7 +664,9 @@
                             <span class="tech-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /></span>
                             <span class="tech-chip"><img src="img/tech/mui.png" alt="MUI" /></span>
                             <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
-                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img
+                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
+                                    alt="HTML5" /></span>
                             <span class="tech-chip"><img src="img/tech/GitHub-logo.png" alt="GitHub" /></span>
                         </div>
                     </div>
@@ -516,15 +678,21 @@
                         <img src="https://developer.oanda.com/images/logo.png" alt="Oanda" />
                     </div>
                     <div class="project-body">
-                        <h5><a href="https://developer.oanda.com/rest-live-v20/development-guide/" target="_blank">Oanda</a></h5>
+                        <h5><a href="https://developer.oanda.com/rest-live-v20/development-guide/"
+                                target="_blank">Oanda</a></h5>
                         <ol>
                             <li>Oanda Auth0 Integration — <em>www.oanda.com/account/login</em></li>
-                            <li><a href="https://developer.oanda.com/rest-live-v20/account-ep/" target="_blank">Accounts creation and management</a></li>
-                            <li><a href="https://developer.oanda.com/rest-live-v20/transaction-ep/" target="_blank">Transaction creation and management</a></li>
-                            <li><a href="https://developer.oanda.com/rest-live-v20/authentication/" target="_blank">Authentication of all applications</a></li>
+                            <li><a href="https://developer.oanda.com/rest-live-v20/account-ep/" target="_blank">Accounts
+                                    creation and management</a></li>
+                            <li><a href="https://developer.oanda.com/rest-live-v20/transaction-ep/"
+                                    target="_blank">Transaction creation and management</a></li>
+                            <li><a href="https://developer.oanda.com/rest-live-v20/authentication/"
+                                    target="_blank">Authentication of all applications</a></li>
                         </ol>
                         <div class="tech-chips">
-                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img
+                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
+                                    alt="HTML5" /></span>
                             <span class="tech-chip"><img src="img/tech/mysql-ar21.png" alt="MySQL" /></span>
                             <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
                             <span class="tech-chip"><img src="img/tech/python.png" alt="Python" /></span>
@@ -537,14 +705,18 @@
                 <!-- Stewart Title -->
                 <div class="project-card">
                     <div class="project-logo">
-                        <img src="https://th.bing.com/th/id/OIP.IKtmUX9vw4j9BX-49etAEQHaBn?w=313&h=76&c=7&r=0&o=5&dpr=2.5&pid=1.7" alt="Stewart Title" />
+                        <img src="https://th.bing.com/th/id/OIP.IKtmUX9vw4j9BX-49etAEQHaBn?w=313&h=76&c=7&r=0&o=5&dpr=2.5&pid=1.7"
+                            alt="Stewart Title" />
                     </div>
                     <div class="project-body">
                         <h5><a href="https://www.stewart.ca/" target="_blank">Stewart Title</a></h5>
                         <ol>
-                            <li>Business operations website — <a href="https://www.stewart.ca/" target="_blank">www.stewart.ca</a></li>
-                            <li>B2B Operations &amp; ordering platform — <a href="http://www.stepsonline.ca/" target="_blank">www.stepsonline.ca</a></li>
-                            <li>Public ordering — <a href="https://www.stepsonline.ca/smartorder/home" target="_blank">SmartOrder</a></li>
+                            <li>Business operations website — <a href="https://www.stewart.ca/"
+                                    target="_blank">www.stewart.ca</a></li>
+                            <li>B2B Operations &amp; ordering platform — <a href="http://www.stepsonline.ca/"
+                                    target="_blank">www.stepsonline.ca</a></li>
+                            <li>Public ordering — <a href="https://www.stepsonline.ca/smartorder/home"
+                                    target="_blank">SmartOrder</a></li>
                             <li>Premium Calculator, Claims Submission, OAuth 2.0 Authentication</li>
                             <li>Risk Management, Employee Management, Finance &amp; Reporting services</li>
                         </ol>
@@ -566,11 +738,16 @@
                     </div>
                     <div class="project-body">
                         <h5><a href="https://med-2-0p3.herokuapp.com/" target="_blank">MED2</a></h5>
-                        <p class="project-sub"><a href="https://github.com/Garciat427/Med-2.0" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Decommissioned</em></p>
-                        <p>A medical application that provides end-users the ability to identify potential diagnoses based on symptoms and collect crowd-sourced empirical data to track trends of transmitted illnesses.</p>
+                        <p class="project-sub"><a href="https://github.com/Garciat427/Med-2.0" target="_blank">View Code
+                                on GitHub</a> &nbsp;·&nbsp; <em>Decommissioned</em></p>
+                        <p>A medical application that provides end-users the ability to identify potential diagnoses
+                            based on symptoms and collect crowd-sourced empirical data to track trends of transmitted
+                            illnesses.</p>
                         <div class="tech-chips">
                             <span class="tech-chip"><img src="img/tech/Heroku_logo.svg.png" alt="Heroku" /></span>
-                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img
+                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
+                                    alt="HTML5" /></span>
                             <span class="tech-chip"><img src="img/tech/MongoDB_Logo.svg.png" alt="MongoDB" /></span>
                             <span class="tech-chip"><img src="img/tech/nodejs.png" alt="Node.js" /></span>
                             <span class="tech-chip"><img src="img/tech/React_logo_wordmark.png" alt="React" /></span>
@@ -584,22 +761,53 @@
                         <i class="material-icons" style="color:#0288d1; font-size:42px;">local_library</i>
                     </div>
                     <div class="project-body">
-                        <h5><a href="http://majedline.blogspot.com/p/scrumqueue.html" target="_blank">Net-Scrum-Scrumqueue</a></h5>
-                        <p class="project-sub"><a href="https://github.com/majedline/net-scrum-scrumqueue" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Inactive</em></p>
-                        <p>A Windows desktop application for managing projects, tasks, items, and bugs with customizable statuses. Supports admin and general user roles with simple work-progress statistics.</p>
+                        <h5><a href="http://majedline.blogspot.com/p/scrumqueue.html"
+                                target="_blank">Net-Scrum-Scrumqueue</a></h5>
+                        <p class="project-sub"><a href="https://github.com/majedline/net-scrum-scrumqueue"
+                                target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Inactive</em></p>
+                        <p>A Windows desktop application for managing projects, tasks, items, and bugs with customizable
+                            statuses. Supports admin and general user roles with simple work-progress statistics.</p>
                         <a class="play-btn modal-trigger" href="#image-modal">
                             <i class="material-icons">slideshow</i> View Screenshots
                         </a>
                         <div id="image-modal" class="modal">
                             <div class="modal-content">
                                 <div class="row">
-                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://4.bp.blogspot.com/-qhQk4ieIiHk/TziUh_3XALI/AAAAAAAAAGI/z91v76Rd5Wc/s1600/Login+and+List+Selector.png"></span></div></div>
-                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://2.bp.blogspot.com/-7nwVNaPA2Vo/TziUo2fnozI/AAAAAAAAAGQ/5HgbgVcKJlA/s1600/Add+Edit+lists.png"></span></div></div>
-                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://1.bp.blogspot.com/-li-5QraYyIQ/TziUsSKbIxI/AAAAAAAAAGY/8Tcx-1kpxKs/s1600/Add+Edit+Status.png"></span></div></div>
-                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://4.bp.blogspot.com/-OOb4_onvav4/TziUti5wIBI/AAAAAAAAAGg/HMnRpTwCk0E/s1600/Add+Edit+Users.png"></span></div></div>
-                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://2.bp.blogspot.com/-jIHHBvm0Ijo/TziUvIIOz_I/AAAAAAAAAGo/xWDHxwkWCgY/s1600/Attachments.png"></span></div></div>
-                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://3.bp.blogspot.com/-v9n_nTMnbKw/TziUyxx2wsI/AAAAAAAAAGw/7zyVQg22TaE/s1600/View+Stats.png"></span></div></div>
-                                    <div class="col s12"><div class="rectangle valign-wrapper"><span><img class="work-icon" src="http://3.bp.blogspot.com/-21mgaULtTkc/TziU1UILfMI/AAAAAAAAAG4/vNxY8DMUlA4/s1600/History.png"></span></div></div>
+                                    <div class="col s12">
+                                        <div class="rectangle valign-wrapper"><span><img class="work-icon"
+                                                    src="http://4.bp.blogspot.com/-qhQk4ieIiHk/TziUh_3XALI/AAAAAAAAAGI/z91v76Rd5Wc/s1600/Login+and+List+Selector.png"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="rectangle valign-wrapper"><span><img class="work-icon"
+                                                    src="http://2.bp.blogspot.com/-7nwVNaPA2Vo/TziUo2fnozI/AAAAAAAAAGQ/5HgbgVcKJlA/s1600/Add+Edit+lists.png"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="rectangle valign-wrapper"><span><img class="work-icon"
+                                                    src="http://1.bp.blogspot.com/-li-5QraYyIQ/TziUsSKbIxI/AAAAAAAAAGY/8Tcx-1kpxKs/s1600/Add+Edit+Status.png"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="rectangle valign-wrapper"><span><img class="work-icon"
+                                                    src="http://4.bp.blogspot.com/-OOb4_onvav4/TziUti5wIBI/AAAAAAAAAGg/HMnRpTwCk0E/s1600/Add+Edit+Users.png"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="rectangle valign-wrapper"><span><img class="work-icon"
+                                                    src="http://2.bp.blogspot.com/-jIHHBvm0Ijo/TziUvIIOz_I/AAAAAAAAAGo/xWDHxwkWCgY/s1600/Attachments.png"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="rectangle valign-wrapper"><span><img class="work-icon"
+                                                    src="http://3.bp.blogspot.com/-v9n_nTMnbKw/TziUyxx2wsI/AAAAAAAAAGw/7zyVQg22TaE/s1600/View+Stats.png"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="rectangle valign-wrapper"><span><img class="work-icon"
+                                                    src="http://3.bp.blogspot.com/-21mgaULtTkc/TziU1UILfMI/AAAAAAAAAG4/vNxY8DMUlA4/s1600/History.png"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -618,9 +826,12 @@
                         <i class="material-icons" style="color:#0288d1; font-size:42px;">airplanemode_active</i>
                     </div>
                     <div class="project-body">
-                        <h5><a href="http://majedline.blogspot.com/p/samba-flight-school.html" target="_blank">SAMBA Flight School©</a></h5>
+                        <h5><a href="http://majedline.blogspot.com/p/samba-flight-school.html" target="_blank">SAMBA
+                                Flight School©</a></h5>
                         <p class="project-sub"><em>Decommissioned</em></p>
-                        <p>A modern and efficient system that streamlines day-to-day operations for small to medium flight schools struggling with outdated management software. Developed by experienced engineers who understand the industry's needs.</p>
+                        <p>A modern and efficient system that streamlines day-to-day operations for small to medium
+                            flight schools struggling with outdated management software. Developed by experienced
+                            engineers who understand the industry's needs.</p>
                         <div class="tech-chips">
                             <span class="tech-chip"><img src="img/tech/Azure.png" alt="Azure" /></span>
                             <span class="tech-chip"><img src="img/tech/microsoft.png" alt="Microsoft" /></span>
@@ -637,10 +848,14 @@
                     </div>
                     <div class="project-body">
                         <h5><a href="https://majedline.github.io/RPS-Multiplayer/" target="_blank">R-P-S World</a></h5>
-                        <p class="project-sub"><a href="https://github.com/majedline/RPS-Multiplayer" target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Decommissioned</em></p>
-                        <p>A chat &amp; game application integrating a Rock Paper Scissors game with real-time public chat capabilities.</p>
+                        <p class="project-sub"><a href="https://github.com/majedline/RPS-Multiplayer"
+                                target="_blank">View Code on GitHub</a> &nbsp;·&nbsp; <em>Decommissioned</em></p>
+                        <p>A chat &amp; game application integrating a Rock Paper Scissors game with real-time public
+                            chat capabilities.</p>
                         <div class="tech-chips">
-                            <span class="tech-chip"><img src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png" alt="HTML5" /></span>
+                            <span class="tech-chip"><img
+                                    src="img/tech/html5-logo-devextreme-multi-purpose-controls-html-javascript-3.png"
+                                    alt="HTML5" /></span>
                             <span class="tech-chip"><img src="img/tech/firebase.png" alt="Firebase" /></span>
                         </div>
                     </div>
@@ -648,9 +863,11 @@
 
                 <!-- More -->
                 <div class="more-card">
-                    <i class="material-icons" style="font-size:32px; color:#3949ab; vertical-align:middle;">more_horiz</i>
+                    <i class="material-icons"
+                        style="font-size:32px; color:#3949ab; vertical-align:middle;">more_horiz</i>
                     <p style="margin:10px 0 0; font-size:0.95rem; color:#4a5568;">
-                        <a href="https://github.com/majedline?tab=repositories" target="_blank">And much more on GitHub &rarr;</a>
+                        <a href="https://github.com/majedline?tab=repositories" target="_blank">And much more on GitHub
+                            &rarr;</a>
                     </p>
                 </div>
 
@@ -668,7 +885,17 @@
                             <i class="material-icons">chat</i>
                             <h6>wasel-demo</h6>
                             <p>Social messaging app demo</p>
-                            <a href="demo/wasel/pages/index.html" target="_blank" class="demo-open-btn" onclick="event.stopPropagation()">Open Demo</a>
+                            <a href="demo/wasel/pages/index.html" target="_blank" class="demo-open-btn"
+                                onclick="event.stopPropagation()">Open Demo</a>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l3">
+                        <div class="demo-card" onclick="window.open('demo/prodex/product-manager.html', '_blank')">
+                            <i class="material-icons">chat</i>
+                            <h6>product-manager</h6>
+                            <p>Product management demo</p>
+                            <a href="demo/prodex/product-manager.html" target="_blank" class="demo-open-btn"
+                                onclick="event.stopPropagation()">Open Demo</a>
                         </div>
                     </div>
                 </div>
@@ -692,17 +919,22 @@
                 <div class="col l3 s12">
                     <h5 class="white-text">Blogs</h5>
                     <ol>
-                        <li><a class="white-text" href="http://majedline.blogspot.com/" target="_blank">Blog Majedline</a></li>
-                        <li><a class="white-text" href="http://majedlinecode.blogspot.com/" target="_blank">Blog Sample Codes</a></li>
-                        <li><a class="white-text" href="http://majedlineanalysis.blogspot.com/" target="_blank">Blog Image Analysis</a></li>
+                        <li><a class="white-text" href="http://majedline.blogspot.com/" target="_blank">Blog
+                                Majedline</a></li>
+                        <li><a class="white-text" href="http://majedlinecode.blogspot.com/" target="_blank">Blog Sample
+                                Codes</a></li>
+                        <li><a class="white-text" href="http://majedlineanalysis.blogspot.com/" target="_blank">Blog
+                                Image Analysis</a></li>
                     </ol>
                 </div>
                 <div class="col l3 s12">
                     <h5 class="white-text">Connect</h5>
                     <ol>
-                        <li><a class="white-text" href="https://www.linkedin.com/in/majedatwi/" target="_blank">LinkedIn</a></li>
+                        <li><a class="white-text" href="https://www.linkedin.com/in/majedatwi/"
+                                target="_blank">LinkedIn</a></li>
                         <li><a class="white-text" href="https://github.com/majedline" target="_blank">GitHub</a></li>
-                        <li><a class="white-text" href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!">Email</a></li>
+                        <li><a class="white-text"
+                                href="mailto:majed.blog@gmail.com?Subject=Hello%20From%20Profile%20Page!">Email</a></li>
                     </ol>
                 </div>
             </div>
@@ -716,4 +948,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 </body>
+
 </html>

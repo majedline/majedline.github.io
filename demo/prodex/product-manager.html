@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f5f7;--surface:#fff;--surface2:#f0f0f4;--surface3:#e8e8ee;
+  --border:#e0e0e8;--border2:#c8c8d8;
+  --accent:#5b53f0;--accent2:#7c74ff;--accent-bg:rgba(91,83,240,.07);
+  --green:#16a34a;--yellow:#d97706;--red:#dc2626;--cyan:#0891b2;--pink:#db2777;
+  --text:#111118;--text2:#555568;--text3:#9090a8;
+  --shadow:0 1px 4px rgba(0,0,0,.08);--shadow-lg:0 8px 24px rgba(0,0,0,.12);
+  --mono:'Space Mono',monospace;--sans:'DM Sans',sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#0a0a0f;--surface:#111118;--surface2:#1a1a24;--surface3:#222230;
+  --border:#2a2a3a;--border2:#3a3a50;
+  --accent:#7c74ff;--accent2:#a78bfa;--accent-bg:rgba(124,116,255,.08);
+  --green:#22c55e;--yellow:#f59e0b;--red:#f87171;--cyan:#22d3ee;--pink:#f472b6;
+  --text:#e8e8f0;--text2:#9090a8;--text3:#5a5a70;
+  --shadow:0 1px 4px rgba(0,0,0,.3);--shadow-lg:0 8px 24px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;overflow:hidden;transition:background .25s,color .25s}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+
+/* SIDEBAR */
+.sidebar{width:224px;min-width:224px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh}
+.sidebar-logo{padding:12px 14px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.logo-block{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.logo-img{width:40px;height:40px;border-radius:8px;object-fit:contain;flex-shrink:0}
+.brand{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:1px;line-height:1.2}
+.tagline{font-size:9px;color:var(--text3);margin-top:2px;font-family:var(--sans);font-weight:400}
+.theme-btn{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);transition:all .15s;flex-shrink:0}
+.theme-btn:hover{background:var(--surface3);color:var(--text)}
+.sidebar-nav{padding:8px 0;flex:1;overflow-y:auto}
+.nav-label{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:2px;padding:10px 18px 3px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 18px;cursor:pointer;border:none;background:none;color:var(--text2);font-family:var(--sans);font-size:13px;width:100%;text-align:left;border-left:2px solid transparent;transition:all .15s}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{color:var(--accent);background:var(--accent-bg);border-left-color:var(--accent);font-weight:500}
+.nav-item .ico{font-size:13px;width:16px;text-align:center}
+.badge{margin-left:auto;background:var(--surface3);color:var(--text3);font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px}
+.sidebar-footer{padding:10px 18px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);font-family:var(--mono);display:flex;align-items:center;justify-content:space-between;gap:6px}
+.sb-user{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2)}
+.sb-admin-badge{font-family:var(--mono);font-size:8px;background:var(--accent-bg);color:var(--accent);padding:1px 5px;border-radius:3px;border:1px solid var(--accent);letter-spacing:.5px}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.page-head{padding:18px 28px 14px;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--border);background:var(--surface);gap:16px}
+.page-head-left{flex:1}
+.page-title{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)}
+.page-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.page-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.content{flex:1;overflow-y:auto;padding:20px 28px 28px}
+
+/* BUTTONS */
+.btn{font-family:var(--sans);font-size:12px;font-weight:500;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 1px 3px rgba(91,83,240,.3)}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--surface2);color:var(--text)}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{opacity:.9}
+.btn-danger{background:transparent;color:var(--red);border:1px solid var(--border)}
+.btn-danger:hover{background:rgba(220,38,38,.08);border-color:var(--red)}
+.btn-sm{padding:4px 9px;font-size:11px;border-radius:5px}
+.btn-icon{padding:5px;width:28px;height:28px;justify-content:center;border-radius:6px}
+.view-toggle{display:flex;gap:2px;background:var(--surface2);border-radius:7px;padding:2px}
+.view-toggle button{border:none;background:none;cursor:pointer;padding:5px 10px;border-radius:5px;font-size:11px;color:var(--text2);font-family:var(--sans);transition:all .15s}
+.view-toggle button.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+
+/* FILTER BAR */
+.filter-bar{display:flex;flex-wrap:wrap;gap:6px;padding:0 0 16px;align-items:center}
+.filter-bar-label{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-right:4px;white-space:nowrap}
+.filter-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-family:var(--sans);font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);transition:all .15s;user-select:none;white-space:nowrap}
+.filter-chip:hover{border-color:var(--border2);color:var(--text);background:var(--surface2)}
+.filter-chip.active{background:var(--accent-bg);border-color:var(--accent);color:var(--accent);font-weight:600}
+.filter-sep{width:1px;height:18px;background:var(--border);margin:0 4px;flex-shrink:0}
+.filter-clear{font-size:10px;font-family:var(--mono);color:var(--text3);cursor:pointer;padding:4px 8px;border-radius:4px;border:none;background:none;transition:color .15s}
+.filter-clear:hover{color:var(--accent)}
+
+/* QUICK ENTRY */
+.quick-entry{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;display:flex;gap:10px;align-items:center;box-shadow:var(--shadow)}
+.quick-entry input{flex:1;border:none;background:transparent;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;min-width:0}
+.quick-entry input::placeholder{color:var(--text3)}
+.quick-entry-sep{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.quick-entry select{border:none;background:transparent;color:var(--text2);font-family:var(--sans);font-size:12px;outline:none;cursor:pointer;padding:2px 4px}
+.quick-entry select option{background:var(--surface)}
+
+/* TABLES */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse}
+thead th{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);padding:9px 14px;text-align:left;background:var(--surface2);border-bottom:1px solid var(--border);text-transform:uppercase;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+tbody td{padding:10px 14px;font-size:13px;color:var(--text);vertical-align:middle}
+.row-actions{display:flex;gap:4px;opacity:0;transition:opacity .15s}
+tbody tr:hover .row-actions{opacity:1}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:10px;font-family:var(--mono);font-weight:700;white-space:nowrap}
+[data-theme="light"] .tag-backlog{background:#f0f0f5;color:#666}
+[data-theme="light"] .tag-sprint{background:#e0f5fa;color:#0891b2}
+[data-theme="light"] .tag-dev{background:#fef3c7;color:#d97706}
+[data-theme="light"] .tag-test{background:#ede9fe;color:#7c3aed}
+[data-theme="light"] .tag-readyprod{background:#dcfce7;color:#15803d}
+[data-theme="light"] .tag-production{background:#bbf7d0;color:#16a34a}
+[data-theme="light"] .tag-archived{background:#f3f4f6;color:#9ca3af}
+[data-theme="light"] .tag-blue{background:#dbeafe;color:#1d4ed8}
+[data-theme="light"] .tag-deployed{background:#d1fae5;color:#065f46}
+[data-theme="dark"] .tag-backlog{background:rgba(90,90,112,.3);color:#9090a8}
+[data-theme="dark"] .tag-sprint{background:rgba(34,211,238,.12);color:#22d3ee}
+[data-theme="dark"] .tag-dev{background:rgba(245,158,11,.12);color:#f59e0b}
+[data-theme="dark"] .tag-test{background:rgba(167,139,250,.12);color:#a78bfa}
+[data-theme="dark"] .tag-readyprod{background:rgba(34,197,94,.12);color:#4ade80}
+[data-theme="dark"] .tag-production{background:rgba(34,197,94,.2);color:#22c55e}
+[data-theme="dark"] .tag-archived{background:rgba(80,80,80,.3);color:#555}
+[data-theme="dark"] .tag-blue{background:rgba(96,165,250,.15);color:#93c5fd}
+[data-theme="dark"] .tag-deployed{background:rgba(52,211,153,.2);color:#34d399}
+
+.type-badge{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:3px;font-weight:700;text-transform:uppercase}
+[data-theme="light"] .tb-app{background:#fce7f3;color:#db2777;border:1px solid #fbcfe8}
+[data-theme="light"] .tb-feat{background:#ede9fe;color:#7c3aed;border:1px solid #ddd6fe}
+[data-theme="light"] .tb-epic{background:#fef3c7;color:#b45309;border:1px solid #fde68a}
+[data-theme="light"] .tb-ticket{background:#e0f5fa;color:#0891b2;border:1px solid #bae6fd}
+[data-theme="light"] .tb-release{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
+[data-theme="light"] .tb-sprint{background:#fdf4ff;color:#7e22ce;border:1px solid #e9d5ff}
+[data-theme="dark"] .tb-app{background:rgba(244,114,182,.15);color:#f472b6;border:1px solid rgba(244,114,182,.2)}
+[data-theme="dark"] .tb-feat{background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.2)}
+[data-theme="dark"] .tb-epic{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.2)}
+[data-theme="dark"] .tb-ticket{background:rgba(34,211,238,.12);color:#22d3ee;border:1px solid rgba(34,211,238,.2)}
+[data-theme="dark"] .tb-release{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.2)}
+[data-theme="dark"] .tb-sprint{background:rgba(192,132,252,.12);color:#c084fc;border:1px solid rgba(192,132,252,.2)}
+
+/* PRIORITY / TICKET TYPE */
+.priority{display:inline-flex;align-items:center;gap:3px;font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.p-critical{background:rgba(220,38,38,.1);color:var(--red)}
+.p-high{background:rgba(249,115,22,.1);color:#ea580c}
+.p-medium{background:rgba(234,179,8,.1);color:#ca8a04}
+.p-low{background:rgba(34,197,94,.1);color:var(--green)}
+[data-theme="dark"] .p-critical{background:rgba(248,113,113,.15);color:#fca5a5}
+[data-theme="dark"] .p-high{background:rgba(251,146,60,.15);color:#fdba74}
+[data-theme="dark"] .p-medium{background:rgba(253,224,71,.1);color:#fde047}
+[data-theme="dark"] .p-low{background:rgba(74,222,128,.1);color:#4ade80}
+.ttype{display:inline-flex;align-items:center;gap:3px;font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px}
+.tt-story{background:rgba(91,83,240,.1);color:var(--accent)}
+.tt-bug{background:rgba(220,38,38,.1);color:var(--red)}
+.tt-spike{background:rgba(6,182,212,.1);color:var(--cyan)}
+[data-theme="dark"] .tt-story{background:rgba(124,116,255,.15);color:#a78bfa}
+[data-theme="dark"] .tt-bug{background:rgba(248,113,113,.15);color:#fca5a5}
+[data-theme="dark"] .tt-spike{background:rgba(34,211,238,.12);color:#22d3ee}
+
+/* AVATAR */
+.avatar{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--mono);flex-shrink:0;color:#fff;text-transform:uppercase}
+.avatar-sm{width:20px;height:20px;font-size:8px}
+.avatar-lg{width:34px;height:34px;font-size:12px}
+.user-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px 2px 3px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);font-size:11px;color:var(--text2);white-space:nowrap}
+
+/* STATUS / PRIORITY CHIPS (form) */
+.chip-group{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;border:2px solid transparent;transition:all .18s;user-select:none;opacity:.4}
+.chip:hover{opacity:.75;transform:translateY(-1px)}
+.chip.selected{opacity:1;transform:translateY(-1px);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.chip-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+[data-theme="light"] .chip-backlog{background:#f0f0f5;color:#666}
+[data-theme="light"] .chip-sprint{background:#e0f5fa;color:#0891b2}
+[data-theme="light"] .chip-dev{background:#fef3c7;color:#d97706}
+[data-theme="light"] .chip-test{background:#ede9fe;color:#7c3aed}
+[data-theme="light"] .chip-readyprod{background:#dcfce7;color:#15803d}
+[data-theme="light"] .chip-production{background:#bbf7d0;color:#16a34a}
+[data-theme="dark"] .chip-backlog{background:rgba(90,90,112,.2);color:#9090a8}
+[data-theme="dark"] .chip-sprint{background:rgba(34,211,238,.1);color:#22d3ee}
+[data-theme="dark"] .chip-dev{background:rgba(245,158,11,.1);color:#f59e0b}
+[data-theme="dark"] .chip-test{background:rgba(167,139,250,.1);color:#a78bfa}
+[data-theme="dark"] .chip-readyprod{background:rgba(34,197,94,.1);color:#4ade80}
+[data-theme="dark"] .chip-production{background:rgba(34,197,94,.18);color:#22c55e}
+.chip-backlog.selected{border-color:#9090a8}
+.chip-sprint.selected{border-color:var(--cyan)}
+.chip-dev.selected{border-color:var(--yellow)}
+.chip-test.selected{border-color:#a78bfa}
+.chip-readyprod.selected{border-color:var(--green)}
+.chip-production.selected{border-color:var(--green)}
+/* priority chips */
+.chip-critical{background:rgba(220,38,38,.08);color:var(--red)}.chip-critical.selected{border-color:var(--red)}
+.chip-high{background:rgba(249,115,22,.08);color:#ea580c}.chip-high.selected{border-color:#ea580c}
+.chip-medium{background:rgba(234,179,8,.08);color:#ca8a04}.chip-medium.selected{border-color:#ca8a04}
+.chip-low{background:rgba(34,197,94,.08);color:var(--green)}.chip-low.selected{border-color:var(--green)}
+[data-theme="dark"] .chip-critical{background:rgba(248,113,113,.12);color:#fca5a5}
+[data-theme="dark"] .chip-high{background:rgba(251,146,60,.12);color:#fdba74}
+[data-theme="dark"] .chip-medium{background:rgba(253,224,71,.08);color:#fde047}
+[data-theme="dark"] .chip-low{background:rgba(74,222,128,.08);color:#4ade80}
+/* ticket type chips */
+.chip-story{background:rgba(91,83,240,.08);color:var(--accent)}.chip-story.selected{border-color:var(--accent)}
+.chip-bug{background:rgba(220,38,38,.08);color:var(--red)}.chip-bug.selected{border-color:var(--red)}
+.chip-spike{background:rgba(6,182,212,.08);color:var(--cyan)}.chip-spike.selected{border-color:var(--cyan)}
+[data-theme="dark"] .chip-story{background:rgba(124,116,255,.12);color:#a78bfa}
+[data-theme="dark"] .chip-bug{background:rgba(248,113,113,.12);color:#fca5a5}
+[data-theme="dark"] .chip-spike{background:rgba(34,211,238,.1);color:#22d3ee}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:820px;max-height:92vh;overflow-y:auto;transform:translateY(12px);transition:transform .2s;box-shadow:var(--shadow-lg)}
+.overlay.open .modal{transform:translateY(0)}
+.modal-head{padding:20px 26px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;position:sticky;top:0;background:var(--surface);z-index:2}
+.modal-title-block{flex:1}
+.modal-title{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.5px}
+.modal-id-trail{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:16px}
+.modal-id-trail .trail-arrow{color:var(--text3);font-size:8px}
+.modal-id-crumb{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 6px;font-size:9px;color:var(--text3);font-family:var(--mono)}
+.modal-body{padding:22px 26px}
+.modal-foot{padding:14px 26px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:var(--surface);z-index:2}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{margin-bottom:16px}
+.fl{display:block;font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:7px}
+.fi,.fs{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--sans);font-size:13px;padding:9px 12px;outline:none;transition:border-color .15s}
+.fi:focus,.fs:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.fs option{background:var(--surface);color:var(--text)}
+.fd-hint{font-size:10px;color:var(--text3);margin-top:4px;font-family:var(--mono)}
+.form-section{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;padding:6px 0 12px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);cursor:pointer;padding:4px 0}
+.checkbox-row input{width:16px;height:16px;cursor:pointer;accent-color:var(--accent)}
+
+/* DRAWER — 50% width */
+.d-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:900;opacity:0;pointer-events:none;transition:opacity .2s}
+.d-overlay.open{opacity:1;pointer-events:all}
+.drawer{position:fixed;right:-52%;top:0;width:50%;min-width:420px;height:100vh;background:var(--surface);border-left:1px solid var(--border2);z-index:950;overflow-y:auto;transition:right .25s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.drawer.open{right:0}
+.d-head{padding:18px 22px 12px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;flex-shrink:0}
+.d-body{padding:16px 22px;flex:1}
+.d-title{font-size:15px;font-weight:600}
+.d-sub{font-size:10px;color:var(--text3);margin-top:3px;font-family:var(--mono)}
+.d-actions{display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.irow{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.irow:last-child{border-bottom:none}
+.ilabel{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:1.5px;width:96px;flex-shrink:0;text-transform:uppercase;padding-top:2px}
+
+/* HISTORY */
+.hist{background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-top:8px;max-height:200px;overflow-y:auto}
+.hi{padding:8px 12px;border-bottom:1px solid var(--border);font-size:11px;display:flex;gap:10px}
+.hi:last-child{border-bottom:none}
+.ht{font-family:var(--mono);font-size:9px;color:var(--text3);white-space:nowrap;flex-shrink:0;padding-top:1px}
+.hd{color:var(--text2);line-height:1.5}
+.hf{color:var(--accent);font-weight:500}
+
+/* TABS */
+.tabs{display:flex;gap:2px;margin-bottom:16px}
+.tab{padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;border:none;background:none;color:var(--text3);font-family:var(--sans);font-weight:500;transition:all .15s}
+.tab:hover{background:var(--surface2);color:var(--text)}
+.tab.active{background:var(--surface);color:var(--text);border:1px solid var(--border2);box-shadow:var(--shadow)}
+
+/* MISC */
+.id-chip{font-family:var(--mono);font-size:10px;color:var(--text3);background:var(--surface2);padding:1px 5px;border-radius:3px}
+.empty{text-align:center;padding:44px 20px;color:var(--text3)}
+.empty .ico{font-size:28px;margin-bottom:10px}
+.empty p{font-size:13px}
+.archived-row td{opacity:.4}
+.notif{position:fixed;bottom:22px;right:22px;background:var(--surface);border:1px solid var(--border2);border-radius:9px;padding:11px 16px;font-size:13px;color:var(--text);z-index:2000;transform:translateY(16px);opacity:0;transition:all .25s;max-width:300px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-lg)}
+.notif.show{transform:translateY(0);opacity:1}
+.section-label{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.drag-handle{cursor:grab;color:var(--text3);padding:0 6px 0 0;font-size:14px;line-height:1;user-select:none;opacity:.4;transition:opacity .15s;flex-shrink:0}
+.drag-handle:active{cursor:grabbing}
+tbody tr:hover .drag-handle{opacity:.8}
+.order-num{font-family:var(--mono);font-size:10px;color:var(--text3);min-width:22px;text-align:right}
+tr.drag-over{background:var(--accent-bg)!important;outline:2px dashed var(--accent);outline-offset:-2px}
+tr.dragging{opacity:.35;background:var(--surface3)!important}
+
+/* SPRINT / SWIMLANE */
+.sprint-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:18px;box-shadow:var(--shadow)}
+.sprint-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px}
+.sprint-name{font-family:var(--mono);font-size:13px;font-weight:700}
+.sprint-meta{font-size:11px;color:var(--text3);display:flex;gap:12px;align-items:center}
+.sprint-date{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)}
+.sprint-progress{height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;flex:1;max-width:120px}
+.sprint-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s}
+.swimlane-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;min-height:120px}
+.swim-col{background:var(--surface2);border-radius:8px;padding:10px;min-height:100px}
+.swim-col-title{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.swim-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:9px 10px;margin-bottom:7px;cursor:pointer;transition:all .15s;font-size:12px}
+.swim-card:hover{border-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-1px)}
+.swim-card:last-child{margin-bottom:0}
+.swim-card-title{font-weight:500;margin-bottom:4px;line-height:1.3}
+.swim-card-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.sprint-objective{background:var(--accent-bg);border:1px solid var(--accent);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--text2)}
+.sprint-picker{background:var(--surface2);border:1px solid var(--border);border-radius:8px;max-height:260px;overflow-y:auto;margin-top:8px}
+.sprint-picker-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;font-size:13px}
+.sprint-picker-row:last-child{border-bottom:none}
+.sprint-picker-row:hover{background:var(--accent-bg)}
+.sprint-picker-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--accent);flex-shrink:0}
+.sprint-objective strong{color:var(--text);font-weight:600}
+
+/* RELEASE */
+.release-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);cursor:pointer;transition:border-color .15s}
+.release-card:hover{border-color:var(--accent)}
+.release-card.deployed{border-left:4px solid var(--green)}
+.release-card-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.release-title{font-family:var(--mono);font-size:13px;font-weight:700}
+.release-stats{display:flex;gap:10px;font-size:11px;color:var(--text3)}
+.release-summary-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;line-height:1.7;font-family:var(--mono);white-space:pre-wrap;word-break:break-word;max-height:320px;overflow-y:auto;color:var(--text2)}
+
+/* USERS */
+.users-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:18px}
+.user-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);cursor:pointer;transition:border-color .15s}
+.user-card:hover{border-color:var(--accent)}
+.user-info{flex:1}
+.user-name{font-size:14px;font-weight:600}
+.user-role{font-size:11px;color:var(--text3);margin-top:2px}
+.user-stats{display:flex;gap:10px;font-size:11px;color:var(--text3);margin-top:5px}
+.user-stat-item{font-family:var(--mono);font-size:10px}
+
+/* REPORTS */
+.r-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.sc::before{background:var(--cyan)}.sy::before{background:var(--yellow)}.sg::before{background:var(--green)}
+.sp::before{background:var(--pink)}.sv::before{background:var(--accent)}.sr::before{background:var(--red)}
+.stat-num{font-family:var(--mono);font-size:28px;font-weight:700;line-height:1;margin-bottom:3px}
+.stat-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase}
+.stat-sub{font-size:11px;color:var(--text2);margin-top:4px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.rc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow);margin-bottom:0}
+.rc.mb{margin-bottom:20px}
+.rct{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:12px}
+.brow{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.brow:last-child{margin-bottom:0}
+.blabel{font-family:var(--mono);font-size:9px;color:var(--text2);width:96px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btrack{flex:1;height:7px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.bfill{height:100%;border-radius:3px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.bcount{font-family:var(--mono);font-size:10px;color:var(--text3);width:24px;text-align:right;flex-shrink:0}
+.pip-steps{display:flex;margin-bottom:12px}
+.pip-step{flex:1;text-align:center;position:relative}
+.pip-step::after{content:'';position:absolute;top:12px;left:50%;width:100%;height:2px;background:var(--border);z-index:0}
+.pip-step:last-child::after{display:none}
+.pip-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;margin:0 auto 5px;position:relative;z-index:1;font-family:var(--mono);font-size:9px;font-weight:700;transition:all .3s}
+.pip-dot.on{background:var(--surface)}
+.pip-name{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.4}
+.dnut-wrap{display:flex;align-items:center;gap:16px}
+.dnut-leg{flex:1}
+.dnut-li{display:flex;align-items:center;gap:7px;margin-bottom:6px;font-size:11px;color:var(--text2)}
+.dnut-li:last-child{margin-bottom:0}
+.dnut-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.dnut-val{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3)}
+.workload-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.workload-row:last-child{margin-bottom:0}
+.workload-user{display:flex;align-items:center;gap:6px;width:118px;flex-shrink:0}
+.workload-name{font-size:11px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.workload-bars{flex:1;display:flex;gap:3px}
+.workload-seg{height:8px;border-radius:2px;transition:width .6s}
+
+/* CONFIG */
+.config-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:18px;box-shadow:var(--shadow)}
+.config-section-title{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:.5px}
+.role-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.role-row:last-child{border-bottom:none}
+
+/* RICH TEXT EDITOR */
+.rte-wrap{border:1px solid var(--border);border-radius:7px;background:var(--surface2);transition:border-color .15s,box-shadow .15s;overflow:hidden}
+.rte-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.rte-toolbar{display:flex;flex-wrap:wrap;gap:2px;padding:5px 7px;border-bottom:1px solid var(--border);background:var(--surface);align-items:center}
+.rte-btn{width:26px;height:26px;border:none;background:none;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);transition:all .12s;flex-shrink:0}
+.rte-btn:hover{background:var(--surface2);color:var(--text)}
+.rte-sep{width:1px;height:18px;background:var(--border);margin:0 2px;flex-shrink:0}
+.rte-select{border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:var(--sans);font-size:11px;border-radius:5px;padding:2px 6px;outline:none;cursor:pointer;height:26px}
+.rte-body{min-height:110px;max-height:280px;overflow-y:auto;padding:9px 12px;font-family:var(--sans);font-size:13px;color:var(--text);line-height:1.6;outline:none;background:var(--surface2)}
+.rte-body:empty:before{content:attr(data-placeholder);color:var(--text3);pointer-events:none}
+.rte-body h1{font-size:1.4em;font-weight:700;margin:0 0 6px}
+.rte-body h2{font-size:1.2em;font-weight:600;margin:0 0 5px}
+.rte-body h3{font-size:1.05em;font-weight:600;margin:0 0 4px}
+.rte-body p{margin:0 0 5px}.rte-body p:last-child{margin:0}
+.rte-body ul,.rte-body ol{padding-left:20px;margin:0 0 5px}
+.rte-body blockquote{border-left:3px solid var(--accent);margin:5px 0;padding:4px 10px;color:var(--text2);font-style:italic;background:var(--accent-bg);border-radius:0 4px 4px 0}
+.rte-body code{font-family:var(--mono);font-size:11px;background:var(--surface3);border:1px solid var(--border);padding:1px 5px;border-radius:3px}
+.rte-body pre{font-family:var(--mono);font-size:11px;background:var(--surface3);border:1px solid var(--border);padding:9px 12px;border-radius:6px;overflow-x:auto;margin:5px 0;white-space:pre-wrap}
+.rte-body a{color:var(--accent);text-decoration:underline}
+.rte-body mark{background:rgba(245,158,11,.25);padding:1px 2px;border-radius:2px}
+.rich-content{font-size:13px;color:var(--text2);line-height:1.6}
+.rich-content h1{font-size:1.3em;font-weight:700;color:var(--text)}
+.rich-content h2{font-size:1.15em;font-weight:600;color:var(--text)}
+.rich-content h3{font-size:1.05em;font-weight:600;color:var(--text)}
+.rich-content ul,.rich-content ol{padding-left:18px}
+.rich-content blockquote{border-left:3px solid var(--accent);padding:3px 10px;color:var(--text2);background:var(--accent-bg);border-radius:0 4px 4px 0;font-style:italic}
+.rich-content code{font-family:var(--mono);font-size:11px;background:var(--surface3);padding:1px 4px;border-radius:3px}
+.rich-content pre{font-family:var(--mono);font-size:11px;background:var(--surface3);padding:8px 10px;border-radius:5px;overflow-x:auto}
+.rich-content a{color:var(--accent)}
+.rich-content mark{background:rgba(245,158,11,.25);padding:1px 2px;border-radius:2px}
+.link-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .15s}
+.link-modal.open{opacity:1;pointer-events:all}
+.link-modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:18px;width:320px;box-shadow:var(--shadow-lg)}
+/* HELP PAGE */
+.help-hero{background:var(--accent-bg);border:1px solid var(--accent);border-radius:14px;padding:24px 28px;margin-bottom:24px}
+.help-hero-title{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px}
+.help-hero-sub{font-size:14px;color:var(--text2);line-height:1.6;max-width:680px}
+.help-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.help-toc-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;font-size:12px;font-family:var(--sans);font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);transition:all .15s;text-decoration:none}
+.help-toc-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.help-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:18px;box-shadow:var(--shadow)}
+.help-section-title{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.help-section-ico{font-size:18px}
+.help-section-sub{font-size:12px;color:var(--text3);margin-bottom:16px;font-family:var(--mono);letter-spacing:.3px}
+.help-body{font-size:13px;color:var(--text2);line-height:1.75}
+.help-body p{margin-bottom:10px}
+.help-body p:last-child{margin-bottom:0}
+.help-body strong{color:var(--text);font-weight:600}
+.help-body ul{padding-left:18px;margin-bottom:10px}
+.help-body li{margin-bottom:4px}
+.help-body ol{padding-left:18px;margin-bottom:10px}
+.help-tip{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 7px 7px 0;padding:10px 14px;margin:12px 0;font-size:12px;color:var(--text2)}
+.help-tip strong{color:var(--accent)}
+.help-kbd{display:inline-flex;align-items:center;font-family:var(--mono);font-size:10px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;color:var(--text2);white-space:nowrap}
+.help-flow{display:flex;align-items:flex-start;gap:0;margin:16px 0;flex-wrap:wrap}
+.help-flow-step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:100px;max-width:140px;position:relative}
+.help-flow-step::after{content:'→';position:absolute;right:-12px;top:22px;font-size:16px;color:var(--text3)}
+.help-flow-step:last-child::after{display:none}
+.help-flow-badge{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:8px;flex-shrink:0}
+.help-flow-label{font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text);font-weight:700;text-align:center;text-transform:uppercase}
+.help-flow-desc{font-size:10px;color:var(--text3);text-align:center;margin-top:3px;line-height:1.4}
+.help-divider{height:1px;background:var(--border);margin:20px 0}
+.help-tag-demo{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0}
+.help-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+.help-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.help-card-title{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:.5px}
+.help-card-body{font-size:12px;color:var(--text2);line-height:1.6}
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-block">
+      <img src="https://img1.wsimg.com/isteam/ip/385a2707-b55d-4ef9-a636-f981539f321e/logo2.png/:/rs=w:100,h:100,cg:true,m/cr=w:100,h:100/qt=q:100/ll" alt="Logo" class="logo-img">
+      <div><div class="brand">PRODEX</div><div class="tagline">Product Manager</div></div>
+    </div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-label">Workspace</div>
+    <button class="nav-item active" onclick="go('backlog')"><span class="ico">◈</span>Backlog<span class="badge" id="bb">0</span></button>
+    <button class="nav-item" onclick="go('sprints')"><span class="ico">⚡</span>Sprints<span class="badge" id="bsp">0</span></button>
+    <div class="nav-label">Hierarchy</div>
+    <button class="nav-item" onclick="go('apps')"><span class="ico">◉</span>Apps<span class="badge" id="ba">0</span></button>
+    <button class="nav-item" onclick="go('features')"><span class="ico">◧</span>Features<span class="badge" id="bf">0</span></button>
+    <button class="nav-item" onclick="go('epics')"><span class="ico">◐</span>Epics<span class="badge" id="be">0</span></button>
+    <button class="nav-item" onclick="go('tickets')"><span class="ico">◑</span>All Tickets<span class="badge" id="bt">0</span></button>
+    <div class="nav-label">Delivery</div>
+    <button class="nav-item" onclick="go('releases')"><span class="ico">🚀</span>Releases<span class="badge" id="br">0</span></button>
+    <div class="nav-label">People</div>
+    <button class="nav-item" onclick="go('users')"><span class="ico">◎</span>Users<span class="badge" id="bu">0</span></button>
+    <div class="nav-label">Analytics</div>
+    <button class="nav-item" onclick="go('reports')"><span class="ico">▣</span>Reports</button>
+    <div class="nav-label" id="config-nav-label" style="display:none">System</div>
+    <button class="nav-item" id="config-nav-item" onclick="go('config')" style="display:none"><span class="ico">⚙</span>Configuration</button>
+    <div class="nav-label">Support</div>
+    <button class="nav-item" onclick="go('help')"><span class="ico">❓</span>Help & Guide</button>
+  </div>
+  <div class="sidebar-footer">
+    <div class="sb-user" id="sb-user-display"></div>
+    <button class="btn btn-ghost btn-sm" onclick="go('config')" id="sb-config-btn" style="display:none;padding:3px 7px;font-size:10px">⚙</button>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="page-head" id="ph">
+    <div class="page-head-left"><div class="page-title" id="ptitle"></div><div class="page-sub" id="psub"></div></div>
+    <div class="page-actions" id="pact"></div>
+  </div>
+  <div class="content" id="mc"></div>
+</div>
+
+<div class="overlay" id="ov">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title-block">
+        <div class="modal-title" id="mt"></div>
+        <div class="modal-id-trail" id="m-trail"></div>
+      </div>
+      <button class="btn btn-ghost btn-icon btn-sm" onclick="closeM()">✕</button>
+    </div>
+    <div class="modal-body" id="mb"></div>
+    <div class="modal-foot" id="mf"></div>
+  </div>
+</div>
+
+<div class="d-overlay" id="dov" onclick="closeD()"></div>
+<div class="drawer" id="drawer">
+  <div class="d-head" id="dh"></div>
+  <div class="d-body" id="db"></div>
+</div>
+
+<div class="link-modal" id="link-modal">
+  <div class="link-modal-box">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:1px;margin-bottom:12px">INSERT LINK</div>
+    <div style="margin-bottom:10px"><label class="fl">Display Text</label><input class="fi" id="lm-text" placeholder="Link text"></div>
+    <div style="margin-bottom:14px"><label class="fl">URL</label><input class="fi" id="lm-url" placeholder="https://…" onkeydown="if(event.key==='Enter')insertLink()"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-ghost btn-sm" onclick="closeLinkModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="insertLink()">Insert</button>
+    </div>
+  </div>
+</div>
+<div class="notif" id="notif"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════════════════════
+let darkMode = localStorage.getItem('px_dark') === '1';
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = darkMode ? '☀️' : '🌙';
+  localStorage.setItem('px_dark', darkMode ? '1' : '0');
+}
+function toggleTheme() { darkMode = !darkMode; applyTheme(); }
+applyTheme();
+
+// ══════════════════════════════════════════════════════════
+// DATA LAYER
+// ══════════════════════════════════════════════════════════
+const DB = {
+  get(k) { try { return JSON.parse(localStorage.getItem('px_'+k)||'null'); } catch { return null; } },
+  set(k,v) { localStorage.setItem('px_'+k, JSON.stringify(v)); }
+};
+function load(k, d=[]) { return DB.get(k) ?? d; }
+function save(k,v) { DB.set(k,v); badges(); }
+
+let apps     = load('apps');
+let feats    = load('feats');
+let epics    = load('epics');
+let tix      = load('tix');
+let users    = load('users');
+let sprints  = load('sprints');
+let releases = load('releases');
+let roles    = load('roles', [
+  {id:'ROLE-0001',name:'Admin',system:true},
+  {id:'ROLE-0002',name:'Product Manager',system:false},
+  {id:'ROLE-0003',name:'Developer',system:false},
+  {id:'ROLE-0004',name:'QA Engineer',system:false},
+  {id:'ROLE-0005',name:'Designer',system:false},
+  {id:'ROLE-0006',name:'Scrum Master',system:false},
+]);
+if (!DB.get('roles')) save('roles', roles);
+
+// Seed users if empty
+if (!users.length) {
+  users = [
+    {id:'USR-0001',name:'Alex Rivera',  initials:'AR',color:'#6366f1',roleId:'ROLE-0003',appIds:[],isAdmin:false,createdAt:new Date().toISOString()},
+    {id:'USR-0002',name:'Sam Chen',     initials:'SC',color:'#0891b2',roleId:'ROLE-0003',appIds:[],isAdmin:false,createdAt:new Date().toISOString()},
+    {id:'USR-0003',name:'Jordan Blake', initials:'JB',color:'#16a34a',roleId:'ROLE-0002',appIds:[],isAdmin:true, createdAt:new Date().toISOString()},
+    {id:'USR-0004',name:'Taylor Morgan',initials:'TM',color:'#d97706',roleId:'ROLE-0004',appIds:[],isAdmin:false,createdAt:new Date().toISOString()},
+  ];
+  save('users', users);
+}
+
+// Active session user (pick first admin or first user)
+let sessionUserId = localStorage.getItem('px_session') || (users.find(u=>u.isAdmin)||users[0])?.id;
+function sessionUser() { return users.find(u=>u.id===sessionUserId) || users[0]; }
+function isAdmin() { const u=sessionUser(); return u?.isAdmin||false; }
+
+function nid(p) {
+  const k='px_s_'+p, n=(parseInt(localStorage.getItem(k)||'0'))+1;
+  localStorage.setItem(k,n);
+  return p.toUpperCase()+'-'+String(n).padStart(4,'0');
+}
+function addH(r,a,d='') { if(!r.history) r.history=[]; r.history.unshift({ts:new Date().toISOString(),action:a,details:d,by:sessionUserId||null}); }
+function diffFields(o,n,ff) { return ff.filter(f=>o[f]!==n[f]).map(f=>`<span class="hf">${f}</span>: "${o[f]||'—'}"→"${n[f]||'—'}"`).join(', '); }
+
+// ══════════════════════════════════════════════════════════
+// PERSISTED FILTERS
+// ══════════════════════════════════════════════════════════
+const FP = {
+  get(v) { return DB.get('px_filter_'+v)||{}; },
+  set(v,val) { DB.set('px_filter_'+v,val); }
+};
+
+// ══════════════════════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════════════════════
+let view = 'backlog';
+let sprintView = localStorage.getItem('px_sprint_view') || 'list'; // 'list' | 'swimlane'
+
+function go(v) {
+  // Config requires admin
+  if (v === 'config' && !isAdmin()) { notify('Admin access required','🔒'); return; }
+  view = v;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', (el.getAttribute('onclick')||'').includes("'"+v+"'")));
+  closeD();
+  render();
+}
+
+function badges() {
+  document.getElementById('bb').textContent  = tix.filter(t=>t.status==='backlog'&&!t.archived).length;
+  const activeSprint = sprints.find(s=>s.active);
+  document.getElementById('bsp').textContent = activeSprint ? tix.filter(t=>t.sprintId===activeSprint.id&&!t.archived).length : 0;
+  document.getElementById('ba').textContent  = apps.filter(a=>!a.archived).length;
+  document.getElementById('bf').textContent  = feats.filter(f=>!f.archived).length;
+  document.getElementById('be').textContent  = epics.filter(e=>!e.archived).length;
+  document.getElementById('bt').textContent  = tix.filter(t=>!t.archived).length;
+  document.getElementById('br').textContent  = releases.filter(r=>!r.archived).length;
+  document.getElementById('bu').textContent  = users.length;
+  // Show/hide config nav based on admin status
+  const isAdm = isAdmin();
+  document.getElementById('config-nav-label').style.display = isAdm ? '' : 'none';
+  document.getElementById('config-nav-item').style.display  = isAdm ? '' : 'none';
+  document.getElementById('sb-config-btn').style.display    = isAdm ? '' : 'none';
+  // Sidebar user display
+  const su = sessionUser();
+  if (su) {
+    document.getElementById('sb-user-display').innerHTML = `
+      <span class="avatar avatar-sm" style="background:${su.color}">${su.initials}</span>
+      <span>${su.name}</span>
+      ${su.isAdmin?'<span class="sb-admin-badge">ADMIN</span>':''}`;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════════════════════
+const ST = [
+  {v:'backlog',    l:'Backlog',       tc:'tag-backlog',    cc:'chip-backlog',    col:'#9ca3af'},
+  {v:'sprint',     l:'In Sprint',     tc:'tag-sprint',     cc:'chip-sprint',     col:'#0891b2'},
+  {v:'dev',        l:'In Dev',        tc:'tag-dev',        cc:'chip-dev',        col:'#d97706'},
+  {v:'test',       l:'In Test',       tc:'tag-test',       cc:'chip-test',       col:'#7c3aed'},
+  {v:'readyprod',  l:'Ready for Prod',tc:'tag-readyprod',  cc:'chip-readyprod',  col:'#16a34a'},
+  {v:'production', l:'In Production', tc:'tag-production', cc:'chip-production', col:'#15803d'},
+];
+const PRIORITIES = [
+  {v:'critical',l:'Critical',cc:'chip-critical',pc:'p-critical',icon:'🔴'},
+  {v:'high',    l:'High',    cc:'chip-high',    pc:'p-high',    icon:'🟠'},
+  {v:'medium',  l:'Medium',  cc:'chip-medium',  pc:'p-medium',  icon:'🟡'},
+  {v:'low',     l:'Low',     cc:'chip-low',     pc:'p-low',     icon:'🟢'},
+];
+const TTYPES = [
+  {v:'story',l:'Story',cc:'chip-story',tc:'tt-story',icon:'📖'},
+  {v:'bug',  l:'Bug',  cc:'chip-bug',  tc:'tt-bug',  icon:'🐛'},
+  {v:'spike',l:'Spike',cc:'chip-spike',tc:'tt-spike',icon:'⚡'},
+];
+
+function stag(v) { const s=ST.find(x=>x.v===v)||ST[0]; return `<span class="tag ${s.tc}">${s.l}</span>`; }
+function ptag(v) { if(!v)return''; const p=PRIORITIES.find(x=>x.v===v); if(!p)return''; return `<span class="priority ${p.pc}">${p.icon} ${p.l}</span>`; }
+function tttag(v) { if(!v||v==='story')return''; const t=TTYPES.find(x=>x.v===v); if(!t)return''; return `<span class="ttype ${t.tc}">${t.icon} ${t.l}</span>`; }
+
+function statusChips(cur='backlog') {
+  return `<input type="hidden" id="fst" value="${cur}"><div class="chip-group" id="cg">${ST.map(s=>`<div class="chip ${s.cc}${cur===s.v?' selected':''}" onclick="selChip('fst','cg','${s.v}',this)" data-v="${s.v}"><span class="chip-dot"></span>${s.l}</div>`).join('')}</div>`;
+}
+function priorityChips(cur='medium') {
+  return `<input type="hidden" id="fpri" value="${cur}"><div class="chip-group" id="cpri">${PRIORITIES.map(p=>`<div class="chip ${p.cc}${cur===p.v?' selected':''}" onclick="selChip('fpri','cpri','${p.v}',this)" data-v="${p.v}"><span class="chip-dot"></span>${p.l}</div>`).join('')}</div>`;
+}
+function typeChips(cur='story') {
+  return `<input type="hidden" id="ftype" value="${cur}"><div class="chip-group" id="ctype">${TTYPES.map(t=>`<div class="chip ${t.cc}${cur===t.v?' selected':''}" onclick="selChip('ftype','ctype','${t.v}',this)" data-v="${t.v}"><span class="chip-dot"></span>${t.icon} ${t.l}</div>`).join('')}</div>`;
+}
+function selChip(inputId, groupId, value, el) {
+  document.getElementById(inputId).value = value;
+  document.querySelectorAll(`#${groupId} .chip`).forEach(c=>c.classList.toggle('selected', c.dataset.v===value));
+}
+
+// ══════════════════════════════════════════════════════════
+// USER / ROLE HELPERS
+// ══════════════════════════════════════════════════════════
+function roleLabel(roleId) { return roles.find(r=>r.id===roleId)?.name || '—'; }
+function userAvatar(uid, size='') {
+  const u=users.find(x=>x.id===uid);
+  if (!u) return '<span style="color:var(--text3);font-size:11px">—</span>';
+  return `<span class="avatar${size?' avatar-'+size:''}" style="background:${u.color}">${u.initials}</span>`;
+}
+function userPill(uid) {
+  const u=users.find(x=>x.id===uid);
+  if (!u) return '—';
+  return `<span class="user-pill">${userAvatar(uid)} ${u.name}</span>`;
+}
+function userOpts(sel='') {
+  return `<option value="">— Unassigned —</option>${users.map(u=>`<option value="${u.id}"${u.id===sel?' selected':''}>${u.name}</option>`).join('')}`;
+}
+function roleOpts(sel='') {
+  return `<option value="">— No Role —</option>${roles.map(r=>`<option value="${r.id}"${r.id===sel?' selected':''}>${r.name}</option>`).join('')}`;
+}
+
+// ══════════════════════════════════════════════════════════
+// BREADCRUMB / DROPDOWN HELPERS
+// ══════════════════════════════════════════════════════════
+function featBreadcrumb(featId) {
+  const f=feats.find(x=>x.id===featId); if(!f) return null;
+  const a=apps.find(x=>x.id===f.appId);
+  return a ? `${a.title} › ${f.title}` : f.title;
+}
+function epicBreadcrumb(epicId) {
+  const e=epics.find(x=>x.id===epicId); if(!e) return null;
+  const fb=featBreadcrumb(e.featId);
+  return fb ? `${fb} › ${e.title}` : e.title;
+}
+function featOpts(sel='') {
+  return `<option value="">— No Feature —</option>${feats.filter(f=>!f.archived).map(f=>`<option value="${f.id}"${f.id===sel?' selected':''}>${featBreadcrumb(f.id)||f.title}</option>`).join('')}`;
+}
+function epicOpts(sel='') {
+  return `<option value="">— No Epic —</option>${epics.filter(e=>!e.archived).map(e=>`<option value="${e.id}"${e.id===sel?' selected':''}>${epicBreadcrumb(e.id)||e.title}</option>`).join('')}`;
+}
+function appOpts(sel='') {
+  return `<option value="">— No App —</option>${apps.filter(a=>!a.archived).map(a=>`<option value="${a.id}"${a.id===sel?' selected':''}>${a.title}</option>`).join('')}`;
+}
+function sprintOpts(sel='') {
+  return `<option value="">— No Sprint —</option>${sprints.filter(s=>!s.archived).map(s=>`<option value="${s.id}"${s.id===sel?' selected':''}>${s.name}</option>`).join('')}`;
+}
+function releaseOpts(sel='') {
+  return `<option value="">— No Release —</option>${releases.filter(r=>!r.archived&&!r.deployed).map(r=>`<option value="${r.id}"${r.id===sel?' selected':''}>${r.name}</option>`).join('')}`;
+}
+
+// ID trail
+function updateTrail(type, record) {
+  const el = document.getElementById('m-trail'); if (!el) return;
+  const segs = [];
+  if (type === 'feature' && record.appId) { const a=apps.find(x=>x.id===record.appId); if(a) segs.push({id:a.id,label:a.title,cls:'tb-app'}); }
+  if (type === 'epic' && record.featId) {
+    const f=feats.find(x=>x.id===record.featId); if(f){ const a=apps.find(x=>x.id===f.appId); if(a) segs.push({id:a.id,label:a.title,cls:'tb-app'}); segs.push({id:f.id,label:f.title,cls:'tb-feat'}); }
+  }
+  if (type === 'ticket' && record.epicId) {
+    const e=epics.find(x=>x.id===record.epicId); if(e){ if(e.featId){ const f=feats.find(x=>x.id===e.featId); if(f){ const a=apps.find(x=>x.id===f.appId); if(a) segs.push({id:a.id,label:a.title,cls:'tb-app'}); segs.push({id:f.id,label:f.title,cls:'tb-feat'}); } } segs.push({id:e.id,label:e.title,cls:'tb-epic'}); }
+  }
+  if (!segs.length) { el.innerHTML=''; return; }
+  el.innerHTML = segs.map((s,i)=>`${i>0?'<span class="trail-arrow">›</span>':''}<span style="display:inline-flex;align-items:center;gap:4px"><span class="modal-id-crumb">${s.id}</span><span style="font-size:10px;color:var(--text2)">${s.label}</span></span>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+// FILTER BAR
+// ══════════════════════════════════════════════════════════
+function filterBar(viewKey, groups) {
+  const saved = FP.get(viewKey);
+  let html = `<div class="filter-bar">`;
+  groups.forEach((g,gi) => {
+    if (gi>0) html += `<div class="filter-sep"></div>`;
+    html += `<span class="filter-bar-label">${g.label}</span>`;
+    g.items.forEach(item => {
+      const active = (saved[g.key]||[]).includes(item.id);
+      html += `<span class="filter-chip${active?' active':''}" onclick="toggleFilter('${viewKey}','${g.key}','${item.id}')">${item.label}</span>`;
+    });
+  });
+  const hasAny = groups.some(g=>(saved[g.key]||[]).length>0);
+  if (hasAny) html += `<button class="filter-clear" onclick="clearFilters('${viewKey}')">✕ Clear</button>`;
+  return html + '</div>';
+}
+function toggleFilter(viewKey, key, id) {
+  const saved=FP.get(viewKey); const arr=saved[key]||[]; const idx=arr.indexOf(id);
+  if(idx>-1) arr.splice(idx,1); else arr.push(id);
+  saved[key]=arr; FP.set(viewKey,saved); render();
+}
+function clearFilters(viewKey) { FP.set(viewKey,{}); render(); }
+function applyFilters(rows, viewKey) {
+  const saved=FP.get(viewKey); let out=rows;
+  if ((saved.appIds||[]).length) out=out.filter(row=>{
+    if(row.appId) return saved.appIds.includes(row.appId);
+    if(row.featId){const f=feats.find(x=>x.id===row.featId);return f&&saved.appIds.includes(f.appId);}
+    if(row.epicId){const e=epics.find(x=>x.id===row.epicId);if(!e)return false;const f=feats.find(x=>x.id===e.featId);return f&&saved.appIds.includes(f.appId);}
+    return false;
+  });
+  if ((saved.featIds||[]).length) out=out.filter(row=>{
+    if(row.featId) return saved.featIds.includes(row.featId);
+    if(row.epicId){const e=epics.find(x=>x.id===row.epicId);return e&&saved.featIds.includes(e.featId);}
+    return false;
+  });
+  if ((saved.epicIds||[]).length) out=out.filter(row=>row.epicId&&saved.epicIds.includes(row.epicId));
+  return out;
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER ROUTER
+// ══════════════════════════════════════════════════════════
+const VIEWS = {
+  backlog:  ()=>renderTix('backlog','Backlog','Items awaiting sprint'),
+  sprints:  renderSprints,
+  apps:     renderApps,
+  features: renderFeats,
+  feats:    renderFeats,
+  epics:    renderEpics,
+  tickets:  ()=>renderTix(null,'All Tickets','Every ticket'),
+  releases: renderReleases,
+  users:    renderUsers,
+  reports:  renderReports,
+  config:   renderConfig,
+  help:     renderHelp,
+};
+function render() { badges(); const fn=VIEWS[view]; if(fn) fn(); }
+function setHead(title,sub,actions='') {
+  document.getElementById('ptitle').textContent=title;
+  document.getElementById('psub').textContent=sub;
+  document.getElementById('pact').innerHTML=actions;
+}
+function tabsHtml(a,b) {
+  return `<div class="tabs"><button class="tab active" id="ta" onclick="swTab('active')">Active (${a})</button><button class="tab" id="tb" onclick="swTab('archived')">Archived (${b})</button></div>`;
+}
+function swTab(t) {
+  ['active','archived'].forEach(x=>{document.getElementById('t'+x[0]).classList.toggle('active',x===t);document.getElementById('tp-'+x).style.display=x===t?'':'none';});
+}
+
+// sort helper
+function sortByOrder(arr) {
+  return [...arr].sort((a,b)=>{
+    if(a.sortOrder!=null&&b.sortOrder!=null) return a.sortOrder-b.sortOrder;
+    if(a.sortOrder!=null) return -1;
+    if(b.sortOrder!=null) return 1;
+    return new Date(b.updatedAt||b.createdAt)-new Date(a.updatedAt||a.createdAt);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// QUICK ENTRY
+// ══════════════════════════════════════════════════════════
+function quickEntryHtml(defaultStatus='backlog') {
+  const statusOpts=ST.map(s=>`<option value="${s.v}"${s.v===defaultStatus?' selected':''}>${s.l}</option>`).join('');
+  const epicOpts2=epics.filter(e=>!e.archived).map(e=>`<option value="${e.id}">${epicBreadcrumb(e.id)||e.title}</option>`).join('');
+  const assignOpts=users.map(u=>`<option value="${u.id}">${u.name}</option>`).join('');
+  return `<div class="quick-entry">
+    <span style="font-size:16px;color:var(--text3)">+</span>
+    <input id="qe-title" placeholder="Quick add… press Enter" onkeydown="quickSave(event,'${defaultStatus}')">
+    <div class="quick-entry-sep"></div>
+    <select id="qe-status">${statusOpts}</select>
+    <div class="quick-entry-sep"></div>
+    <select id="qe-epic"><option value="">No Epic</option>${epicOpts2}</select>
+    <div class="quick-entry-sep"></div>
+    <select id="qe-assign"><option value="">Unassigned</option>${assignOpts}</select>
+    <button class="btn btn-primary btn-sm" onclick="quickSave(null,'${defaultStatus}')">Add</button>
+  </div>`;
+}
+function quickSave(e,def) {
+  if(e&&e.key!=='Enter') return;
+  const titleEl=document.getElementById('qe-title'); const title=titleEl?.value.trim();
+  if(!title){notify('Enter a title first','⚠');return;}
+  const now=new Date().toISOString();
+  const activeSprint=sprints.find(s=>s.active);
+  const rec={id:nid('TKT'),title,description:'',ticketType:'story',
+    status:document.getElementById('qe-status')?.value||def,priority:'medium',
+    epicId:document.getElementById('qe-epic')?.value||null,
+    assignedTo:document.getElementById('qe-assign')?.value||null,
+    createdBy:sessionUserId||null,
+    sprintId:def==='sprint'?activeSprint?.id||null:null,
+    releaseId:null,sortOrder:tix.length+1,
+    createdAt:now,updatedAt:now,archived:false,history:[]};
+  addH(rec,'Created',`Quick entry — ${rec.status}`);
+  tix.push(rec); save('tix',tix);
+  if(titleEl) titleEl.value='';
+  notify('Ticket added ⚡'); render();
+}
+
+// ══════════════════════════════════════════════════════════
+// TICKET TABLE
+// ══════════════════════════════════════════════════════════
+function renderTix(sf, title, sub) {
+  setHead(title, sub, `<button class="btn btn-primary" onclick="openTM()">+ New Ticket</button>`);
+  let rows = sf ? tix.filter(t=>t.status===sf) : [...tix];
+  rows = sortByOrder(rows);
+  const aa=apps.filter(a=>!a.archived), af=feats.filter(f=>!f.archived), ae=epics.filter(e=>!e.archived);
+  const fbarHtml = filterBar('tickets',[
+    {label:'App',key:'appIds',items:aa.map(a=>({id:a.id,label:a.title}))},
+    {label:'Feature',key:'featIds',items:af.map(f=>({id:f.id,label:f.title}))},
+    {label:'Epic',key:'epicIds',items:ae.map(e=>({id:e.id,label:e.title}))},
+  ]);
+  const all=applyFilters(rows,'tickets');
+  const act=all.filter(t=>!t.archived), arch=all.filter(t=>t.archived);
+  document.getElementById('mc').innerHTML = quickEntryHtml(sf||'backlog') + fbarHtml + tabsHtml(act.length,arch.length) +
+    `<div id="tp-active">${tTable(act,0)}</div><div id="tp-archived" style="display:none">${tTable(arch,1)}</div>`;
+}
+function tTable(rows, isA) {
+  if (!rows.length) return `<div class="empty"><div class="ico">◻</div><p>No items yet.</p></div>`;
+  const ns=isA?'tarch':'tact';
+  return `<div class="table-wrap"><table>
+    <thead><tr><th style="width:26px"></th><th style="width:26px;text-align:right">#</th><th>ID</th><th>Type</th><th>Title</th><th>Status</th><th>Priority</th><th>Assigned</th><th>Sprint</th><th>Release</th><th>Updated</th><th></th></tr></thead>
+    <tbody id="tbody-${ns}">${rows.map((t,idx)=>`<tr draggable="true" data-id="${t.id}" data-store="tix" class="${isA?'archived-row':''}" onclick="openTD('${t.id}')" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="drop(event,'tix')" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
+      <td onclick="event.stopPropagation()"><span class="drag-handle">⠿</span></td>
+      <td style="text-align:right"><span class="order-num">${t.sortOrder??idx+1}</span></td>
+      <td><span class="id-chip">${t.id}</span></td>
+      <td>${t.ticketType&&t.ticketType!=='story'?tttag(t.ticketType):tttag('story')}</td>
+      <td style="font-weight:500">${t.title}</td>
+      <td>${stag(t.status)}</td>
+      <td>${t.priority?ptag(t.priority):'—'}</td>
+      <td>${t.assignedTo?userPill(t.assignedTo):'<span style="color:var(--text3);font-size:11px">—</span>'}</td>
+      <td style="font-size:11px;color:var(--text3)">${t.sprintId?(sprints.find(s=>s.id===t.sprintId)?.name||'—'):'—'}</td>
+      <td style="font-size:11px;color:var(--text3)">${t.releaseId?(releases.find(r=>r.id===t.releaseId)?.name||'—'):'—'}</td>
+      <td style="font-size:11px;color:var(--text3);font-family:var(--mono)">${fd(t.updatedAt||t.createdAt)}</td>
+      <td><div class="row-actions" onclick="event.stopPropagation()">
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="openTM('${t.id}')">Edit</button>`:''}
+        ${!isA&&!t.sprintId?`<button class="btn btn-ghost btn-sm" onclick="addTicketToActiveSprint('${t.id}')" title="Add to active sprint">⚡ Sprint</button>`:''}
+        ${!isA&&t.sprintId?`<button class="btn btn-ghost btn-sm" onclick="removeTicketFromSprint('${t.id}')" title="Remove from sprint">✕ Sprint</button>`:''}
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="archT('${t.id}')">Archive</button>`:
+               `<button class="btn btn-ghost btn-sm" onclick="archT('${t.id}',true)">↩ Unarchive</button>`}
+        <button class="btn btn-danger btn-sm" onclick="delT('${t.id}')">Del</button>
+      </div></td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// SPRINTS
+// ══════════════════════════════════════════════════════════
+function renderSprints() {
+  const activeSprint = sprints.find(s=>s.active&&!s.archived);
+  setHead('Sprints', activeSprint?`Active: ${activeSprint.name}`:'No active sprint',
+    `<div class="view-toggle">
+      <button onclick="setSprintView('list')" class="${sprintView==='list'?'active':''}">≡ List</button>
+      <button onclick="setSprintView('swimlane')" class="${sprintView==='swimlane'?'active':''}">⊞ Swimlane</button>
+    </div>
+    <button class="btn btn-primary" onclick="openSprintM()">+ New Sprint</button>`);
+
+  const activeSprints = sprints.filter(s=>!s.archived);
+  const archivedSprints = sprints.filter(s=>s.archived);
+
+  document.getElementById('mc').innerHTML = tabsHtml(activeSprints.length, archivedSprints.length) +
+    `<div id="tp-active">${sprintView==='swimlane' ? renderSprintsSwimlane(activeSprints) : renderSprintsList(activeSprints)}</div>
+     <div id="tp-archived" style="display:none">${renderSprintsList(archivedSprints,true)}</div>`;
+}
+function setSprintView(v) {
+  sprintView = v;
+  localStorage.setItem('px_sprint_view', v);
+  render();
+}
+function renderSprintsList(list, isArch=false) {
+  if (!list.length) return `<div class="empty"><div class="ico">⚡</div><p>No sprints yet.</p></div>`;
+  return list.map(s=>{
+    const sTix = tix.filter(t=>t.sprintId===s.id&&!t.archived);
+    const done = sTix.filter(t=>t.status==='production').length;
+    const pct  = sTix.length ? Math.round(done/sTix.length*100) : 0;
+    return `<div class="sprint-card">
+      <div class="sprint-card-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="sprint-name">${s.name}</span>
+            ${s.active?'<span class="tag tag-sprint" style="font-size:9px">ACTIVE</span>':''}
+            ${isArch?'<span class="tag tag-archived" style="font-size:9px">ARCHIVED</span>':''}
+          </div>
+          <div class="sprint-meta" style="margin-top:4px">
+            ${s.startDate?`<span>📅 ${s.startDate} → ${s.endDate||'?'}</span>`:''}
+            <span>${sTix.length} tickets · ${pct}% done</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="sprint-progress" style="flex:0 0 80px"><div class="sprint-progress-fill" style="width:${pct}%"></div></div>
+          <div class="row-actions" style="opacity:1">
+            ${!isArch&&!s.active?`<button class="btn btn-success btn-sm" onclick="activateSprint('${s.id}')">▶ Activate</button>`:''}
+            ${s.active?`<button class="btn btn-primary btn-sm" onclick="openAddToSprintM('${s.id}')">+ Add Tickets</button>`:''}
+            ${s.active?`<button class="btn btn-ghost btn-sm" onclick="completeSprint('${s.id}')">✓ Complete</button>`:''}
+            <button class="btn btn-ghost btn-sm" onclick="openSprintM('${s.id}')">Edit</button>
+            ${isArch?`<button class="btn btn-ghost btn-sm" onclick="archSprint('${s.id}',true)">↩ Unarchive</button>`:`<button class="btn btn-ghost btn-sm" onclick="archSprint('${s.id}')">Archive</button>`}
+          </div>
+        </div>
+      </div>
+      ${s.objective?`<div class="sprint-objective"><strong>Objective:</strong> ${s.objective}</div>`:''}
+      ${tTable(sTix, 0)}
+    </div>`;
+  }).join('');
+}
+function renderSprintsSwimlane(list) {
+  if (!list.length) return `<div class="empty"><div class="ico">⚡</div><p>No sprints yet. Create one first.</p></div>`;
+  return list.map(s=>{
+    const sTix = tix.filter(t=>t.sprintId===s.id&&!t.archived);
+    const done = sTix.filter(t=>t.status==='production').length;
+    const pct  = sTix.length ? Math.round(done/sTix.length*100) : 0;
+    return `<div class="sprint-card">
+      <div class="sprint-card-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="sprint-name">${s.name}</span>
+            ${s.active?'<span class="tag tag-sprint" style="font-size:9px">ACTIVE</span>':''}
+          </div>
+          <div class="sprint-meta" style="margin-top:4px">
+            ${s.startDate?`<span>📅 ${s.startDate} → ${s.endDate||'?'}</span>`:''}
+            <span>${sTix.length} tickets · ${pct}% done</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="sprint-progress" style="flex:0 0 100px"><div class="sprint-progress-fill" style="width:${pct}%"></div></div>
+          ${!s.active?`<button class="btn btn-success btn-sm" onclick="activateSprint('${s.id}')">▶ Activate</button>`:''}
+          ${s.active?`<button class="btn btn-primary btn-sm" onclick="openAddToSprintM('${s.id}')">+ Add Tickets</button>`:''}
+          ${s.active?`<button class="btn btn-ghost btn-sm" onclick="completeSprint('${s.id}')">✓ Complete</button>`:''}
+          <button class="btn btn-ghost btn-sm" onclick="openSprintM('${s.id}')">Edit</button>
+        </div>
+      </div>
+      ${s.objective?`<div class="sprint-objective"><strong>Objective:</strong> ${s.objective}</div>`:''}
+      <div class="swimlane-grid">
+        ${ST.map(st=>{
+          const colTix = sTix.filter(t=>t.status===st.v);
+          return `<div class="swim-col">
+            <div class="swim-col-title" style="color:${st.col}">${st.l} <span style="opacity:.6">(${colTix.length})</span></div>
+            ${colTix.map(t=>`<div class="swim-card" onclick="openTD('${t.id}')">
+              <div class="swim-card-title">${t.title}</div>
+              <div class="swim-card-meta">
+                ${t.ticketType&&t.ticketType!=='story'?tttag(t.ticketType):''}
+                ${t.priority?ptag(t.priority):''}
+                ${t.assignedTo?userAvatar(t.assignedTo):''}
+              </div>
+            </div>`).join('')}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function activateSprint(id) {
+  sprints.forEach(s => { s.active = s.id===id; });
+  save('sprints', sprints); render(); notify('Sprint activated ⚡');
+}
+function completeSprint(id) {
+  if (!confirm('Mark sprint as complete and archive it?')) return;
+  const s = sprints.find(x=>x.id===id);
+  if (!s) return;
+  s.active = false; s.archived = true; s.completedAt = new Date().toISOString();
+  save('sprints', sprints); render(); notify('Sprint completed ✓');
+}
+function archSprint(id, unarch=false) {
+  if (!unarch&&!confirm('Archive this sprint?')) return;
+  const s=sprints.find(x=>x.id===id); if(!s)return;
+  s.archived=!unarch; if(!unarch) s.active=false;
+  save('sprints',sprints); render(); notify(unarch?'Unarchived':'Archived');
+}
+
+// ── Add tickets to a sprint via checkbox picker ───────────────────────────────
+function openAddToSprintM(sprintId) {
+  const s = sprints.find(x=>x.id===sprintId); if(!s) return;
+  // Candidates: non-archived tickets NOT already in this sprint
+  const candidates = tix.filter(t=>!t.archived && t.sprintId !== sprintId);
+  const alreadyIn  = tix.filter(t=>!t.archived && t.sprintId === sprintId);
+
+  const rows = candidates.map(t => {
+    const crumb = t.epicId ? (epicBreadcrumb(t.epicId)||'') : '';
+    return `<label class="sprint-picker-row">
+      <input type="checkbox" class="sp-pick" value="${t.id}">
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span class="id-chip">${t.id}</span>
+          ${tttag(t.ticketType||'story')}
+          ${stag(t.status)}
+          ${t.priority?ptag(t.priority):''}
+          <span style="font-weight:500">${t.title}</span>
+        </div>
+        ${crumb?`<div style="font-size:11px;color:var(--text3);margin-top:2px">${crumb}</div>`:''}
+      </div>
+      ${t.assignedTo?userAvatar(t.assignedTo):''}
+    </label>`;
+  }).join('');
+
+  openM(`Add Tickets — ${s.name}`,
+    `<div style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+       <span style="font-size:12px;color:var(--text2)">${alreadyIn.length} already in sprint · ${candidates.length} available</span>
+       <div style="display:flex;gap:6px">
+         <button class="btn btn-ghost btn-sm" onclick="spSelectAll(true)">Select All</button>
+         <button class="btn btn-ghost btn-sm" onclick="spSelectAll(false)">Clear</button>
+       </div>
+     </div>
+     ${candidates.length
+       ? `<div class="sprint-picker">${rows}</div>`
+       : `<div class="empty" style="padding:20px"><p>All tickets are already in this sprint or there are none to add.</p></div>`
+     }`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button>
+     <button class="btn btn-primary" onclick="confirmAddToSprint('${sprintId}')">Add Selected</button>`
+  );
+}
+
+function spSelectAll(checked) {
+  document.querySelectorAll('.sp-pick').forEach(cb => cb.checked = checked);
+}
+
+function confirmAddToSprint(sprintId) {
+  const s = sprints.find(x=>x.id===sprintId); if(!s) return;
+  const checked = [...document.querySelectorAll('.sp-pick:checked')].map(cb=>cb.value);
+  if (!checked.length) { notify('Select at least one ticket','⚠'); return; }
+  const now = new Date().toISOString();
+  checked.forEach(id => {
+    const i = tix.findIndex(t=>t.id===id); if(i<0) return;
+    tix[i] = {...tix[i], sprintId, status: tix[i].status==='backlog'?'sprint':tix[i].status, updatedAt:now};
+    addH(tix[i], 'Added to sprint', s.name);
+  });
+  save('tix', tix);
+  closeM(); render();
+  notify(`${checked.length} ticket${checked.length!==1?'s':''} added to ${s.name} ⚡`);
+}
+
+function addTicketToActiveSprint(ticketId) {
+  const s = sprints.find(x=>x.active&&!x.archived);
+  if (!s) { notify('No active sprint — activate one first','⚠'); return; }
+  const i = tix.findIndex(t=>t.id===ticketId); if(i<0) return;
+  const now = new Date().toISOString();
+  tix[i] = {...tix[i], sprintId: s.id, status: tix[i].status==='backlog'?'sprint':tix[i].status, updatedAt:now};
+  addH(tix[i], 'Added to sprint', s.name);
+  save('tix', tix); render();
+  notify(`Added to ${s.name} ⚡`);
+}
+
+function removeTicketFromSprint(ticketId) {
+  const i = tix.findIndex(t=>t.id===ticketId); if(i<0) return;
+  const spName = tix[i].sprintId ? (sprints.find(s=>s.id===tix[i].sprintId)?.name||'sprint') : 'sprint';
+  const now = new Date().toISOString();
+  tix[i] = {...tix[i], sprintId: null, status: tix[i].status==='sprint'?'backlog':tix[i].status, updatedAt:now};
+  addH(tix[i], 'Removed from sprint', spName);
+  save('tix', tix); render();
+  notify('Removed from sprint');
+}
+function openSprintM(id=null) {
+  const s = id ? sprints.find(x=>x.id===id) : null;
+  const today = new Date().toISOString().split('T')[0];
+  const twoWks = new Date(Date.now()+14*86400000).toISOString().split('T')[0];
+  openM(s?'Edit Sprint':'New Sprint', `
+    <div class="fg"><label class="fl">Sprint Name *</label><input class="fi" id="sp-name" value="${s?.name||''}" placeholder="Sprint 1 — Onboarding"></div>
+    <div class="fg"><label class="fl">Objective</label><input class="fi" id="sp-obj" value="${s?.objective||''}" placeholder="What do we want to achieve?"></div>
+    <div class="form-row">
+      <div class="fg"><label class="fl">Start Date</label><input class="fi" id="sp-start" type="date" value="${s?.startDate||today}"></div>
+      <div class="fg"><label class="fl">End Date</label><input class="fi" id="sp-end" type="date" value="${s?.endDate||twoWks}"></div>
+    </div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveSprint('${id||''}')">Save Sprint</button>`);
+}
+function saveSprint(id) {
+  const name=document.getElementById('sp-name').value.trim();
+  if(!name){notify('Name required','⚠');return;}
+  const now=new Date().toISOString();
+  if(id){
+    const i=sprints.findIndex(s=>s.id===id);
+    sprints[i]={...sprints[i],name,objective:document.getElementById('sp-obj').value.trim(),startDate:document.getElementById('sp-start').value||null,endDate:document.getElementById('sp-end').value||null,updatedAt:now};
+    notify('Sprint updated');
+  } else {
+    sprints.push({id:nid('SPR'),name,objective:document.getElementById('sp-obj').value.trim(),startDate:document.getElementById('sp-start').value||null,endDate:document.getElementById('sp-end').value||null,active:false,archived:false,createdAt:now,history:[]});
+    notify('Sprint created');
+  }
+  save('sprints',sprints); closeM(); render();
+}
+
+// ══════════════════════════════════════════════════════════
+// RELEASES
+// ══════════════════════════════════════════════════════════
+function renderReleases() {
+  setHead('Releases','Deploy-ready bundles of work',`<button class="btn btn-primary" onclick="openReleaseM()">+ New Release</button>`);
+  const active=releases.filter(r=>!r.archived), arch=releases.filter(r=>r.archived);
+  document.getElementById('mc').innerHTML = tabsHtml(active.length,arch.length) +
+    `<div id="tp-active">${releaseList(active,false)}</div><div id="tp-archived" style="display:none">${releaseList(arch,true)}</div>`;
+}
+function releaseList(list, isArch) {
+  if (!list.length) return `<div class="empty"><div class="ico">🚀</div><p>No releases yet.</p></div>`;
+  return list.map(r=>{
+    const rtix = tix.filter(t=>t.releaseId===r.id&&!t.archived);
+    const byType = {};
+    TTYPES.forEach(tt => byType[tt.v] = rtix.filter(t=>t.ticketType===tt.v||(!t.ticketType&&tt.v==='story')).length);
+    return `<div class="release-card${r.deployed?' deployed':''}" onclick="openReleaseD('${r.id}')">
+      <div class="release-card-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="type-badge tb-release">RELEASE</span>
+          <span class="release-title">${r.name}</span>
+          ${r.deployed?`<span class="tag tag-deployed">✓ Deployed</span>`:`<span class="tag tag-sprint">${rtix.length} tickets</span>`}
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${!r.deployed?`<button class="btn btn-success btn-sm" onclick="event.stopPropagation();deployRelease('${r.id}')">🚀 Deploy</button>`:''}
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();copyReleaseSummary('${r.id}')">📋 Copy Summary</button>
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openReleaseM('${r.id}')">Edit</button>
+          ${isArch?`<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();archRelease('${r.id}',true)">↩ Unarchive</button>`:`<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();archRelease('${r.id}')">Archive</button>`}
+        </div>
+      </div>
+      <div class="release-stats">
+        ${r.targetDate?`<span>📅 Target: ${r.targetDate}</span>`:''}
+        ${r.deployed&&r.deployedAt?`<span>✓ Deployed: ${fd(r.deployedAt)}</span>`:''}
+        ${TTYPES.map(tt=>`<span>${tt.icon} ${byType[tt.v]} ${tt.l}${byType[tt.v]!==1?'s':''}</span>`).join('')}
+      </div>
+      ${r.description?`<div style="font-size:12px;color:var(--text2);margin-top:8px">${r.description}</div>`:''}
+    </div>`;
+  }).join('');
+}
+function deployRelease(id) {
+  if(!confirm('Mark this release as deployed?'))return;
+  const r=releases.find(x=>x.id===id); if(!r)return;
+  r.deployed=true; r.deployedAt=new Date().toISOString();
+  // Move all linked tickets to production
+  let changed=0;
+  tix.forEach(t=>{ if(t.releaseId===id&&t.status!=='production'){t.status='production';t.updatedAt=r.deployedAt;addH(t,'Status changed',`production (release ${r.name})`);changed++;} });
+  if(changed) save('tix',tix);
+  save('releases',releases); render(); notify(`Release deployed 🚀 (${changed} tickets → production)`);
+}
+function archRelease(id,unarch=false) {
+  if(!unarch&&!confirm('Archive this release?'))return;
+  const r=releases.find(x=>x.id===id); if(!r)return;
+  r.archived=!unarch; save('releases',releases); render(); notify(unarch?'Unarchived':'Archived');
+}
+function buildReleaseSummary(r) {
+  const rtix=tix.filter(t=>t.releaseId===r.id&&!t.archived);
+  const lines=[
+    `RELEASE: ${r.name}`,
+    r.targetDate?`Target Date: ${r.targetDate}`:'',
+    r.deployed&&r.deployedAt?`Deployed: ${fd(r.deployedAt)}`:'Status: Pending',
+    r.description?`\nDescription:\n${r.description.replace(/<[^>]+>/g,'')}`:'' ,
+    `\n── Tickets (${rtix.length}) ──────────────────────`,
+    ...TTYPES.map(tt=>{
+      const typed=rtix.filter(t=>t.ticketType===tt.v||(tt.v==='story'&&!t.ticketType));
+      if(!typed.length)return'';
+      return `\n${tt.icon} ${tt.l}s (${typed.length}):\n`+typed.map(t=>`  • [${t.id}] ${t.title} — ${ST.find(s=>s.v===t.status)?.l||t.status}`).join('\n');
+    }),
+    '\n── End of Release Summary ───────────────────',
+  ];
+  return lines.filter(l=>l!=='').join('\n');
+}
+function copyReleaseSummary(id) {
+  const r=releases.find(x=>x.id===id); if(!r)return;
+  const text=buildReleaseSummary(r);
+  navigator.clipboard.writeText(text).then(()=>notify('Release summary copied 📋')).catch(()=>notify('Copy failed — see modal','⚠'));
+  // Also show in modal
+  openM(`Release Summary — ${r.name}`,`<div class="release-summary-box">${text}</div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Close</button><button class="btn btn-primary" onclick="navigator.clipboard.writeText(document.querySelector('.release-summary-box').textContent).then(()=>notify('Copied!'))">📋 Copy</button>`);
+}
+function openReleaseD(id) {
+  const r=releases.find(x=>x.id===id); if(!r)return;
+  const rtix=tix.filter(t=>t.releaseId===r.id&&!t.archived);
+  openD(`<div style="flex:1">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+      <span class="type-badge tb-release">RELEASE</span>
+      <span class="id-chip">${r.id}</span>
+      ${r.deployed?'<span class="tag tag-deployed">✓ Deployed</span>':''}
+    </div>
+    <div class="d-title">${r.name}</div>
+    <div class="d-sub">Created ${fdf(r.createdAt)}</div>
+  </div><button class="btn btn-ghost btn-icon" onclick="closeD()">✕</button>`,
+  `<div class="irow"><span class="ilabel">Status</span>${r.deployed?'<span class="tag tag-deployed">Deployed</span>':'<span class="tag tag-sprint">Pending</span>'}</div>
+   ${r.targetDate?`<div class="irow"><span class="ilabel">Target</span><span style="font-size:13px">${r.targetDate}</span></div>`:''}
+   ${r.deployedAt?`<div class="irow"><span class="ilabel">Deployed</span><span style="font-size:13px">${fdf(r.deployedAt)}</span></div>`:''}
+   <div class="irow"><span class="ilabel">Tickets</span><span class="tag tag-blue">${rtix.length}</span></div>
+   ${rtix.length?`<div class="table-wrap" style="margin-top:10px;margin-bottom:0"><table><thead><tr><th>ID</th><th>Type</th><th>Title</th><th>Status</th></tr></thead><tbody>${rtix.map(t=>`<tr><td><span class="id-chip">${t.id}</span></td><td>${tttag(t.ticketType||'story')}</td><td style="font-size:13px">${t.title}</td><td>${stag(t.status)}</td></tr>`).join('')}</tbody></table></div>`:''}
+   <div class="d-actions">
+     <button class="btn btn-ghost btn-sm" onclick="closeD();openReleaseM('${r.id}')">✎ Edit</button>
+     ${!r.deployed?`<button class="btn btn-success btn-sm" onclick="deployRelease('${r.id}');closeD()">🚀 Deploy</button>`:''}
+     <button class="btn btn-ghost btn-sm" onclick="copyReleaseSummary('${r.id}')">📋 Copy Summary</button>
+   </div>`);
+}
+function openReleaseM(id=null) {
+  const r=id?releases.find(x=>x.id===id):null;
+  openM(r?'Edit Release':'New Release',`
+    <div class="fg"><label class="fl">Name *</label><input class="fi" id="rl-name" value="${r?.name||''}" placeholder="v1.2.0 — Auth Improvements"></div>
+    <div class="fg"><label class="fl">Description</label>${rteHtml('desc',r?.description||'','Release notes…')}</div>
+    <div class="fg"><label class="fl">Target Date</label><input class="fi" id="rl-date" type="date" value="${r?.targetDate||''}"></div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveRelease('${id||''}')">Save Release</button>`);
+}
+function saveRelease(id) {
+  const name=document.getElementById('rl-name').value.trim();
+  if(!name){notify('Name required','⚠');return;}
+  const now=new Date().toISOString();
+  if(id){
+    const i=releases.findIndex(r=>r.id===id);
+    releases[i]={...releases[i],name,description:rteGet('desc'),targetDate:document.getElementById('rl-date').value||null,updatedAt:now};
+    notify('Release updated');
+  } else {
+    releases.push({id:nid('REL'),name,description:rteGet('desc'),targetDate:document.getElementById('rl-date').value||null,deployed:false,archived:false,createdAt:now,history:[]});
+    notify('Release created');
+  }
+  save('releases',releases); closeM(); render();
+}
+
+// ══════════════════════════════════════════════════════════
+// EPIC / FEATURE / APP tables (drag + order + unarchive)
+// ══════════════════════════════════════════════════════════
+function renderEpics() {
+  setHead('Epics','Group tickets into epics',`<button class="btn btn-primary" onclick="openEM()">+ New Epic</button>`);
+  const aa=apps.filter(a=>!a.archived), af=feats.filter(f=>!f.archived);
+  const fbarHtml=filterBar('epics',[{label:'App',key:'appIds',items:aa.map(a=>({id:a.id,label:a.title}))},{label:'Feature',key:'featIds',items:af.map(f=>({id:f.id,label:f.title}))}]);
+  const rows=sortByOrder(epics); const filtered=applyFilters(rows,'epics');
+  const act=filtered.filter(e=>!e.archived), arch=filtered.filter(e=>e.archived);
+  document.getElementById('mc').innerHTML=fbarHtml+tabsHtml(act.length,arch.length)+`<div id="tp-active">${eTable(act,0)}</div><div id="tp-archived" style="display:none">${eTable(arch,1)}</div>`;
+}
+function eTable(rows, isA) {
+  if (!rows.length) return `<div class="empty"><div class="ico">◻</div><p>No epics yet.</p></div>`;
+  const ns=isA?'earch':'eact';
+  return `<div class="table-wrap"><table><thead><tr><th style="width:26px"></th><th style="width:26px;text-align:right">#</th><th>ID</th><th>Title</th><th>Priority</th><th>Feature</th><th>Tickets</th><th>Owner</th><th>Updated</th><th></th></tr></thead>
+  <tbody id="tbody-${ns}">${rows.map((e,idx)=>{
+    const bc=e.featId?(featBreadcrumb(e.featId)||'—'):'—', tc=tix.filter(t=>t.epicId===e.id&&!t.archived).length;
+    return `<tr draggable="true" data-id="${e.id}" data-store="epics" class="${isA?'archived-row':''}" onclick="openED('${e.id}')" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="drop(event,'epics')" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
+      <td onclick="event.stopPropagation()"><span class="drag-handle">⠿</span></td>
+      <td style="text-align:right"><span class="order-num">${e.sortOrder??idx+1}</span></td>
+      <td><span class="id-chip">${e.id}</span></td><td style="font-weight:500">${e.title}</td>
+      <td>${e.priority?ptag(e.priority):'—'}</td>
+      <td style="font-size:12px;color:var(--text2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${bc}</td>
+      <td><span class="tag tag-sprint">${tc}</span></td>
+      <td>${e.ownerId?userAvatar(e.ownerId):'—'}</td>
+      <td style="font-size:11px;color:var(--text3);font-family:var(--mono)">${fd(e.updatedAt||e.createdAt)}</td>
+      <td><div class="row-actions" onclick="event.stopPropagation()">
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="openEM('${e.id}')">Edit</button>`:''}
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="archE('${e.id}')">Archive</button>`:
+               `<button class="btn btn-ghost btn-sm" onclick="archE('${e.id}',true)">↩ Unarchive</button>`}
+        <button class="btn btn-danger btn-sm" onclick="delE('${e.id}')">Del</button>
+      </div></td></tr>`;
+  }).join('')}</tbody></table></div>`;
+}
+function renderFeats() {
+  setHead('Features','Group epics into features',`<button class="btn btn-primary" onclick="openFM()">+ New Feature</button>`);
+  const aa=apps.filter(a=>!a.archived);
+  const fbarHtml=filterBar('feats',[{label:'App',key:'appIds',items:aa.map(a=>({id:a.id,label:a.title}))}]);
+  const rows=sortByOrder(feats); const filtered=applyFilters(rows,'feats');
+  const act=filtered.filter(f=>!f.archived), arch=filtered.filter(f=>f.archived);
+  document.getElementById('mc').innerHTML=fbarHtml+tabsHtml(act.length,arch.length)+`<div id="tp-active">${fTable(act,0)}</div><div id="tp-archived" style="display:none">${fTable(arch,1)}</div>`;
+}
+function fTable(rows, isA) {
+  if (!rows.length) return `<div class="empty"><div class="ico">◻</div><p>No features yet.</p></div>`;
+  const ns=isA?'farch':'fact';
+  return `<div class="table-wrap"><table><thead><tr><th style="width:26px"></th><th style="width:26px;text-align:right">#</th><th>ID</th><th>Title</th><th>Priority</th><th>App</th><th>Epics</th><th>Updated</th><th></th></tr></thead>
+  <tbody id="tbody-${ns}">${rows.map((f,idx)=>{
+    const at=f.appId?(apps.find(a=>a.id===f.appId)?.title||'—'):'—', ec=epics.filter(e=>e.featId===f.id&&!e.archived).length;
+    return `<tr draggable="true" data-id="${f.id}" data-store="feats" class="${isA?'archived-row':''}" onclick="openFD('${f.id}')" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="drop(event,'feats')" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
+      <td onclick="event.stopPropagation()"><span class="drag-handle">⠿</span></td>
+      <td style="text-align:right"><span class="order-num">${f.sortOrder??idx+1}</span></td>
+      <td><span class="id-chip">${f.id}</span></td><td style="font-weight:500">${f.title}</td>
+      <td>${f.priority?ptag(f.priority):'—'}</td>
+      <td style="font-size:12px;color:var(--text2)">${at}</td>
+      <td><span class="tag tag-dev">${ec}</span></td>
+      <td style="font-size:11px;color:var(--text3);font-family:var(--mono)">${fd(f.updatedAt||f.createdAt)}</td>
+      <td><div class="row-actions" onclick="event.stopPropagation()">
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="openFM('${f.id}')">Edit</button>`:''}
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="archF('${f.id}')">Archive</button>`:
+               `<button class="btn btn-ghost btn-sm" onclick="archF('${f.id}',true)">↩ Unarchive</button>`}
+        <button class="btn btn-danger btn-sm" onclick="delF('${f.id}')">Del</button>
+      </div></td></tr>`;
+  }).join('')}</tbody></table></div>`;
+}
+function renderApps() {
+  setHead('Apps','Top-level product applications',`<button class="btn btn-primary" onclick="openAM()">+ New App</button>`);
+  const sorted=sortByOrder(apps); const act=sorted.filter(a=>!a.archived), arch=sorted.filter(a=>a.archived);
+  document.getElementById('mc').innerHTML=tabsHtml(act.length,arch.length)+`<div id="tp-active">${aTable(act,0)}</div><div id="tp-archived" style="display:none">${aTable(arch,1)}</div>`;
+}
+function aTable(rows, isA) {
+  if (!rows.length) return `<div class="empty"><div class="ico">◻</div><p>No apps yet.</p></div>`;
+  const ns=isA?'aarch':'aact';
+  return `<div class="table-wrap"><table><thead><tr><th style="width:26px"></th><th style="width:26px;text-align:right">#</th><th>ID</th><th>Title</th><th>Priority</th><th>Description</th><th>Features</th><th>Updated</th><th></th></tr></thead>
+  <tbody id="tbody-${ns}">${rows.map((a,idx)=>{
+    const fc=feats.filter(f=>f.appId===a.id&&!f.archived).length;
+    return `<tr draggable="true" data-id="${a.id}" data-store="apps" class="${isA?'archived-row':''}" onclick="openAD('${a.id}')" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="drop(event,'apps')" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
+      <td onclick="event.stopPropagation()"><span class="drag-handle">⠿</span></td>
+      <td style="text-align:right"><span class="order-num">${a.sortOrder??idx+1}</span></td>
+      <td><span class="id-chip">${a.id}</span></td><td style="font-weight:500">${a.title}</td>
+      <td>${a.priority?ptag(a.priority):'—'}</td>
+      <td style="font-size:12px;color:var(--text2);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.description?.replace(/<[^>]+>/g,'')||'—'}</td>
+      <td><span class="tag tag-blue">${fc}</span></td>
+      <td style="font-size:11px;color:var(--text3);font-family:var(--mono)">${fd(a.updatedAt||a.createdAt)}</td>
+      <td><div class="row-actions" onclick="event.stopPropagation()">
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="openAM('${a.id}')">Edit</button>`:''}
+        ${!isA?`<button class="btn btn-ghost btn-sm" onclick="archA('${a.id}')">Archive</button>`:
+               `<button class="btn btn-ghost btn-sm" onclick="archA('${a.id}',true)">↩ Unarchive</button>`}
+        <button class="btn btn-danger btn-sm" onclick="delA('${a.id}')">Del</button>
+      </div></td></tr>`;
+  }).join('')}</tbody></table></div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// USERS
+// ══════════════════════════════════════════════════════════
+function renderUsers() {
+  setHead('Users','Team members & collaborators',`<button class="btn btn-primary" onclick="openUM()">+ Add User</button>`);
+  if (!users.length) { document.getElementById('mc').innerHTML=`<div class="empty"><div class="ico">◎</div><p>No users yet.</p></div>`; return; }
+  document.getElementById('mc').innerHTML=`
+    <div class="users-grid">${users.map(u=>{
+      const assigned=tix.filter(t=>t.assignedTo===u.id&&!t.archived).length;
+      const created=tix.filter(t=>t.createdBy===u.id).length;
+      const inProd=tix.filter(t=>t.assignedTo===u.id&&t.status==='production'&&!t.archived).length;
+      return `<div class="user-card" onclick="openUD('${u.id}')">
+        <span class="avatar avatar-lg" style="background:${u.color}">${u.initials}</span>
+        <div class="user-info">
+          <div class="user-name">${u.name}${u.isAdmin?` <span class="sb-admin-badge">ADMIN</span>`:''}</div>
+          <div class="user-role">${roleLabel(u.roleId)}</div>
+          <div class="user-stats">
+            <span class="user-stat-item">📋 ${assigned}</span>
+            <span class="user-stat-item">✍ ${created}</span>
+            <span class="user-stat-item">✅ ${inProd}</span>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="event.stopPropagation();openUM('${u.id}')">✎</button>
+          <button class="btn btn-danger btn-icon btn-sm" onclick="event.stopPropagation();delU('${u.id}')">✕</button>
+        </div>
+      </div>`;
+    }).join('')}</div>
+    <div class="section-label">Tickets by User</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>User</th><th>Role</th><th>Admin</th><th>Backlog</th><th>Dev</th><th>Test</th><th>Prod</th><th>Total</th></tr></thead>
+      <tbody>${users.map(u=>{
+        const ut=tix.filter(t=>t.assignedTo===u.id&&!t.archived);
+        const sc={}; ST.forEach(s=>sc[s.v]=ut.filter(t=>t.status===s.v).length);
+        return `<tr onclick="openUD('${u.id}')">
+          <td><div style="display:flex;align-items:center;gap:8px"><span class="avatar" style="background:${u.color}">${u.initials}</span><span style="font-weight:500">${u.name}</span></div></td>
+          <td style="color:var(--text2);font-size:12px">${roleLabel(u.roleId)}</td>
+          <td>${u.isAdmin?'<span class="sb-admin-badge">ADMIN</span>':'—'}</td>
+          <td><span class="tag tag-backlog">${sc.backlog}</span></td>
+          <td><span class="tag tag-dev">${sc.dev}</span></td>
+          <td><span class="tag tag-test">${sc.test}</span></td>
+          <td><span class="tag tag-production">${sc.production}</span></td>
+          <td style="font-family:var(--mono);font-size:12px;font-weight:700">${ut.length}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// REPORTS (with project/feature filter)
+// ══════════════════════════════════════════════════════════
+function renderReports() {
+  const rSaved=FP.get('reports');
+  const aa=apps.filter(a=>!a.archived), af=feats.filter(f=>!f.archived);
+  const fbarHtml=filterBar('reports',[
+    {label:'Project',key:'appIds',items:aa.map(a=>({id:a.id,label:a.title}))},
+    {label:'Feature',key:'featIds',items:af.map(f=>({id:f.id,label:f.title}))},
+  ]);
+  // Apply filters to tickets for report
+  let baseTix = tix.filter(t=>!t.archived);
+  if((rSaved.appIds||[]).length||(rSaved.featIds||[]).length) baseTix=applyFilters(baseTix,'reports');
+  setHead('Reports','Workspace analytics & team health');
+  const at=baseTix, ae=epics.filter(e=>!e.archived), af2=feats.filter(f=>!f.archived), aa2=apps.filter(a=>!a.archived);
+  const sc={};ST.forEach(s=>sc[s.v]=at.filter(t=>t.status===s.v).length);
+  const mx=Math.max(...Object.values(sc),1),prod=sc.production,orph=at.filter(t=>!t.epicId),unassigned=at.filter(t=>!t.assignedTo);
+  const topE=ae.map(e=>({id:e.id,title:e.title,n:at.filter(t=>t.epicId===e.id).length})).sort((a,b)=>b.n-a.n).slice(0,6);
+  const appS=aa2.map(a=>{const af3=af2.filter(f=>f.appId===a.id),ae2=ae.filter(e=>af3.some(f=>f.id===e.featId)),at2=at.filter(t=>ae2.some(e=>e.id===t.epicId));return{id:a.id,title:a.title,f:af3.length,e:ae2.length,t:at2.length,p:at2.filter(t=>t.status==='production').length}}).sort((a,b)=>b.t-a.t);
+  const tot=at.length||1;const r=34,cx=45,cy=45,ci=2*Math.PI*r;let off=0;
+  const slices=ST.map(s=>{const fr=sc[s.v]/tot,da=fr*ci,ga=ci-da,el=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.col}" stroke-width="11" stroke-dasharray="${da.toFixed(1)} ${ga.toFixed(1)}" stroke-dashoffset="${(-off).toFixed(1)}" transform="rotate(-90 ${cx} ${cy})"/>`;off+=da;return el}).join('');
+  const pc={}; PRIORITIES.forEach(p=>pc[p.v]=at.filter(t=>t.priority===p.v).length);
+  const tc={}; TTYPES.forEach(t=>tc[t.v]=at.filter(x=>x.ticketType===t.v||(t.v==='story'&&!x.ticketType)).length);
+  const userWorkload=users.map(u=>{const uTix=at.filter(t=>t.assignedTo===u.id);const bd={};ST.forEach(s=>bd[s.v]=uTix.filter(t=>t.status===s.v).length);return{u,total:uTix.length,bd}}).sort((a,b)=>b.total-a.total);
+  document.getElementById('mc').innerHTML=`
+  ${fbarHtml}
+  <div class="r-grid">
+    <div class="stat-card sc"><div class="stat-num">${at.length}</div><div class="stat-label">Total Tickets</div><div class="stat-sub">${tix.filter(t=>t.archived).length} archived</div></div>
+    <div class="stat-card sy"><div class="stat-num">${sc.dev+sc.test}</div><div class="stat-label">In Flight</div><div class="stat-sub">Dev + Test</div></div>
+    <div class="stat-card sg"><div class="stat-num">${prod}</div><div class="stat-label">In Production</div><div class="stat-sub">${Math.round(prod/tot*100)}% of active</div></div>
+    <div class="stat-card sp"><div class="stat-num">${unassigned.length}</div><div class="stat-label">Unassigned</div><div class="stat-sub">${Math.round(unassigned.length/tot*100)}% need owner</div></div>
+    <div class="stat-card sv"><div class="stat-num">${users.length}</div><div class="stat-label">Team Members</div><div class="stat-sub">${ae.length} active epics</div></div>
+    <div class="stat-card sr"><div class="stat-num">${orph.length}</div><div class="stat-label">Orphan Tickets</div><div class="stat-sub">No epic linked</div></div>
+  </div>
+  <div class="rc mb">
+    <div class="rct">Pipeline Flow</div>
+    <div class="pip-steps">${ST.map(s=>`<div class="pip-step"><div class="pip-dot${sc[s.v]>0?' on':''}" style="color:${s.col};${sc[s.v]>0?`border-color:${s.col}`:''}">${sc[s.v]}</div><div class="pip-name">${s.l}</div></div>`).join('')}</div>
+    ${ST.map(s=>`<div class="brow"><span class="blabel">${s.l}</span><div class="btrack"><div class="bfill" style="width:${sc[s.v]/mx*100}%;background:${s.col}"></div></div><span class="bcount">${sc[s.v]}</span></div>`).join('')}
+  </div>
+  <div class="r2">
+    <div class="rc"><div class="rct">Status Breakdown</div><div class="dnut-wrap">
+      <svg width="90" height="90" viewBox="0 0 90 90" style="flex-shrink:0">${slices}<text x="45" y="50" text-anchor="middle" font-family="Space Mono,monospace" font-size="13" font-weight="700" fill="${darkMode?'#e8e8f0':'#111118'}">${at.length}</text></svg>
+      <div class="dnut-leg">${ST.map(s=>`<div class="dnut-li"><div class="dnut-dot" style="background:${s.col}"></div><span>${s.l}</span><span class="dnut-val">${sc[s.v]}</span></div>`).join('')}</div>
+    </div></div>
+    <div class="rc"><div class="rct">Ticket Types</div>
+      ${TTYPES.map(t=>`<div class="brow"><span class="blabel">${t.icon} ${t.l}</span><div class="btrack"><div class="bfill" style="width:${at.length?tc[t.v]/at.length*100:0}%;background:var(--accent)"></div></div><span class="bcount">${tc[t.v]}</span></div>`).join('')}
+      <div style="margin-top:10px"><div class="rct">Priority</div>
+      ${PRIORITIES.map(p=>{const n=pc[p.v]||0;return`<div class="brow"><span class="blabel">${p.icon} ${p.l}</span><div class="btrack"><div class="bfill" style="width:${at.length?n/at.length*100:0}%;background:var(--accent)"></div></div><span class="bcount">${n}</span></div>`}).join('')}</div>
+    </div>
+  </div>
+  <div class="rc mb"><div class="rct">Team Workload</div>
+    ${userWorkload.length===0?'<div style="color:var(--text3);font-size:12px">No users.</div>':userWorkload.map(({u,total,bd})=>{
+      const segs=ST.map(s=>{const spct=total>0?Math.round(bd[s.v]/total*100):0;return spct>0?`<div class="workload-seg" style="width:${spct}%;background:${s.col}" title="${s.l}: ${bd[s.v]}"></div>`:''}).join('');
+      return`<div class="workload-row"><div class="workload-user"><span class="avatar avatar-sm" style="background:${u.color}">${u.initials}</span><span class="workload-name">${u.name}</span></div><div class="workload-bars">${segs||'<div style="height:8px;width:100%;background:var(--surface2);border-radius:3px"></div>'}</div><span class="bcount">${total}</span></div>`;
+    }).join('')}
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">${ST.map(s=>`<div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3)"><div style="width:8px;height:8px;border-radius:2px;background:${s.col}"></div>${s.l}</div>`).join('')}</div>
+  </div>
+  <div class="rc mb"><div class="rct">Assignment Detail</div>
+    <div class="table-wrap" style="margin-bottom:0;box-shadow:none"><table>
+      <thead><tr><th>User</th>${ST.map(s=>`<th>${s.l}</th>`).join('')}<th>Total</th><th>% Prod</th></tr></thead>
+      <tbody>
+        ${users.map(u=>{const ut=at.filter(t=>t.assignedTo===u.id);const cn={};ST.forEach(s=>cn[s.v]=ut.filter(t=>t.status===s.v).length);const pp=ut.length?Math.round(cn.production/ut.length*100):0;return`<tr><td><div style="display:flex;align-items:center;gap:7px"><span class="avatar" style="background:${u.color}">${u.initials}</span>${u.name}</div></td>${ST.map(s=>`<td style="font-family:var(--mono);font-size:11px">${cn[s.v]||'—'}</td>`).join('')}<td style="font-family:var(--mono);font-size:12px;font-weight:700">${ut.length}</td><td><div style="display:flex;align-items:center;gap:6px"><div class="btrack" style="width:60px"><div class="bfill" style="width:${pp}%;background:var(--green)"></div></div><span style="font-family:var(--mono);font-size:9px;color:var(--text3)">${pp}%</span></div></td></tr>`}).join('')}
+        <tr style="background:var(--surface2)"><td style="font-weight:600">Unassigned</td>${ST.map(s=>`<td style="font-family:var(--mono);font-size:11px">${at.filter(t=>!t.assignedTo&&t.status===s.v).length||'—'}</td>`).join('')}<td style="font-family:var(--mono);font-size:12px;font-weight:700">${unassigned.length}</td><td>—</td></tr>
+      </tbody></table></div>
+  </div>
+  <div class="rc mb"><div class="rct">App Health</div>
+    ${appS.length?`<div class="table-wrap" style="margin-bottom:0;box-shadow:none"><table><thead><tr><th>App</th><th>Features</th><th>Epics</th><th>Tickets</th><th>In Prod</th><th>Progress</th></tr></thead><tbody>${appS.map(a=>{const pct=a.t?Math.round(a.p/a.t*100):0;return`<tr><td><span class="id-chip">${a.id}</span> ${a.title}</td><td style="color:var(--text2)">${a.f}</td><td style="color:var(--text2)">${a.e}</td><td style="color:var(--text2)">${a.t}</td><td><span class="tag tag-production">${a.p}</span></td><td><div style="display:flex;align-items:center;gap:7px"><div class="btrack" style="flex:1"><div class="bfill" style="width:${pct}%;background:var(--green)"></div></div><span style="font-family:var(--mono);font-size:9px;color:var(--text3)">${pct}%</span></div></td></tr>`}).join('')}</tbody></table></div>`:'<div style="color:var(--text3);font-size:12px">No apps yet.</div>'}
+  </div>
+  ${orph.length?`<div class="rc"><div class="rct">⚠ Orphan Tickets</div><div class="table-wrap" style="margin-bottom:0;box-shadow:none"><table><thead><tr><th>ID</th><th>Type</th><th>Title</th><th>Status</th><th>Priority</th><th>Assigned</th></tr></thead><tbody>${orph.slice(0,10).map(t=>`<tr><td><span class="id-chip">${t.id}</span></td><td>${tttag(t.ticketType||'story')}</td><td>${t.title}</td><td>${stag(t.status)}</td><td>${t.priority?ptag(t.priority):'—'}</td><td>${t.assignedTo?userPill(t.assignedTo):'—'}</td></tr>`).join('')}</tbody></table></div>${orph.length>10?`<div style="font-size:11px;color:var(--text3);padding:8px 0 0">…and ${orph.length-10} more</div>`:''}</div>`:''}`;
+}
+
+// ══════════════════════════════════════════════════════════
+// CONFIGURATION (admin only)
+// ══════════════════════════════════════════════════════════
+function renderConfig() {
+  if (!isAdmin()) { document.getElementById('mc').innerHTML=`<div class="empty"><div class="ico">🔒</div><p>Admin access required.</p></div>`; return; }
+  setHead('Configuration','System settings & roles');
+  document.getElementById('mc').innerHTML=`
+  <div class="config-section">
+    <div class="config-section-title">👤 Session — Switch User</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px">You are signed in as <strong>${sessionUser()?.name||'?'}</strong>. Switch to test different permission levels.</div>
+    <select class="fs" style="max-width:260px" onchange="switchSession(this.value)">
+      ${users.map(u=>`<option value="${u.id}"${u.id===sessionUserId?' selected':''}>${u.name} ${u.isAdmin?'(Admin)':'(User)'}</option>`).join('')}
+    </select>
+  </div>
+  <div class="config-section">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="config-section-title" style="margin-bottom:0">🎭 Roles</div>
+      <button class="btn btn-primary btn-sm" onclick="openRoleM()">+ Add Role</button>
+    </div>
+    ${roles.map(r=>{
+      const usedBy=users.filter(u=>u.roleId===r.id);
+      return `<div class="role-row">
+        <div>
+          <div style="font-weight:500">${r.name}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${usedBy.length?`Used by: ${usedBy.map(u=>u.name).join(', ')}`:'Not assigned to any user'}${r.system?' · System role':''}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          ${!r.system?`<button class="btn btn-ghost btn-sm" onclick="openRoleM('${r.id}')">Edit</button>`:''}
+          ${!r.system?`<button class="btn btn-danger btn-sm" onclick="delRole('${r.id}')">Delete</button>`:'<span style="font-size:11px;color:var(--text3)">System</span>'}
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+function switchSession(uid) {
+  sessionUserId = uid;
+  localStorage.setItem('px_session', uid);
+  render();
+  notify(`Switched to ${sessionUser()?.name}`);
+}
+function openRoleM(id=null) {
+  const r=id?roles.find(x=>x.id===id):null;
+  openM(r?'Edit Role':'New Role',`
+    <div class="fg"><label class="fl">Role Name *</label><input class="fi" id="rn" value="${r?.name||''}" placeholder="e.g. Tech Lead"></div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveRole('${id||''}')">Save Role</button>`);
+}
+function saveRole(id) {
+  const name=document.getElementById('rn').value.trim();
+  if(!name){notify('Name required','⚠');return;}
+  if(id){const i=roles.findIndex(r=>r.id===id);roles[i]={...roles[i],name};notify('Role updated');}
+  else{roles.push({id:nid('ROLE'),name,system:false});notify('Role created');}
+  save('roles',roles); closeM(); render();
+}
+function delRole(id) {
+  const usedBy=users.filter(u=>u.roleId===id);
+  if(usedBy.length){
+    if(!confirm(`This role is used by: ${usedBy.map(u=>u.name).join(', ')}.\nDeleting it will unassign them. Continue?`))return;
+    users=users.map(u=>u.roleId===id?{...u,roleId:null}:u); save('users',users);
+  } else {
+    if(!confirm('Delete this role?'))return;
+  }
+  roles=roles.filter(r=>r.id!==id); save('roles',roles); render(); notify('Role deleted');
+}
+
+// ══════════════════════════════════════════════════════════
+// MODAL OPEN/CLOSE
+// ══════════════════════════════════════════════════════════
+function openM(title, body, foot, trailFn=null) {
+  document.getElementById('mt').textContent=title;
+  document.getElementById('mb').innerHTML=body;
+  document.getElementById('mf').innerHTML=foot;
+  document.getElementById('m-trail').innerHTML='';
+  document.getElementById('ov').classList.add('open');
+  if(trailFn) trailFn();
+}
+function closeM() { document.getElementById('ov').classList.remove('open'); }
+
+// ══════════════════════════════════════════════════════════
+// TICKET MODAL
+// ══════════════════════════════════════════════════════════
+function openTM(id=null) {
+  const t=id?tix.find(x=>x.id===id):null;
+  openM(t?'Edit Ticket':'New Ticket',`
+    <div class="form-section">Basic Info</div>
+    <div class="form-row">
+      <div class="fg" style="flex:1"><label class="fl">Title *</label><input class="fi" id="ft" value="${t?.title||''}" placeholder="Ticket title"></div>
+      <div class="fg" style="width:90px;flex-shrink:0"><label class="fl">Order #</label><input class="fi" id="f-order" type="number" min="1" value="${t?.sortOrder||''}" placeholder="Auto" style="text-align:center"><div class="fd-hint" style="margin-top:4px">${t?.id?`<span class="modal-id-crumb">${t.id}</span>`:''}</div></div>
+    </div>
+    <div class="fg"><label class="fl">Type</label>${typeChips(t?.ticketType||'story')}</div>
+    <div class="fg"><label class="fl">Description</label>${rteHtml('desc',t?.description||'','Describe this ticket…')}</div>
+    <div class="fg"><label class="fl">Status</label>${statusChips(t?.status||'backlog')}</div>
+    <div class="fg"><label class="fl">Priority</label>${priorityChips(t?.priority||'medium')}</div>
+    <div class="form-section" style="margin-top:6px">Assignment</div>
+    <div class="form-row">
+      <div class="fg"><label class="fl">Assigned To</label><select class="fs" id="fassign">${userOpts(t?.assignedTo||'')}</select></div>
+      <div class="fg"><label class="fl">Created By</label><select class="fs" id="fcreated">${userOpts(t?.createdBy||sessionUserId||'')}</select></div>
+    </div>
+    <div class="form-section" style="margin-top:6px">Hierarchy & Delivery</div>
+    <div class="form-row">
+      <div class="fg"><label class="fl">Epic (optional)</label><select class="fs" id="fe" onchange="updateTrail('ticket',{epicId:this.value})">${epicOpts(t?.epicId||'')}</select>${t?.epicId?`<div class="fd-hint"><span class="modal-id-crumb">${t.epicId}</span></div>`:''}</div>
+      <div class="fg"><label class="fl">Sprint (optional)</label><select class="fs" id="fsprint">${sprintOpts(t?.sprintId||'')}</select></div>
+    </div>
+    <div class="fg"><label class="fl">Release (optional)</label><select class="fs" id="frelease">${releaseOpts(t?.releaseId||'')}</select></div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveT('${id||''}')">Save Ticket</button>`,
+    ()=>updateTrail('ticket',t||{}));
+}
+function saveT(id) {
+  const title=document.getElementById('ft').value.trim();
+  if(!title){notify('Title required','⚠');return;}
+  const now=new Date().toISOString();
+  if(id){
+    const i=tix.findIndex(t=>t.id===id),o={...tix[i]};
+    const u={...tix[i],title,description:rteGet('desc'),ticketType:document.getElementById('ftype').value||'story',
+      status:document.getElementById('fst').value,priority:document.getElementById('fpri').value,
+      assignedTo:document.getElementById('fassign').value||null,createdBy:document.getElementById('fcreated').value||null,
+      epicId:document.getElementById('fe').value||null,sprintId:document.getElementById('fsprint').value||null,
+      releaseId:document.getElementById('frelease').value||null,
+      sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):tix[i].sortOrder,
+      updatedAt:now};
+    addH(u,'Updated',diffFields(o,u,['title','status','priority','ticketType','assignedTo','epicId','sprintId','releaseId'])||'No changes');
+    tix[i]=u; notify('Ticket updated');
+  } else {
+    const rec={id:nid('TKT'),title,description:rteGet('desc'),ticketType:document.getElementById('ftype').value||'story',
+      status:document.getElementById('fst').value,priority:document.getElementById('fpri').value,
+      assignedTo:document.getElementById('fassign').value||null,createdBy:document.getElementById('fcreated').value||sessionUserId||null,
+      epicId:document.getElementById('fe').value||null,sprintId:document.getElementById('fsprint').value||null,
+      releaseId:document.getElementById('frelease').value||null,
+      sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):(tix.length+1),
+      createdAt:now,updatedAt:now,archived:false,history:[]};
+    addH(rec,'Created',`Type: ${rec.ticketType} | Status: ${rec.status} | Priority: ${rec.priority}`);
+    tix.push(rec); notify('Ticket created');
+  }
+  save('tix',tix); closeM(); render();
+}
+function archT(id,unarch=false){if(!unarch&&!confirm('Archive this ticket?'))return;const i=tix.findIndex(t=>t.id===id);tix[i].archived=!unarch;tix[i].updatedAt=new Date().toISOString();addH(tix[i],unarch?'Unarchived':'Archived');save('tix',tix);render();notify(unarch?'Unarchived':'Archived')}
+function delT(id){if(!confirm('Delete permanently?'))return;tix=tix.filter(t=>t.id!==id);save('tix',tix);render();notify('Deleted','🗑')}
+
+// EPIC MODAL
+function openEM(id=null) {
+  const e=id?epics.find(x=>x.id===id):null;
+  openM(e?'Edit Epic':'New Epic',`
+    <div class="form-section">Basic Info</div>
+    <div class="form-row">
+      <div class="fg" style="flex:1"><label class="fl">Title *</label><input class="fi" id="ft" value="${e?.title||''}" placeholder="Epic title"></div>
+      <div class="fg" style="width:90px;flex-shrink:0"><label class="fl">Order #</label><input class="fi" id="f-order" type="number" min="1" value="${e?.sortOrder||''}" placeholder="Auto" style="text-align:center"><div class="fd-hint" style="margin-top:4px">${e?.id?`<span class="modal-id-crumb">${e.id}</span>`:''}</div></div>
+    </div>
+    <div class="fg"><label class="fl">Description</label>${rteHtml('desc',e?.description||'','Describe this epic…')}</div>
+    <div class="fg"><label class="fl">Priority</label>${priorityChips(e?.priority||'medium')}</div>
+    <div class="form-section" style="margin-top:6px">Assignment & Hierarchy</div>
+    <div class="form-row">
+      <div class="fg"><label class="fl">Owner</label><select class="fs" id="fown">${userOpts(e?.ownerId||'')}</select></div>
+      <div class="fg"><label class="fl">Feature (optional)</label><select class="fs" id="ff" onchange="updateTrail('epic',{featId:this.value})">${featOpts(e?.featId||'')}</select>${e?.featId?`<div class="fd-hint"><span class="modal-id-crumb">${e.featId}</span></div>`:''}</div>
+    </div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveE('${id||''}')">Save Epic</button>`,
+    ()=>updateTrail('epic',e||{}));
+}
+function saveE(id){
+  const title=document.getElementById('ft').value.trim();if(!title){notify('Title required','⚠');return;}
+  const now=new Date().toISOString();
+  if(id){const i=epics.findIndex(e=>e.id===id),o={...epics[i]};const u={...epics[i],title,description:rteGet('desc'),priority:document.getElementById('fpri').value,ownerId:document.getElementById('fown').value||null,featId:document.getElementById('ff').value||null,sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):epics[i].sortOrder,updatedAt:now};addH(u,'Updated',diffFields(o,u,['title','priority','ownerId','featId'])||'No changes');epics[i]=u;notify('Epic updated');}
+  else{const r={id:nid('EPC'),title,description:rteGet('desc'),priority:document.getElementById('fpri').value,ownerId:document.getElementById('fown').value||null,featId:document.getElementById('ff').value||null,sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):(epics.length+1),createdAt:now,updatedAt:now,archived:false,history:[]};addH(r,'Created');epics.push(r);notify('Epic created');}
+  save('epics',epics);closeM();render();
+}
+function archE(id,unarch=false){if(!unarch&&!confirm('Archive this epic?'))return;const i=epics.findIndex(e=>e.id===id);epics[i].archived=!unarch;epics[i].updatedAt=new Date().toISOString();addH(epics[i],unarch?'Unarchived':'Archived');save('epics',epics);render();notify(unarch?'Unarchived':'Archived')}
+function delE(id){if(tix.some(t=>t.epicId===id&&!t.archived)){notify('Has active tickets','⚠');return;}if(!confirm('Delete?'))return;epics=epics.filter(e=>e.id!==id);save('epics',epics);render();notify('Deleted','🗑')}
+
+// FEATURE MODAL
+function openFM(id=null) {
+  const f=id?feats.find(x=>x.id===id):null;
+  openM(f?'Edit Feature':'New Feature',`
+    <div class="form-section">Basic Info</div>
+    <div class="form-row">
+      <div class="fg" style="flex:1"><label class="fl">Title *</label><input class="fi" id="ft" value="${f?.title||''}" placeholder="Feature title"></div>
+      <div class="fg" style="width:90px;flex-shrink:0"><label class="fl">Order #</label><input class="fi" id="f-order" type="number" min="1" value="${f?.sortOrder||''}" placeholder="Auto" style="text-align:center"><div class="fd-hint" style="margin-top:4px">${f?.id?`<span class="modal-id-crumb">${f.id}</span>`:''}</div></div>
+    </div>
+    <div class="fg"><label class="fl">Description</label>${rteHtml('desc',f?.description||'','Describe this feature…')}</div>
+    <div class="fg"><label class="fl">Priority</label>${priorityChips(f?.priority||'medium')}</div>
+    <div class="form-section" style="margin-top:6px">Hierarchy</div>
+    <div class="fg"><label class="fl">App (optional)</label><select class="fs" id="fa" onchange="updateTrail('feature',{appId:this.value})">${appOpts(f?.appId||'')}</select>${f?.appId?`<div class="fd-hint"><span class="modal-id-crumb">${f.appId}</span></div>`:''}</div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveF('${id||''}')">Save Feature</button>`,
+    ()=>updateTrail('feature',f||{}));
+}
+function saveF(id){
+  const title=document.getElementById('ft').value.trim();if(!title){notify('Title required','⚠');return;}
+  const now=new Date().toISOString();
+  if(id){const i=feats.findIndex(f=>f.id===id),o={...feats[i]};const u={...feats[i],title,description:rteGet('desc'),priority:document.getElementById('fpri').value,appId:document.getElementById('fa').value||null,sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):feats[i].sortOrder,updatedAt:now};addH(u,'Updated',diffFields(o,u,['title','priority','appId'])||'No changes');feats[i]=u;notify('Feature updated');}
+  else{const r={id:nid('FTR'),title,description:rteGet('desc'),priority:document.getElementById('fpri').value,appId:document.getElementById('fa').value||null,sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):(feats.length+1),createdAt:now,updatedAt:now,archived:false,history:[]};addH(r,'Created');feats.push(r);notify('Feature created');}
+  save('feats',feats);closeM();render();
+}
+function archF(id,unarch=false){if(!unarch&&!confirm('Archive this feature?'))return;const i=feats.findIndex(f=>f.id===id);feats[i].archived=!unarch;feats[i].updatedAt=new Date().toISOString();addH(feats[i],unarch?'Unarchived':'Archived');save('feats',feats);render();notify(unarch?'Unarchived':'Archived')}
+function delF(id){if(epics.some(e=>e.featId===id&&!e.archived)){notify('Has active epics','⚠');return;}if(!confirm('Delete?'))return;feats=feats.filter(f=>f.id!==id);save('feats',feats);render();notify('Deleted','🗑')}
+
+// APP MODAL
+function openAM(id=null) {
+  const a=id?apps.find(x=>x.id===id):null;
+  openM(a?'Edit App':'New App',`
+    <div class="form-section">Basic Info</div>
+    <div class="form-row">
+      <div class="fg" style="flex:1"><label class="fl">Title *</label><input class="fi" id="ft" value="${a?.title||''}" placeholder="App name"></div>
+      <div class="fg" style="width:90px;flex-shrink:0"><label class="fl">Order #</label><input class="fi" id="f-order" type="number" min="1" value="${a?.sortOrder||''}" placeholder="Auto" style="text-align:center"><div class="fd-hint" style="margin-top:4px">${a?.id?`<span class="modal-id-crumb">${a.id}</span>`:''}</div></div>
+    </div>
+    <div class="fg"><label class="fl">Description</label>${rteHtml('desc',a?.description||'','Describe this app…')}</div>
+    <div class="fg"><label class="fl">Priority</label>${priorityChips(a?.priority||'medium')}</div>`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveA('${id||''}')">Save App</button>`);
+}
+function saveA(id){
+  const title=document.getElementById('ft').value.trim();if(!title){notify('Title required','⚠');return;}
+  const now=new Date().toISOString();
+  if(id){const i=apps.findIndex(a=>a.id===id),o={...apps[i]};const u={...apps[i],title,description:rteGet('desc'),priority:document.getElementById('fpri').value,sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):apps[i].sortOrder,updatedAt:now};addH(u,'Updated',diffFields(o,u,['title','priority'])||'No changes');apps[i]=u;notify('App updated');}
+  else{const r={id:nid('APP'),title,description:rteGet('desc'),priority:document.getElementById('fpri').value,sortOrder:document.getElementById('f-order').value?parseInt(document.getElementById('f-order').value):(apps.length+1),createdAt:now,updatedAt:now,archived:false,history:[]};addH(r,'Created');apps.push(r);notify('App created');}
+  save('apps',apps);closeM();render();
+}
+function archA(id,unarch=false){if(!unarch&&!confirm('Archive this app?'))return;const i=apps.findIndex(a=>a.id===id);apps[i].archived=!unarch;apps[i].updatedAt=new Date().toISOString();addH(apps[i],unarch?'Unarchived':'Archived');save('apps',apps);render();notify(unarch?'Unarchived':'Archived')}
+function delA(id){if(feats.some(f=>f.appId===id&&!f.archived)){notify('Has active features','⚠');return;}if(!confirm('Delete?'))return;apps=apps.filter(a=>a.id!==id);save('apps',apps);render();notify('Deleted','🗑')}
+
+// USER MODAL
+const UCOLORS=['#6366f1','#0891b2','#16a34a','#d97706','#db2777','#7c3aed','#dc2626','#0d9488','#ea580c','#4f46e5'];
+function openUM(id=null) {
+  const u=id?users.find(x=>x.id===id):null;
+  const appCheckboxes=apps.filter(a=>!a.archived).map(a=>`<label class="checkbox-row"><input type="checkbox" value="${a.id}"${(u?.appIds||[]).includes(a.id)?' checked':''} class="u-app-check"> ${a.title}</label>`).join('');
+  openM(u?'Edit User':'Add Team Member',`
+    <div class="form-row">
+      <div class="fg"><label class="fl">Full Name *</label><input class="fi" id="fu-name" value="${u?.name||''}" placeholder="Jane Smith"></div>
+      <div class="fg"><label class="fl">Initials *</label><input class="fi" id="fu-init" value="${u?.initials||''}" placeholder="JS" maxlength="3" style="text-transform:uppercase"></div>
+    </div>
+    <div class="form-row">
+      <div class="fg"><label class="fl">Role</label><select class="fs" id="fu-role">${roleOpts(u?.roleId||'')}</select></div>
+      <div class="fg"><label class="fl">Color</label>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:2px" id="cpicker">
+          ${UCOLORS.map(c=>`<div onclick="selColor('${c}')" data-color="${c}" style="width:22px;height:22px;border-radius:50%;background:${c};cursor:pointer;border:2px solid ${(u?.color||UCOLORS[0])===c?'var(--text)':'transparent'};transition:border-color .15s"></div>`).join('')}
+        </div>
+        <input type="hidden" id="fu-color" value="${u?.color||UCOLORS[0]}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="fg"><label class="fl">Admin</label><label class="checkbox-row" style="margin-top:4px"><input type="checkbox" id="fu-admin"${u?.isAdmin?' checked':''} style="width:16px;height:16px;cursor:pointer;accent-color:var(--accent)"> Grant admin access</label></div>
+    </div>
+    ${apps.length?`<div class="fg"><label class="fl">Apps Access</label><div style="display:flex;flex-direction:column;gap:4px;margin-top:2px">${appCheckboxes||'<span style="color:var(--text3);font-size:12px">No apps yet</span>'}</div></div>`:''}`,
+    `<button class="btn btn-ghost" onclick="closeM()">Cancel</button><button class="btn btn-primary" onclick="saveU('${id||''}')">Save User</button>`);
+}
+function selColor(c) {
+  document.getElementById('fu-color').value=c;
+  document.querySelectorAll('#cpicker [data-color]').forEach(el=>el.style.border=`2px solid ${el.dataset.color===c?'var(--text)':'transparent'}`);
+}
+function saveU(id) {
+  const name=document.getElementById('fu-name').value.trim();
+  const initials=document.getElementById('fu-init').value.trim().toUpperCase();
+  if(!name||!initials){notify('Name and initials required','⚠');return;}
+  const now=new Date().toISOString();
+  const roleId=document.getElementById('fu-role').value||null;
+  const isAdmin=document.getElementById('fu-admin')?.checked||false;
+  const appIds=[...document.querySelectorAll('.u-app-check:checked')].map(x=>x.value);
+  const color=document.getElementById('fu-color').value;
+  if(id){
+    const i=users.findIndex(u=>u.id===id);
+    users[i]={...users[i],name,initials,roleId,color,isAdmin,appIds,updatedAt:now};
+    notify('User updated');
+  } else {
+    users.push({id:nid('USR'),name,initials,roleId,color,isAdmin,appIds,createdAt:now,history:[]});
+    notify('User added');
+  }
+  save('users',users); closeM(); render();
+}
+function delU(id) {
+  const has=tix.some(t=>t.assignedTo===id||t.createdBy===id);
+  if(has&&!confirm('User has tickets. Remove anyway? Tickets become unassigned.'))return;
+  if(!has&&!confirm('Delete user permanently?'))return;
+  tix=tix.map(t=>({...t,assignedTo:t.assignedTo===id?null:t.assignedTo,createdBy:t.createdBy===id?null:t.createdBy}));
+  save('tix',tix); users=users.filter(u=>u.id!==id); save('users',users); render(); notify('User removed','🗑');
+}
+
+// ══════════════════════════════════════════════════════════
+// DRAWERS
+// ══════════════════════════════════════════════════════════
+function openD(hHtml,bHtml){document.getElementById('dh').innerHTML=hHtml;document.getElementById('db').innerHTML=bHtml;document.getElementById('dov').classList.add('open');document.getElementById('drawer').classList.add('open');}
+function closeD(){document.getElementById('dov').classList.remove('open');document.getElementById('drawer').classList.remove('open');}
+function dHead(badge,bc,id,title,createdAt,archived){
+  return `<div style="flex:1"><div style="display:flex;align-items:center;gap:7px;margin-bottom:5px"><span class="type-badge ${bc}">${badge}</span><span class="id-chip">${id}</span>${archived?'<span class="tag tag-archived">Archived</span>':''}</div><div class="d-title">${title}</div><div class="d-sub">Created ${fdf(createdAt)}</div></div><button class="btn btn-ghost btn-icon" onclick="closeD()">✕</button>`;
+}
+function histHtml(h=[]){
+  if(!h.length) return '<div style="color:var(--text3);font-size:12px;padding:10px 0">No history yet.</div>';
+  return `<div class="hist">${h.map(x=>`<div class="hi"><span class="ht">${fdf(x.ts)}</span><span class="hd"><strong>${x.action}</strong>${x.details?' — '+x.details:''}</span></div>`).join('')}</div>`;
+}
+function drawerActions(type, id, archived) {
+  const openFn={ticket:'openTM',epic:'openEM',feature:'openFM',app:'openAM'}[type];
+  const archFn={ticket:'archT',epic:'archE',feature:'archF',app:'archA'}[type];
+  const delFn ={ticket:'delT', epic:'delE', feature:'delF', app:'delA'}[type];
+  return `<div class="d-actions">
+    ${!archived?`<button class="btn btn-ghost btn-sm" onclick="closeD();${openFn}('${id}')">✎ Edit</button>`:''}
+    ${!archived?`<button class="btn btn-ghost btn-sm" onclick="${archFn}('${id}')">Archive</button>`:`<button class="btn btn-ghost btn-sm" onclick="${archFn}('${id}',true)">↩ Unarchive</button>`}
+    <button class="btn btn-danger btn-sm" onclick="${delFn}('${id}');closeD()">Delete</button>
+  </div>`;
+}
+
+function openTD(id) {
+  const t=tix.find(x=>x.id===id); if(!t)return;
+  const crumb=t.epicId?epicBreadcrumb(t.epicId):null;
+  const sp=t.sprintId?sprints.find(s=>s.id===t.sprintId):null;
+  const rl=t.releaseId?releases.find(r=>r.id===t.releaseId):null;
+  openD(dHead('TICKET','tb-ticket',t.id,t.title,t.createdAt,t.archived),`
+    <div class="irow"><span class="ilabel">Order</span><span class="order-num" style="font-size:13px">${t.sortOrder??'—'}</span></div>
+    <div class="irow"><span class="ilabel">Type</span>${tttag(t.ticketType||'story')||'<span style="color:var(--text3)">Story</span>'}</div>
+    <div class="irow"><span class="ilabel">Status</span>${stag(t.status)}</div>
+    <div class="irow"><span class="ilabel">Priority</span>${t.priority?ptag(t.priority):'<span style="color:var(--text3)">—</span>'}</div>
+    <div class="irow"><span class="ilabel">Assigned To</span>${t.assignedTo?userPill(t.assignedTo):'<span style="color:var(--text3);font-size:12px">Unassigned</span>'}</div>
+    <div class="irow"><span class="ilabel">Created By</span>${t.createdBy?userPill(t.createdBy):'<span style="color:var(--text3)">—</span>'}</div>
+    <div class="irow"><span class="ilabel">Epic</span><span style="font-size:12px;color:var(--text2)">${crumb||'—'}${t.epicId?` <span class="id-chip">${t.epicId}</span>`:''}</span></div>
+    <div class="irow"><span class="ilabel">Sprint</span><div style="flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px">
+      <span style="font-size:12px">${sp?`<span class="tag tag-sprint" style="font-size:10px">${sp.name}</span>`:'<span style="color:var(--text3)">—</span>'}</span>
+      ${!t.archived?(!t.sprintId
+        ? `<button class="btn btn-ghost btn-sm" onclick="addTicketToActiveSprint('${t.id}');openTD('${t.id}')">⚡ Add to Sprint</button>`
+        : `<button class="btn btn-ghost btn-sm" onclick="removeTicketFromSprint('${t.id}');openTD('${t.id}')">✕ Remove</button>`)
+      :''}
+    </div></div>
+    <div class="irow"><span class="ilabel">Release</span><span style="font-size:12px">${rl?`${rl.name}${rl.deployed?' <span class=\'tag tag-deployed\' style=\'font-size:9px\'>Deployed</span>':''}`:'<span style="color:var(--text3)">—</span>'}</span></div>
+    <div class="irow"><span class="ilabel">Description</span><div class="rich-content" style="flex:1">${t.description||'<span style="color:var(--text3)">—</span>'}</div></div>
+    <div class="irow"><span class="ilabel">Updated</span><span style="font-size:11px;color:var(--text3);font-family:var(--mono)">${fdf(t.updatedAt)}</span></div>
+    ${drawerActions('ticket',t.id,t.archived)}
+    <div style="margin-top:16px"><div class="section-label">History</div>${histHtml(t.history)}</div>`);
+}
+function openED(id) {
+  const e=epics.find(x=>x.id===id); if(!e)return;
+  const crumb=e.featId?featBreadcrumb(e.featId):null;
+  const myT=tix.filter(t=>t.epicId===id&&!t.archived);
+  openD(dHead('EPIC','tb-epic',e.id,e.title,e.createdAt,e.archived),`
+    <div class="irow"><span class="ilabel">Order</span><span class="order-num" style="font-size:13px">${e.sortOrder??'—'}</span></div>
+    <div class="irow"><span class="ilabel">Priority</span>${e.priority?ptag(e.priority):'—'}</div>
+    <div class="irow"><span class="ilabel">Feature</span><span style="font-size:12px;color:var(--text2)">${crumb||'—'}${e.featId?` <span class="id-chip">${e.featId}</span>`:''}</span></div>
+    <div class="irow"><span class="ilabel">Owner</span>${e.ownerId?userPill(e.ownerId):'<span style="color:var(--text3)">—</span>'}</div>
+    <div class="irow"><span class="ilabel">Description</span><div class="rich-content" style="flex:1">${e.description||'<span style="color:var(--text3)">—</span>'}</div></div>
+    <div class="irow"><span class="ilabel">Tickets</span><span class="tag tag-sprint">${myT.length}</span></div>
+    ${myT.length?`<div class="table-wrap" style="margin-top:10px;margin-bottom:0"><table><thead><tr><th>ID</th><th>Type</th><th>Title</th><th>Status</th><th>Priority</th><th>Assigned</th></tr></thead><tbody>${myT.map(t=>`<tr onclick="closeD();setTimeout(()=>openTD('${t.id}'),50)"><td><span class="id-chip">${t.id}</span></td><td>${tttag(t.ticketType||'story')}</td><td style="font-size:13px">${t.title}</td><td>${stag(t.status)}</td><td>${t.priority?ptag(t.priority):'—'}</td><td>${t.assignedTo?userAvatar(t.assignedTo):'—'}</td></tr>`).join('')}</tbody></table></div>`:''}
+    ${drawerActions('epic',e.id,e.archived)}
+    <div style="margin-top:16px"><div class="section-label">History</div>${histHtml(e.history)}</div>`);
+}
+function openFD(id) {
+  const f=feats.find(x=>x.id===id); if(!f)return;
+  const app=f.appId?apps.find(a=>a.id===f.appId):null;
+  const myE=epics.filter(e=>e.featId===id&&!e.archived);
+  openD(dHead('FEATURE','tb-feat',f.id,f.title,f.createdAt,f.archived),`
+    <div class="irow"><span class="ilabel">Order</span><span class="order-num" style="font-size:13px">${f.sortOrder??'—'}</span></div>
+    <div class="irow"><span class="ilabel">Priority</span>${f.priority?ptag(f.priority):'—'}</div>
+    <div class="irow"><span class="ilabel">App</span><span style="font-size:13px">${app?`${app.title} <span class="id-chip">${app.id}</span>`:'—'}</span></div>
+    <div class="irow"><span class="ilabel">Description</span><div class="rich-content" style="flex:1">${f.description||'<span style="color:var(--text3)">—</span>'}</div></div>
+    <div class="irow"><span class="ilabel">Epics</span><span class="tag tag-dev">${myE.length}</span></div>
+    ${myE.length?`<div class="table-wrap" style="margin-top:10px;margin-bottom:0"><table><thead><tr><th>ID</th><th>Title</th><th>Priority</th><th>Owner</th><th>Tickets</th></tr></thead><tbody>${myE.map(e=>{const tc=tix.filter(t=>t.epicId===e.id&&!t.archived).length;return`<tr><td><span class="id-chip">${e.id}</span></td><td style="font-size:13px">${e.title}</td><td>${e.priority?ptag(e.priority):'—'}</td><td>${e.ownerId?userAvatar(e.ownerId):'—'}</td><td><span class="tag tag-sprint">${tc}</span></td></tr>`}).join('')}</tbody></table></div>`:''}
+    ${drawerActions('feature',f.id,f.archived)}
+    <div style="margin-top:16px"><div class="section-label">History</div>${histHtml(f.history)}</div>`);
+}
+function openAD(id) {
+  const a=apps.find(x=>x.id===id); if(!a)return;
+  const myF=feats.filter(f=>f.appId===id&&!f.archived);
+  openD(dHead('APP','tb-app',a.id,a.title,a.createdAt,a.archived),`
+    <div class="irow"><span class="ilabel">Order</span><span class="order-num" style="font-size:13px">${a.sortOrder??'—'}</span></div>
+    <div class="irow"><span class="ilabel">Priority</span>${a.priority?ptag(a.priority):'—'}</div>
+    <div class="irow"><span class="ilabel">Description</span><div class="rich-content" style="flex:1">${a.description||'<span style="color:var(--text3)">—</span>'}</div></div>
+    <div class="irow"><span class="ilabel">Features</span><span class="tag tag-blue">${myF.length}</span></div>
+    ${myF.length?`<div class="table-wrap" style="margin-top:10px;margin-bottom:0"><table><thead><tr><th>ID</th><th>Title</th><th>Priority</th><th>Epics</th></tr></thead><tbody>${myF.map(f=>{const ec=epics.filter(e=>e.featId===f.id&&!e.archived).length;return`<tr><td><span class="id-chip">${f.id}</span></td><td style="font-size:13px">${f.title}</td><td>${f.priority?ptag(f.priority):'—'}</td><td><span class="tag tag-dev">${ec}</span></td></tr>`}).join('')}</tbody></table></div>`:''}
+    ${drawerActions('app',a.id,a.archived)}
+    <div style="margin-top:16px"><div class="section-label">History</div>${histHtml(a.history)}</div>`);
+}
+function openUD(id) {
+  const u=users.find(x=>x.id===id); if(!u)return;
+  const myTix=tix.filter(t=>t.assignedTo===id&&!t.archived);
+  const createdTix=tix.filter(t=>t.createdBy===id);
+  const sc={}; ST.forEach(s=>sc[s.v]=myTix.filter(t=>t.status===s.v).length);
+  const userApps=apps.filter(a=>(u.appIds||[]).includes(a.id));
+  openD(`<div style="flex:1"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+    <span class="avatar avatar-lg" style="background:${u.color}">${u.initials}</span>
+    <div><div class="d-title">${u.name}${u.isAdmin?' <span class="sb-admin-badge">ADMIN</span>':''}</div><div class="d-sub">${roleLabel(u.roleId)} · <span class="id-chip">${u.id}</span></div></div>
+  </div></div><button class="btn btn-ghost btn-icon" onclick="closeD()">✕</button>`,
+  `<div class="irow"><span class="ilabel">Assigned</span><span style="font-family:var(--mono);font-size:13px;font-weight:700">${myTix.length} tickets</span></div>
+   <div class="irow"><span class="ilabel">Created</span><span style="font-family:var(--mono);font-size:13px">${createdTix.length} tickets</span></div>
+   ${userApps.length?`<div class="irow"><span class="ilabel">Apps</span><div style="flex:1;display:flex;gap:5px;flex-wrap:wrap">${userApps.map(a=>`<span class="id-chip">${a.title}</span>`).join('')}</div></div>`:''}
+   <div style="margin-top:12px;margin-bottom:12px">${ST.map(s=>`<div class="brow"><span class="blabel">${s.l}</span><div class="btrack"><div class="bfill" style="width:${myTix.length?sc[s.v]/myTix.length*100:0}%;background:${s.col}"></div></div><span class="bcount">${sc[s.v]}</span></div>`).join('')}</div>
+   ${myTix.length?`<div class="section-label">Assigned Tickets</div><div class="table-wrap" style="margin-bottom:0"><table><thead><tr><th>ID</th><th>Type</th><th>Title</th><th>Status</th></tr></thead><tbody>${myTix.slice(0,10).map(t=>`<tr><td><span class="id-chip">${t.id}</span></td><td>${tttag(t.ticketType||'story')}</td><td style="font-size:13px">${t.title}</td><td>${stag(t.status)}</td></tr>`).join('')}</tbody></table></div>`:''}
+   <div class="d-actions">
+     <button class="btn btn-ghost btn-sm" onclick="closeD();openUM('${id}')">✎ Edit User</button>
+     <button class="btn btn-danger btn-sm" onclick="closeD();delU('${id}')">Remove User</button>
+   </div>`);
+}
+
+// ══════════════════════════════════════════════════════════
+// HELP & GUIDE
+// ══════════════════════════════════════════════════════════
+function renderHelp() {
+  setHead('Help & Guide', 'Learn how to use PRODEX effectively');
+  document.getElementById('mc').innerHTML = `
+
+  <!-- HERO -->
+  <div class="help-hero">
+    <div class="help-hero-title">Welcome to PRODEX ✦</div>
+    <div class="help-hero-sub">PRODEX is a product management workspace that helps your team plan, track, and ship software. This guide covers every feature — from setting up your product hierarchy to running sprints and deploying releases. Use the quick-links below to jump to any section.</div>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="help-toc">
+    <a class="help-toc-chip" onclick="document.getElementById('h-flow').scrollIntoView({behavior:'smooth'})">⬡ Product Flow</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-backlog').scrollIntoView({behavior:'smooth'})">◈ Backlog</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-sprints').scrollIntoView({behavior:'smooth'})">⚡ Sprints</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-hierarchy').scrollIntoView({behavior:'smooth'})">◉ Hierarchy</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-tickets').scrollIntoView({behavior:'smooth'})">◑ Tickets</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-releases').scrollIntoView({behavior:'smooth'})">🚀 Releases</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-users').scrollIntoView({behavior:'smooth'})">◎ Users & Roles</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-reports').scrollIntoView({behavior:'smooth'})">▣ Reports</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-config').scrollIntoView({behavior:'smooth'})">⚙ Configuration</a>
+    <a class="help-toc-chip" onclick="document.getElementById('h-tips').scrollIntoView({behavior:'smooth'})">💡 Tips & Shortcuts</a>
+  </div>
+
+  <!-- ─── PRODUCT FLOW ─── -->
+  <div class="help-section" id="h-flow">
+    <div class="help-section-title"><span class="help-section-ico">⬡</span> The PRODEX Product Flow</div>
+    <div class="help-section-sub">How ideas move from concept to production</div>
+    <div class="help-body">
+      <p>PRODEX is built around a deliberate hierarchy that mirrors how great product teams think. Work flows top-down during planning and bottom-up during execution. Here is the complete lifecycle:</p>
+    </div>
+
+    <!-- Flow diagram -->
+    <div class="help-flow">
+      <div class="help-flow-step">
+        <div class="help-flow-badge" style="background:rgba(219,39,119,.1)">◉</div>
+        <div class="help-flow-label">App</div>
+        <div class="help-flow-desc">Top-level product or service</div>
+      </div>
+      <div class="help-flow-step">
+        <div class="help-flow-badge" style="background:rgba(124,58,237,.1)">◧</div>
+        <div class="help-flow-label">Feature</div>
+        <div class="help-flow-desc">A capability within the app</div>
+      </div>
+      <div class="help-flow-step">
+        <div class="help-flow-badge" style="background:rgba(180,83,9,.1)">◐</div>
+        <div class="help-flow-label">Epic</div>
+        <div class="help-flow-desc">A theme of work inside a feature</div>
+      </div>
+      <div class="help-flow-step">
+        <div class="help-flow-badge" style="background:rgba(8,145,178,.1)">◑</div>
+        <div class="help-flow-label">Ticket</div>
+        <div class="help-flow-desc">Individual unit of work</div>
+      </div>
+      <div class="help-flow-step">
+        <div class="help-flow-badge" style="background:rgba(91,83,240,.1)">⚡</div>
+        <div class="help-flow-label">Sprint</div>
+        <div class="help-flow-desc">Time-boxed execution period</div>
+      </div>
+      <div class="help-flow-step">
+        <div class="help-flow-badge" style="background:rgba(22,163,74,.1)">🚀</div>
+        <div class="help-flow-label">Release</div>
+        <div class="help-flow-desc">Deployable bundle of tickets</div>
+      </div>
+    </div>
+
+    <div class="help-divider"></div>
+
+    <div class="help-body">
+      <p><strong>Step 1 — Define your Apps.</strong> Start by creating an App for each product, service, or codebase your team works on. Apps are the highest level of organisation. Example: "Mobile App", "Admin Dashboard", "API Gateway".</p>
+
+      <p><strong>Step 2 — Break Apps into Features.</strong> A Feature represents a distinct capability or area within an App. Features help you group related work. Example: inside "Mobile App" you might have "Onboarding", "Payments", "Notifications".</p>
+
+      <p><strong>Step 3 — Create Epics inside Features.</strong> An Epic is a theme of work — bigger than a single ticket but smaller than a feature. Epics give your team a shared goal. Example: inside "Onboarding" you might have "Email Verification Flow", "Profile Setup Wizard".</p>
+
+      <p><strong>Step 4 — Break Epics into Tickets.</strong> Tickets are the atomic units of work: Stories (new functionality), Bugs (defects to fix), or Spikes (research / investigation). Each ticket has a status that moves through the pipeline: Backlog → In Sprint → In Dev → In Test → Ready for Prod → In Production.</p>
+
+      <p><strong>Step 5 — Plan Sprints.</strong> Sprints are time-boxed periods (usually 2 weeks) where your team commits to completing a set of tickets. Create a sprint, set an objective and date range, activate it, then pull tickets from the backlog into it.</p>
+
+      <p><strong>Step 6 — Ship Releases.</strong> When a set of tickets is ready to go out together, bundle them into a Release. The Release tracks which tickets are included and gives you a formatted summary to share with stakeholders. When you click Deploy, all linked tickets are automatically moved to "In Production".</p>
+    </div>
+
+    <div class="help-tip"><strong>💡 Tip:</strong> You don't need to use every level for every piece of work. A small bug fix can live as a standalone ticket with no epic. The hierarchy is there to help — not to slow you down.</div>
+  </div>
+
+  <!-- ─── BACKLOG ─── -->
+  <div class="help-section" id="h-backlog">
+    <div class="help-section-title"><span class="help-section-ico">◈</span> Backlog</div>
+    <div class="help-section-sub">Your queue of work waiting to be picked up</div>
+    <div class="help-body">
+      <p>The Backlog is a filtered view showing all tickets with status <strong>Backlog</strong>. It is your staging area — the place where new work lands before it's assigned to a sprint.</p>
+
+      <p><strong>Quick Add:</strong> Use the quick-entry bar at the top to create a ticket in seconds. Type a title, pick a status, optionally link it to an Epic and assign it, then press <span class="help-kbd">Enter</span> or click Add.</p>
+
+      <p><strong>Adding to the active sprint:</strong> Hover any row to reveal the row actions. Click <strong>⚡ Sprint</strong> to instantly move that ticket into the currently active sprint. Its status changes from Backlog to "In Sprint" automatically. If no sprint is active, you'll see a warning to activate one first.</p>
+
+      <p><strong>Filter chips:</strong> Use the App, Feature, and Epic filter chips below the quick-entry bar to narrow the view. Filters are remembered per session. Click <strong>✕ Clear</strong> to reset.</p>
+
+      <p><strong>Reorder:</strong> Drag the <strong>⠿</strong> handle on any row to reorder items. The order number (#) column reflects the saved sort position.</p>
+    </div>
+    <div class="help-tip"><strong>💡 Tip:</strong> Keep your backlog groomed. Before each sprint, review the backlog, update priorities, and archive tickets that are no longer relevant.</div>
+  </div>
+
+  <!-- ─── SPRINTS ─── -->
+  <div class="help-section" id="h-sprints">
+    <div class="help-section-title"><span class="help-section-ico">⚡</span> Sprints</div>
+    <div class="help-section-sub">Time-boxed execution periods for your team</div>
+    <div class="help-body">
+      <p>Sprints let your team commit to a focused set of work within a fixed window — typically two weeks. PRODEX supports one <strong>active sprint</strong> at a time, with all past sprints preserved in the Archived tab for reference.</p>
+
+      <p><strong>Creating a sprint:</strong> Click <strong>+ New Sprint</strong>. Give it a name (e.g. "Sprint 7 — Auth"), write an objective (the one-sentence goal the team is aiming for), and set start and end dates. The date range defaults to today plus two weeks.</p>
+
+      <p><strong>Activating a sprint:</strong> Click <strong>▶ Activate</strong> on any inactive sprint. Only one sprint can be active at a time — activating a new one deactivates the previous one.</p>
+
+      <p><strong>Adding tickets:</strong> There are three ways to put tickets into a sprint:
+        <ul>
+          <li>Click <strong>+ Add Tickets</strong> on the sprint card to open a multi-select picker showing all unassigned tickets. Check the ones you want and click Add Selected.</li>
+          <li>Hover any ticket row in the Backlog or All Tickets view and click <strong>⚡ Sprint</strong> in the row actions.</li>
+          <li>Open a ticket drawer and click <strong>⚡ Add to Sprint</strong> next to the Sprint field.</li>
+        </ul>
+      </p>
+
+      <p><strong>Removing tickets:</strong> Hover a ticket row inside the sprint card and click <strong>✕ Sprint</strong> in the row actions. The ticket reverts to Backlog status.</p>
+
+      <p><strong>Views — List vs Swimlane:</strong> Toggle between views using the buttons at the top right. <strong>List view</strong> shows a sortable table per sprint. <strong>Swimlane view</strong> shows a 6-column Kanban board organised by status, so you can see work flow visually across Backlog → In Dev → In Test → Ready for Prod → In Production.</p>
+
+      <p><strong>Completing a sprint:</strong> Click <strong>✓ Complete</strong> to archive the sprint and move it to the historical record. Tickets remain linked to the sprint for reporting purposes.</p>
+    </div>
+    <div class="help-tip"><strong>💡 Sprint Objective:</strong> Always fill in the sprint objective. A clear one-sentence goal ("Ship the email verification flow end-to-end") keeps the team aligned and makes retrospectives easier.</div>
+  </div>
+
+  <!-- ─── HIERARCHY ─── -->
+  <div class="help-section" id="h-hierarchy">
+    <div class="help-section-title"><span class="help-section-ico">◉</span> Apps, Features & Epics</div>
+    <div class="help-section-sub">The three levels of product organisation above tickets</div>
+
+    <div class="help-2col">
+      <div class="help-card">
+        <div class="help-card-title">◉ Apps</div>
+        <div class="help-card-body">The highest level. Represents a distinct product, service, or codebase. Everything in PRODEX belongs (directly or indirectly) to an App. Create one App per product line.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">◧ Features</div>
+        <div class="help-card-body">A functional capability within an App. Features group related Epics. Use Features to represent major product areas like "Search", "Checkout", or "User Settings".</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">◐ Epics</div>
+        <div class="help-card-body">A body of work inside a Feature. An Epic has an owner, a description, and contains multiple tickets. Use Epics for initiatives that span multiple sprints.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Breadcrumbs</div>
+        <div class="help-card-body">When editing an Epic, the feature dropdown shows "App › Feature" paths. When editing a Ticket, the epic dropdown shows "App › Feature › Epic" paths — so you always know where something lives.</div>
+      </div>
+    </div>
+
+    <div class="help-body" style="margin-top:12px">
+      <p><strong>Creating items:</strong> Click <strong>+ New [Item]</strong> in any view's page header. Fill in the title, description (supports rich text), priority, and hierarchy links. Every item gets a unique ID (APP-0001, FTR-0001, EPC-0001) that is shown discreetly below the relevant dropdowns in the form.</p>
+      <p><strong>Archiving vs Deleting:</strong> Archiving hides an item from active views but preserves it — it remains visible in the Archived tab and its history is intact. You can unarchive at any time. Deleting is permanent and blocked if the item has active children (e.g. you cannot delete a Feature that still has active Epics).</p>
+      <p><strong>Priority:</strong> All items (Apps, Features, Epics, Tickets) support four priority levels: Critical 🔴, High 🟠, Medium 🟡, Low 🟢. Priority is shown in tables and drawers.</p>
+      <p><strong>Order number:</strong> Drag the <strong>⠿</strong> handle to reorder rows. You can also type an order number directly in the form to jump an item to a specific position.</p>
+    </div>
+  </div>
+
+  <!-- ─── TICKETS ─── -->
+  <div class="help-section" id="h-tickets">
+    <div class="help-section-title"><span class="help-section-ico">◑</span> Tickets</div>
+    <div class="help-section-sub">The atomic unit of work — stories, bugs, and spikes</div>
+    <div class="help-body">
+      <p>A Ticket represents a single piece of work. Every ticket has a <strong>type</strong>, a <strong>status</strong>, and a <strong>priority</strong>.</p>
+
+      <p><strong>Ticket Types:</strong></p>
+      <ul>
+        <li><strong>📖 Story</strong> — New functionality or an improvement to existing behaviour. Most tickets are stories.</li>
+        <li><strong>🐛 Bug</strong> — A defect or regression. Something that is broken and needs fixing.</li>
+        <li><strong>⚡ Spike</strong> — Research, investigation, or technical discovery. Time-boxed exploration with a written outcome rather than shippable code.</li>
+      </ul>
+
+      <p><strong>Status Pipeline:</strong> Tickets move through six stages:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px">
+        <span class="tag tag-backlog">Backlog</span>
+        <span style="color:var(--text3);padding:2px">→</span>
+        <span class="tag tag-sprint">In Sprint</span>
+        <span style="color:var(--text3);padding:2px">→</span>
+        <span class="tag tag-dev">In Dev</span>
+        <span style="color:var(--text3);padding:2px">→</span>
+        <span class="tag tag-test">In Test</span>
+        <span style="color:var(--text3);padding:2px">→</span>
+        <span class="tag tag-readyprod">Ready for Prod</span>
+        <span style="color:var(--text3);padding:2px">→</span>
+        <span class="tag tag-production">In Production</span>
+      </div>
+
+      <p>Change status by editing the ticket and selecting a new status chip, or by dragging the ticket to a different swimlane column in Sprint view.</p>
+
+      <p><strong>Linking to hierarchy:</strong> A ticket can be linked to an Epic (and inherits the Epic's Feature and App chain). It can also be linked to a Sprint and a Release independently — allowing a ticket to be worked on in Sprint 3 but deployed as part of Release v2.1.</p>
+
+      <p><strong>Rich text description:</strong> The description field is a full rich-text editor. Use the toolbar to add headings, bold/italic, bullet lists, numbered lists, code blocks, blockquotes, links, highlights, and dividers. Formatting is preserved and rendered when you view the ticket in the detail drawer.</p>
+
+      <p><strong>History:</strong> Every create, edit, archive, or sprint change is automatically logged in the ticket's history. Open the detail drawer and scroll to the bottom to see the full audit trail.</p>
+    </div>
+    <div class="help-tip"><strong>💡 Tip:</strong> Use Spikes sparingly and always define a clear time-box and expected output upfront (e.g. "2 days — deliver a written recommendation on which auth library to use").</div>
+  </div>
+
+  <!-- ─── RELEASES ─── -->
+  <div class="help-section" id="h-releases">
+    <div class="help-section-title"><span class="help-section-ico">🚀</span> Releases</div>
+    <div class="help-section-sub">Bundle and deploy groups of tickets together</div>
+    <div class="help-body">
+      <p>A Release is a named, versioned bundle of tickets that are deployed together. Releases are independent of Sprints — a release may contain tickets from multiple sprints, or a single sprint may produce multiple releases.</p>
+
+      <p><strong>Creating a Release:</strong> Click <strong>+ New Release</strong>. Give it a name (e.g. "v2.3.0 — Payment Improvements"), a rich-text description (release notes), and an optional target date.</p>
+
+      <p><strong>Linking tickets:</strong> Open any ticket and select a Release from the Release dropdown in the form. The ticket will appear in that release's summary. You can link tickets from different sprints or epics to the same release.</p>
+
+      <p><strong>Deploying:</strong> Click <strong>🚀 Deploy</strong> on a release card. PRODEX will confirm the action, then automatically move all linked tickets to <strong>In Production</strong> status and timestamp the deployment.</p>
+
+      <p><strong>Release Summary:</strong> Click <strong>📋 Copy Summary</strong> to generate a formatted plain-text summary of the release, including ticket counts by type and a per-ticket status breakdown. The summary is copied to your clipboard and also shown in a modal so you can review it before sharing.</p>
+
+      <p>A deployed release is visually highlighted with a green left border and a <span class="tag tag-deployed" style="display:inline-flex;padding:1px 6px;font-size:10px">✓ Deployed</span> badge, making it easy to distinguish past releases from upcoming ones.</p>
+    </div>
+    <div class="help-tip"><strong>💡 Tip:</strong> Use the Release description field to write your changelog or release notes. They are preserved and included in the shareable summary, making it easy to communicate what shipped to stakeholders or customers.</div>
+  </div>
+
+  <!-- ─── USERS & ROLES ─── -->
+  <div class="help-section" id="h-users">
+    <div class="help-section-title"><span class="help-section-ico">◎</span> Users & Roles</div>
+    <div class="help-section-sub">Manage your team and their permissions</div>
+    <div class="help-body">
+      <p><strong>Adding a user:</strong> Go to the Users section and click <strong>+ Add User</strong>. Fill in the name, initials (2–3 characters, shown in avatars), pick a colour, assign a role, and optionally mark the user as an Admin.</p>
+
+      <p><strong>Roles:</strong> Roles are defined in the Configuration section (admin only). Default roles include Product Manager, Developer, QA Engineer, Designer, and Scrum Master. You can create custom roles. A role cannot be deleted if it is currently assigned to any user — you'll be warned and given the chance to continue (which will unassign the role from those users).</p>
+
+      <p><strong>App access:</strong> When creating or editing a user, you can assign them to specific Apps. This is informational — it lets you see which team members work on which products from the user detail drawer.</p>
+
+      <p><strong>Admin users:</strong> Admin users can access the Configuration section (roles, session switching). Non-admin users cannot see the Configuration nav item at all. Mark a user as Admin by checking the <em>Grant admin access</em> checkbox in the user form.</p>
+
+      <p><strong>Session switching:</strong> In Configuration, you can switch the active session to any user to test what the app looks like from their perspective. The current session user is shown in the sidebar footer.</p>
+
+      <p><strong>Ticket assignment:</strong> Tickets have two user fields: <em>Assigned To</em> (the person responsible for the work) and <em>Created By</em> (who raised the ticket). Both are optional but recommended for good team visibility.</p>
+    </div>
+    <div class="help-tip"><strong>💡 Tip:</strong> Keep at least one admin user active at all times so you always have access to Configuration. If you're the only admin, don't remove yourself from that role.</div>
+  </div>
+
+  <!-- ─── REPORTS ─── -->
+  <div class="help-section" id="h-reports">
+    <div class="help-section-title"><span class="help-section-ico">▣</span> Reports</div>
+    <div class="help-section-sub">Analytics and health metrics for your workspace</div>
+    <div class="help-body">
+      <p>The Reports section gives you a real-time overview of your team's work. All panels update immediately as tickets change.</p>
+
+      <p><strong>Filtering:</strong> Use the <em>Project</em> and <em>Feature</em> filter chips at the top of the Reports page to scope all panels to a specific app or feature. This is useful during stakeholder meetings when you want to discuss one product line.</p>
+
+      <p><strong>Panels available:</strong></p>
+      <ul>
+        <li><strong>KPI Cards</strong> — Total tickets, in-flight count (Dev + Test), in-production count, unassigned tickets, team size, and orphan ticket count (tickets not linked to any epic).</li>
+        <li><strong>Pipeline Flow</strong> — Bar chart showing how many tickets are at each stage.</li>
+        <li><strong>Status Breakdown</strong> — Donut chart of ticket distribution by status.</li>
+        <li><strong>Ticket Types</strong> — Distribution of Stories vs Bugs vs Spikes, plus Priority breakdown.</li>
+        <li><strong>Team Workload</strong> — Stacked bar per team member showing their ticket load by status.</li>
+        <li><strong>Assignment Detail</strong> — Table breakdown per user showing counts at every pipeline stage plus their % in production.</li>
+        <li><strong>App Health</strong> — Per-app table showing feature count, epic count, ticket count, production count, and a progress bar.</li>
+        <li><strong>Orphan Tickets</strong> — Tickets not linked to any Epic, flagged so you can clean them up.</li>
+      </ul>
+    </div>
+    <div class="help-tip"><strong>💡 Tip:</strong> If you notice a large number of Orphan Tickets, do a quick grooming session to link them to the right epics. Unlinked tickets make your App Health and Epic tracking inaccurate.</div>
+  </div>
+
+  <!-- ─── CONFIGURATION ─── -->
+  <div class="help-section" id="h-config">
+    <div class="help-section-title"><span class="help-section-ico">⚙</span> Configuration</div>
+    <div class="help-section-sub">Admin-only system settings</div>
+    <div class="help-body">
+      <p>The Configuration section is only visible and accessible to <strong>admin users</strong>. Non-admin users will not see it in the sidebar.</p>
+
+      <p><strong>Session Switcher:</strong> Switch the active session to any user in the workspace. This lets admins test the app from different permission perspectives without logging in and out. The current session user is shown in the sidebar footer at all times.</p>
+
+      <p><strong>Roles:</strong> View all roles in the system, create new ones, edit names, and delete unused roles. The <em>Admin</em> role is a system role and cannot be deleted. Before deleting a role that is assigned to users, PRODEX will warn you which users will be affected and ask for confirmation.</p>
+    </div>
+    <div class="help-tip"><strong>💡 Tip:</strong> Create role names that match your actual team titles (e.g. "Senior Engineer", "Principal PM") — this makes the Users view much more meaningful at a glance.</div>
+  </div>
+
+  <!-- ─── TIPS & SHORTCUTS ─── -->
+  <div class="help-section" id="h-tips">
+    <div class="help-section-title"><span class="help-section-ico">💡</span> Tips & Shortcuts</div>
+    <div class="help-section-sub">Get more done, faster</div>
+
+    <div class="help-2col">
+      <div class="help-card">
+        <div class="help-card-title">Keyboard Shortcuts</div>
+        <div class="help-card-body" style="display:flex;flex-direction:column;gap:6px">
+          <div><span class="help-kbd">Esc</span> Close modal or drawer</div>
+          <div><span class="help-kbd">Enter</span> Submit quick-entry ticket</div>
+          <div><span class="help-kbd">⌘ K</span> or <span class="help-kbd">Ctrl K</span> Insert link in rich text editor</div>
+          <div><span class="help-kbd">Tab</span> Indent list in rich text editor</div>
+          <div><span class="help-kbd">⇧ Tab</span> Outdent list in rich text editor</div>
+        </div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Rich Text Editor</div>
+        <div class="help-card-body">Use the toolbar in any description field to format text. Supports headings (H1–H3), bold, italic, underline, strikethrough, inline code, code blocks, blockquotes, bullet and numbered lists, highlights, links, and alignment. Formatting is preserved in detail drawers.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Drag to Reorder</div>
+        <div class="help-card-body">Grab the <strong>⠿</strong> handle on any table row to reorder items. The new order is saved immediately. You can also set the order number manually in the edit form, or leave it blank to auto-assign.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Filter Chips</div>
+        <div class="help-card-body">Chip filters on the Features, Epics, All Tickets, and Reports pages are <strong>persisted locally</strong> — your filter selections survive page navigation. Click <strong>✕ Clear</strong> to reset them.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Archive First, Delete Last</div>
+        <div class="help-card-body">Archive items to hide them without losing their history. Items in the Archived tab can be unarchived at any time. Only delete items you are certain you no longer need — deletion is permanent and blocked if the item has active children.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Dark Mode</div>
+        <div class="help-card-body">Toggle between light and dark mode using the 🌙 / ☀️ button in the top-left corner of the sidebar. Your preference is saved locally and persists across sessions.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Data Storage</div>
+        <div class="help-card-body">All data is stored in your browser's <strong>localStorage</strong>. Nothing leaves your device. If you clear browser data, your workspace will reset. For long-term use, export or back up your data periodically by copying the localStorage contents.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">ID System</div>
+        <div class="help-card-body">Every item gets a unique auto-incremented ID: <code>APP-</code>, <code>FTR-</code>, <code>EPC-</code>, <code>TKT-</code>, <code>SPR-</code>, <code>REL-</code>, <code>USR-</code>. IDs are shown as muted chips in tables, drawers, and forms. They are permanent — they never change even if you edit the item's title.</div>
+      </div>
+    </div>
+
+    <div class="help-divider"></div>
+
+    <div class="help-body">
+      <p style="font-size:12px;color:var(--text3);text-align:center">PRODEX stores all data locally in your browser. No account, no server, no tracking.</p>
+    </div>
+  </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════════════
+// DRAG & DROP ENGINE
+// ══════════════════════════════════════════════════════════
+const STORES = {tix:()=>tix, epics:()=>epics, feats:()=>feats, apps:()=>apps};
+const SAVE_K = {tix:'tix', epics:'epics', feats:'feats', apps:'apps'};
+let _dragId=null, _dragStore=null;
+function dragStart(e){const row=e.currentTarget;_dragId=row.dataset.id;_dragStore=row.dataset.store;row.classList.add('dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',_dragId);}
+function dragEnd(e){e.currentTarget.classList.remove('dragging');document.querySelectorAll('tr.drag-over').forEach(r=>r.classList.remove('drag-over'));}
+function dragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';const target=e.currentTarget;if(target.dataset.id!==_dragId&&target.dataset.store===_dragStore){document.querySelectorAll('tr.drag-over').forEach(r=>r.classList.remove('drag-over'));target.classList.add('drag-over');}}
+function dragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function drop(e, storeKey){
+  e.preventDefault();const targetRow=e.currentTarget;targetRow.classList.remove('drag-over');
+  const targetId=targetRow.dataset.id;
+  if(!_dragId||_dragId===targetId||_dragStore!==storeKey)return;
+  const arr=STORES[storeKey]();
+  const fromIdx=arr.findIndex(r=>r.id===_dragId), toIdx=arr.findIndex(r=>r.id===targetId);
+  if(fromIdx===-1||toIdx===-1)return;
+  const [moved]=arr.splice(fromIdx,1); arr.splice(toIdx,0,moved);
+  let c=1; arr.forEach(item=>{if(!item.archived) item.sortOrder=c++;});
+  save(SAVE_K[storeKey],arr); render(); notify('Order saved ✦');
+}
+
+// ══════════════════════════════════════════════════════════
+// RICH TEXT EDITOR
+// ══════════════════════════════════════════════════════════
+let _savedRange=null;
+function rteHtml(id,content='',placeholder='Add a description…'){
+  return `<div class="rte-wrap" id="rte-${id}">
+    <div class="rte-toolbar" onmousedown="event.preventDefault()">
+      <select class="rte-select" onchange="rteBlock(this.value,'${id}')" title="Style">
+        <option value="p">Paragraph</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="pre">Code block</option>
+      </select>
+      <div class="rte-sep"></div>
+      <button class="rte-btn" onclick="rteCmd('bold')" title="Bold"><b>B</b></button>
+      <button class="rte-btn" onclick="rteCmd('italic')" title="Italic"><i>I</i></button>
+      <button class="rte-btn" onclick="rteCmd('underline')" title="Underline"><u>U</u></button>
+      <button class="rte-btn" onclick="rteCmd('strikeThrough')" title="Strike"><s>S</s></button>
+      <button class="rte-btn" onclick="rteInlineCode('${id}')" title="Code" style="font-family:var(--mono);font-size:11px">&lt;/&gt;</button>
+      <button class="rte-btn" onclick="rteHighlight('${id}')" title="Highlight">🖊</button>
+      <div class="rte-sep"></div>
+      <button class="rte-btn" onclick="rteCmd('insertUnorderedList')" title="Bullets">• ≡</button>
+      <button class="rte-btn" onclick="rteCmd('insertOrderedList')" title="Numbers">1 ≡</button>
+      <div class="rte-sep"></div>
+      <button class="rte-btn" onclick="rteCmd('formatBlock','blockquote')" title="Quote" style="font-size:15px">"</button>
+      <button class="rte-btn" onclick="rteCmd('insertHorizontalRule')" title="Divider" style="font-size:14px">—</button>
+      <div class="rte-sep"></div>
+      <button class="rte-btn" onclick="rteCmd('justifyLeft')" title="Left">⫷</button>
+      <button class="rte-btn" onclick="rteCmd('justifyCenter')" title="Center">≡</button>
+      <button class="rte-btn" onclick="rteCmd('justifyRight')" title="Right">⫸</button>
+      <div class="rte-sep"></div>
+      <button class="rte-btn" onclick="openLinkModal('${id}')" title="Link">🔗</button>
+      <button class="rte-btn" onclick="rteCmd('unlink')" title="Unlink">🔗̶</button>
+      <div class="rte-sep"></div>
+      <button class="rte-btn" onclick="rteCmd('removeFormat')" title="Clear fmt" style="font-size:11px">✕f</button>
+    </div>
+    <div class="rte-body" id="rte-body-${id}" contenteditable="true" data-placeholder="${placeholder}" oninput="rteSync('${id}')" onkeydown="rteKeydown(event,'${id}')">${content}</div>
+    <input type="hidden" id="rte-val-${id}">
+  </div>`;
+}
+function rteCmd(cmd,val=null){document.execCommand(cmd,false,val);}
+function rteBlock(tag,id){document.execCommand('formatBlock',false,tag);const b=document.getElementById('rte-body-'+id);if(b)b.focus();}
+function rteInlineCode(id){const sel=window.getSelection();if(!sel||sel.isCollapsed)return;const range=sel.getRangeAt(0);const code=document.createElement('code');try{range.surroundContents(code);}catch(e){document.execCommand('insertHTML',false,`<code>${sel.toString()}</code>`);}rteSync(id);}
+function rteHighlight(id){const sel=window.getSelection();if(!sel||sel.isCollapsed)return;document.execCommand('insertHTML',false,`<mark>${sel.toString()}</mark>`);rteSync(id);}
+function rteSync(id){const b=document.getElementById('rte-body-'+id);const i=document.getElementById('rte-val-'+id);if(b&&i)i.value=b.innerHTML;}
+function rteGet(id){const b=document.getElementById('rte-body-'+id);return b?b.innerHTML:'';}
+function rteKeydown(e,id){if(e.key==='Tab'){e.preventDefault();document.execCommand(e.shiftKey?'outdent':'indent');rteSync(id);}if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openLinkModal(id);}}
+let _activeLinkEditor=null;
+function openLinkModal(id){_activeLinkEditor=id;const b=document.getElementById('rte-body-'+id);if(b)b.focus();const sel=window.getSelection();if(sel&&sel.rangeCount>0)_savedRange=sel.getRangeAt(0).cloneRange();const st=sel?sel.toString():'';document.getElementById('lm-text').value=st;document.getElementById('lm-url').value='';document.getElementById('link-modal').classList.add('open');setTimeout(()=>document.getElementById('lm-url').focus(),50);}
+function closeLinkModal(){document.getElementById('link-modal').classList.remove('open');_savedRange=null;_activeLinkEditor=null;}
+function insertLink(){const text=document.getElementById('lm-text').value.trim(),url=document.getElementById('lm-url').value.trim();if(!url){closeLinkModal();return;}const b=document.getElementById('rte-body-'+_activeLinkEditor);if(b){b.focus();if(_savedRange){const sel=window.getSelection();sel.removeAllRanges();sel.addRange(_savedRange);}document.execCommand('insertHTML',false,`<a href="${url}" target="_blank">${text||url}</a>`);rteSync(_activeLinkEditor);}closeLinkModal();}
+
+// ══════════════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════════════
+function fd(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'2-digit'});}
+function fdf(iso){if(!iso)return'—';const d=new Date(iso);return d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'})+' '+d.toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit'});}
+let nt;
+function notify(msg,icon='✓'){const el=document.getElementById('notif');el.innerHTML=`${icon} ${msg}`;el.classList.add('show');clearTimeout(nt);nt=setTimeout(()=>el.classList.remove('show'),2500);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();closeD();}});
+
+render();
+</script>
+</body>
+</html>
